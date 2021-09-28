@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  web:
+    container_name: urefer-backend
+    depends_on: 
+      - "db"
+    image: myapp # temp name
+    ports:
+      - 5000:5000
+  db:
+      image: postgres:latest
+      environment:
+        POSTGRES_USER: ${POSTGRES_USER:-postgres}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-docker}
+      container_name: urefer-db
+      restart: always
+      ports:
+        - 5432:5432
