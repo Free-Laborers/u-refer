@@ -4,26 +4,98 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:docker@localhost:5432/urefer?schema=public"
 }
 
-model Employee {
-  id             String    @id @default(uuid())
+model companies {
+  id        Int         @id
+  name      String
+  employees employees[]
+}
+
+model employees {
+  id             Int            @id
   first_name     String
   last_name      String
-  email          String    @unique
-  company_id     String
+  email          String
   position_title String
-  created_date   DateTime  @default(now())
-  resigned_date  DateTime?
-  is_manager     Boolean
-  manager_id     Int?
+  created_date   DateTime       @db.Date
+  resigned_date  DateTime?      @db.Date
+  is_manager     Boolean?
   password       String
-  company        Company   @relation(fields: [company_id], references: [id])
+  company_id     Int
+  pronoun        String?
+  companies      companies      @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "company")
+  job_posts      job_posts[]
+  referral_log   referral_log[]
+
+  @@index([company_id], map: "fki_company_id")
 }
 
-model Company {
-  id        String     @id @default(uuid())
-  title     String     @unique
-  employees Employee[]
+model job_posts {
+  id                   Int            @id
+  title                String
+  description          String
+  min_years_experience Int            @db.SmallInt
+  salary               Int
+  position_title       String
+  date_posted          DateTime       @db.Date
+  hiring_manager_id    Int
+  openings             Int
+  deletedDate          DateTime?      @db.Date
+  employees            employees      @relation(fields: [hiring_manager_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "hiring_manager_id")
+  referral_log         referral_log[]
+
+  @@index([hiring_manager_id], map: "fki_hiring_manager_id")
+}
+
+model candidate {
+  id               Int            @id
+  first_name       String
+  last_name        String
+  email            String
+  phone            String?
+  resume_file_path String
+  referral_log     referral_log[]
+}
+
+model referral_log {
+  id                  Int       @id
+  referral_id         Int
+  referees_id         Int
+  referee_description String
+  job_post_id         Int
+  created_date        DateTime  @db.Date
+  accepted_date       DateTime? @db.Date
+  rejected_date       DateTime? @db.Date
+  resume_file_path    String?
+  job_posts           job_posts @relation(fields: [job_post_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "post_job_id")
+  referees            candidate  @relation(fields: [referees_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "referees_id")
+  employees           employees @relation(fields: [referral_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "referral_id")
+
+  @@index([job_post_id], map: "fki_post_job_id")
+  @@index([referees_id], map: "fki_referees_id")
+  @@index([referral_id], map: "fki_referral")
+}
+
+model tag_names {
+  id   Int    @id
+  name String
+  tags tags[]
+}
+
+model tags {
+  id          Int       @id
+  job_post_id Int
+  tag_id      Int
+  tag_names   tag_names @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tag_id")
+
+  @@index([tag_id], map: "fki_tag_id")
+}
+enum pronoun{
+  HE 
+  HER 
+  THEY
+  ZE
+  OTHER
 }
