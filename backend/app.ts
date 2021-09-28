@@ -1,9 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
 import path from "path";
+import { migrate } from "@prisma/cli";
 
 import { companyRouter } from "./routes/companyRouter";
 import { DBAuthenticationError } from "./error/500s";
 import { statusCodedError } from "./error/statusCodedError";
+
+migrate('up');
 
 // -------------------firing express app
 const app = express();
