@@ -37,4 +37,4 @@
 **/.env.test
 **/.env.production
 
-prisma/migrations
+backend/prisma/migrations
