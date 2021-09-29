@@ -10,18 +10,5 @@ services:
     restart: always
     ports:
       - 5432:5432
-    # npx prisma migrate dev --name init"
-  # migrate:
-  #   container_name: urefer-migrate
-  #   depends_on: 
-  #     - "db"
-  #   image: myapp # temp name
-    
-  # web:
-  #   container_name: urefer-backend
-  #   depends_on: 
-  #     - "db"
-  #     - "migrate"
-  #   image: myapp # temp name
-  #   ports:
-  #     - 5000:5000
+    volumes:
+     - ./database-data:/var/lib/postgresql/data/
