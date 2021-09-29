@@ -6,7 +6,7 @@ export const getAllCompanies = (): Promise<Company[]> => {
   return prisma.company.findMany();
 };
 
-export const getSingleCompany = (companyId: string) =>
+export const getSingleCompany = (companyId: number) =>
   prisma.company.findUnique({
     where: {
       id: companyId,
@@ -16,6 +16,7 @@ export const getSingleCompany = (companyId: string) =>
 export const createSingleCompany = (companyTitle: string) =>
   prisma.company.create({
     data: {
-      title: companyTitle,
+      id: 1,
+      name: companyTitle,
     },
   });

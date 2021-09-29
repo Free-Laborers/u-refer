@@ -1,6 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
 const companyRouter = express.Router();
-import { Prisma } from "@prisma/client";
 import { DBAuthenticationError } from "../error/500s";
 
 import * as companyControllers from "../controllers/companyControllers";
@@ -11,7 +10,7 @@ companyRouter.get(
     try {
       if (req.query.id) {
         const company = await companyControllers.getSingleCompany(
-          String(req.query.id)
+          Number(req.query.id)
         );
         res.status(200).json({ data: company });
       } else {

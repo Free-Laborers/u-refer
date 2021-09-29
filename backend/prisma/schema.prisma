@@ -4,16 +4,16 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:docker@postgres:5432/urefer?schema=public"
+  url      = "postgresql://postgres:docker@localhost:5432/urefer?schema=public"
 }
 
-model companies {
+model Company {
   id        Int         @id
   name      String
-  employees employees[]
+  employees Employee[]
 }
 
-model employees {
+model Employee {
   id             Int            @id
   first_name     String
   last_name      String
@@ -25,14 +25,14 @@ model employees {
   password       String
   company_id     Int
   pronoun        String?
-  companies      companies      @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "company")
-  job_posts      job_posts[]
-  referral_log   referral_log[]
+  companies      Company      @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "company")
+  job_posts      Job_post[]
+  referral_log   Referral_log[]
 
   @@index([company_id], map: "fki_company_id")
 }
 
-model job_posts {
+model Job_post {
   id                   Int            @id
   title                String
   description          String
@@ -43,23 +43,23 @@ model job_posts {
   hiring_manager_id    Int
   openings             Int
   deletedDate          DateTime?      @db.Date
-  employees            employees      @relation(fields: [hiring_manager_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "hiring_manager_id")
-  referral_log         referral_log[]
+  employees            Employee      @relation(fields: [hiring_manager_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "hiring_manager_id")
+  referral_log         Referral_log[]
 
   @@index([hiring_manager_id], map: "fki_hiring_manager_id")
 }
 
-model candidate {
+model Candidate {
   id               Int            @id
   first_name       String
   last_name        String
   email            String
   phone            String?
   resume_file_path String
-  referral_log     referral_log[]
+  referral_log     Referral_log[]
 }
 
-model referral_log {
+model Referral_log {
   id                  Int       @id
   referral_id         Int
   referees_id         Int
@@ -69,30 +69,30 @@ model referral_log {
   accepted_date       DateTime? @db.Date
   rejected_date       DateTime? @db.Date
   resume_file_path    String?
-  job_posts           job_posts @relation(fields: [job_post_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "post_job_id")
-  referees            candidate  @relation(fields: [referees_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "referees_id")
-  employees           employees @relation(fields: [referral_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "referral_id")
+  job_posts           Job_post @relation(fields: [job_post_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "post_job_id")
+  referees            Candidate  @relation(fields: [referees_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "referees_id")
+  employees           Employee @relation(fields: [referral_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "referral_id")
 
   @@index([job_post_id], map: "fki_post_job_id")
   @@index([referees_id], map: "fki_referees_id")
   @@index([referral_id], map: "fki_referral")
 }
 
-model tag_names {
+model Tag_name {
   id   Int    @id
   name String
-  tags tags[]
+  tags Tag[]
 }
 
-model tags {
+model Tag {
   id          Int       @id
   job_post_id Int
   tag_id      Int
-  tag_names   tag_names @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tag_id")
+  tag_names   Tag_name @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tag_id")
 
   @@index([tag_id], map: "fki_tag_id")
 }
-enum pronoun{
+enum Pronoun{
   HE 
   HER 
   THEY
