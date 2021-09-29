@@ -13,8 +13,12 @@
   "dependencies": {
     "@prisma/client": "^3.1.1",
     "@types/express": "^4.17.13",
+    "@types/passport": "^1.0.7",
+    "@types/passport-local": "^1.0.34",
     "env": "^0.0.2",
     "express": "^4.17.1",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
     "pg": "^8.7.1",
     "pg-promise": "^10.11.0",
     "reflect-metadata": "^0.1.13",
