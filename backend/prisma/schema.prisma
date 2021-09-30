@@ -8,94 +8,22 @@ datasource db {
 }
 
 model Company {
-  id        Int         @id
-  name      String
+  id        String         @id @default(uuid())
+  name      String         @unique
   employees Employee[]
 }
 
 model Employee {
-  id             Int            @id
+  id             String          @id @default(uuid())
   first_name     String
   last_name      String
-  email          String
+  email          String          @unique
   position_title String
   created_date   DateTime       @db.Date
   resigned_date  DateTime?      @db.Date
   is_manager     Boolean?
   password       String
-  company_id     Int
+  company_id     String
   pronoun        String?
-  companies      Company      @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "company")
-  job_posts      Job_post[]
-  referral_log   Referral_log[]
-
-  @@index([company_id], map: "fki_company_id")
-}
-
-model Job_post {
-  id                   Int            @id
-  title                String
-  description          String
-  min_years_experience Int            @db.SmallInt
-  salary               Int
-  position_title       String
-  date_posted          DateTime       @db.Date
-  hiring_manager_id    Int
-  openings             Int
-  deletedDate          DateTime?      @db.Date
-  employees            Employee      @relation(fields: [hiring_manager_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "hiring_manager_id")
-  referral_log         Referral_log[]
-
-  @@index([hiring_manager_id], map: "fki_hiring_manager_id")
-}
-
-model Candidate {
-  id               Int            @id
-  first_name       String
-  last_name        String
-  email            String
-  phone            String?
-  resume_file_path String
-  referral_log     Referral_log[]
-}
-
-model Referral_log {
-  id                  Int       @id
-  referral_id         Int
-  referees_id         Int
-  referee_description String
-  job_post_id         Int
-  created_date        DateTime  @db.Date
-  accepted_date       DateTime? @db.Date
-  rejected_date       DateTime? @db.Date
-  resume_file_path    String?
-  job_posts           Job_post @relation(fields: [job_post_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "post_job_id")
-  referees            Candidate  @relation(fields: [referees_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "referees_id")
-  employees           Employee @relation(fields: [referral_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "referral_id")
-
-  @@index([job_post_id], map: "fki_post_job_id")
-  @@index([referees_id], map: "fki_referees_id")
-  @@index([referral_id], map: "fki_referral")
-}
-
-model Tag_name {
-  id   Int    @id
-  name String
-  tags Tag[]
-}
-
-model Tag {
-  id          Int       @id
-  job_post_id Int
-  tag_id      Int
-  tag_names   Tag_name @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tag_id")
-
-  @@index([tag_id], map: "fki_tag_id")
-}
-enum Pronoun{
-  HE 
-  HER 
-  THEY
-  ZE
-  OTHER
+  companies      Company      @relation(fields: [company_id], references: [id])
 }
