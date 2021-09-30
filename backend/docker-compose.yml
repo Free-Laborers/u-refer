@@ -1,6 +1,21 @@
 version: '3.8'
 services:
+  web:
+    networks:
+      - backend
+    build: .
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "5000:5000"
+    depends_on: 
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:docker@urefer-db:5432/urefer?schema=public
   db:
+    networks:
+      - backend
     image: postgres:latest
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
@@ -14,3 +29,6 @@ services:
      - database-data:/var/lib/postgresql/data/
 volumes:
   database-data:
+networks:
+  backend:
+  
