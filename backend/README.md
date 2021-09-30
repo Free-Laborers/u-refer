@@ -52,6 +52,7 @@
   4. Run:
   ```bash
    npx prisma generate
+   npx prisma migrate dev --name init
   ```
 
   5. Run:
