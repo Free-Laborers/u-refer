@@ -10,7 +10,7 @@ companyRouter.get(
     try {
       if (req.query.id) {
         const company = await companyControllers.getSingleCompany(
-          Number(req.query.id)
+          String(req.query.id)
         );
         res.status(200).json({ data: company });
       } else {
