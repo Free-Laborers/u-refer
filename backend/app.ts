@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "client/build")));
 
 // -------------------routes
-//app.use("/company", companyRouter);
+app.use("/company", companyRouter);
 app.get("/home", (request: Request, response: Response) => {
   console.log(request.url);
   response.json({ message: `Welcome to the home page!!` });
