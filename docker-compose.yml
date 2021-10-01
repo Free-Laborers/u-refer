@@ -1,10 +1,23 @@
 version: '3.8'
 services:
+  frontend:
+    networks:
+      - backend
+    build: ./frontend
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on: 
+      - web
+    environment:
+      DATABASE_URL: postgresql://postgres:docker@urefer-db:5432/urefer?schema=public
   web:
     container_name: urefer-backend
     networks:
       - backend
-    build: .
+    build: ./backend
     volumes:
       - .:/usr/app/
       - /usr/app/node_modules
