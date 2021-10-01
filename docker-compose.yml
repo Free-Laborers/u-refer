@@ -1,12 +1,25 @@
 version: '3.8'
 services:
+  frontend:
+    networks:
+      - backend
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /usr/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - web
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
   web:
     container_name: urefer-backend
     networks:
       - backend
-    build: .
+    build: ./backend
     volumes:
-      - .:/usr/app/
+      - ./backend:/app
       - /usr/app/node_modules
     ports:
       - "5000:5000"
