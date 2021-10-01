@@ -10,7 +10,9 @@
 ## Mac / Linux
 - From the root directory (which contains `/frontend` and `/backend`), run `./run.sh`
 - If there is an error, try running `./run.sh` one more time
-
 ## Windows
 - From the root directory (which contains `/frontend` and `/backend`), run `./run.bat`
 - If there is an error, try running `./run.bat` one more time
+
+- Everything should be up and running on localhost:3000 !
+
