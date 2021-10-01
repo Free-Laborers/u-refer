@@ -1,0 +1,7 @@
+# Git gets clever and translates LF to CRLF on Windows
+# However, Docker is *not* clever, and copies the file verbatim
+# The result is a file that starts like this:
+# #!/bin/bash\r\n
+# Linux reads it like this: "interpret this file with /bin/bash^M"
+# This setting should prevent git from messing with our line feeds
+start.sh text eol=lf
