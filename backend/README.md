@@ -33,8 +33,3 @@ You can do two more things to test that things are working:
 2. Go to http://localhost:5000/company
 
    You should see `{"data": []}`.
-
-   If you see "DBAuthenticationError", then authentication failed. Check your
-   `.env` file and make sure the username and password for the PostgreSQL
-   server is correct. NOTE(luna): i don't know what "correct" is. It's working
-   on my machine with no `.env` file.
