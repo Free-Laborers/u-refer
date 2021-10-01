@@ -13,13 +13,18 @@ should only need to happen once.*
 ```
 docker image rm $(docker image list -q)
 docker volume rm $(docker volume list -q)
-docker-compose build
 ```
 
-**For most people** (or after running the above), run this command:
-
+### Mac or Linux
+In the root directory, run "run.sh".
 ```
-docker-compose up
+sh run.sh
+```
+
+### Windows
+In the root directory, run:
+```
+./run.bat
 ```
 
 If setup was successful, you should see this output: `Server running on PORT 5000`.
