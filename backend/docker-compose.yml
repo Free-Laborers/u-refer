@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   web:
+    container_name: urefer-backend
     networks:
       - backend
     build: .
@@ -13,6 +14,8 @@ services:
       - db
     environment:
       DATABASE_URL: postgresql://postgres:docker@urefer-db:5432/urefer?schema=public
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
   db:
     networks:
       - backend
