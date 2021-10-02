@@ -34,12 +34,11 @@ const theme = createTheme();
 const Login = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    // const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    fetch("/home")
+        .then(data => data.json())
+        .then(json => console.log(json.message));
   };
 
   return (

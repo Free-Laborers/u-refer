@@ -4,8 +4,8 @@ import path from "path";
 import { companyRouter } from "./routes/companyRouter";
 import { DBAuthenticationError } from "./error/500s";
 import { statusCodedError } from "./error/statusCodedError";
+import { env } from "process";
 const cors = require('cors')
-
 
 // -------------------firing express app
 const app = express();
