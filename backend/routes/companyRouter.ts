@@ -1,6 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
 const companyRouter = express.Router();
-import { Prisma } from "@prisma/client";
 import { DBAuthenticationError } from "../error/500s";
 
 import * as companyControllers from "../controllers/companyControllers";

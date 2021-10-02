@@ -16,6 +16,6 @@ export const getSingleCompany = (companyId: string) =>
 export const createSingleCompany = (companyTitle: string) =>
   prisma.company.create({
     data: {
-      title: companyTitle,
+      name: companyTitle,
     },
   });
