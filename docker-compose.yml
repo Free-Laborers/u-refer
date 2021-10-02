@@ -1,21 +1,24 @@
 version: '3.8'
 services:
   frontend:
+    container_name: urefer-frontend
+    build: ./frontend
     networks:
       - backend
-    build: ./frontend
+      - frontend
     volumes:
       - ./frontend:/app
     ports:
       - "3000:3000"
     depends_on:
-      - web
+      - backend
     environment:
       CHOKIDAR_USEPOLLING: "true"
-  web:
+  backend:
     container_name: urefer-backend
     networks:
       - backend
+      - frontend
     build: ./backend
     volumes:
       - ./backend:/app
@@ -24,7 +27,7 @@ services:
     depends_on: 
       - db
     environment:
-      DATABASE_URL: postgresql://postgres:docker@urefer-db:5432/urefer?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-docker}@urefer-db:5432/urefer?schema=public
     stdin_open: true # docker run -i
     tty: true        # docker run -t
   db:
@@ -45,3 +48,4 @@ volumes:
   database-data:
 networks:
   backend:
+  frontend:
