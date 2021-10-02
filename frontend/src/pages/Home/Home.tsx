@@ -9,13 +9,15 @@ export default function Home() {
   //   setFetchedResult(res.data)
   // }
   const testRequest = async function() {
-    fetch("/home").then(res => setFetchedResult(res.json()));
+    fetch("/home")
+        .then(res => res.json())
+        .then(setFetchedResult);
   }
   return (
     <>
       <Typography variant='h1'>Home</Typography>
       <Button onClick={testRequest}>Fetch</Button>
-      <Typography>Fetched result: {JSON.stringify(fetchedResult, null, 2)}</Typography>
+      <Typography>Fetched result: {JSON.stringify(fetchedResult)}</Typography>
     </>
   )
 }
