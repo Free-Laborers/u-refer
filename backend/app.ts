@@ -1,11 +1,11 @@
 import express, { NextFunction, Request, Response } from "express";
 import path from "path";
+import cors from "cors";
+// import { env } from "process";
 
 import { companyRouter } from "./routes/companyRouter";
 import { DBAuthenticationError } from "./error/500s";
 import { statusCodedError } from "./error/statusCodedError";
-import { env } from "process";
-const cors = require('cors')
 
 // -------------------firing express app
 const app = express();
