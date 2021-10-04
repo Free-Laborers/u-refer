@@ -1,7 +1,8 @@
 import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 import cors from "cors";
-// import { env } from "process";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
 
 import { companyRouter } from "./routes/companyRouter";
 import { DBAuthenticationError } from "./error/500s";
@@ -14,12 +15,28 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "client/build")));
 
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    if (username !== "admin") {
+      return done(null, false, { message: 'Incorrect username.' });
+    }
+    if (password !== "password") {
+      return done(null, false, { message: 'Incorrect password' });
+    }
+    return done(null, 'Administrator');
+  }
+));
+
 // -------------------routes
 app.use("/company", companyRouter);
 app.get("/home", (request: Request, response: Response) => {
   console.log(request.url);
   response.json({ message: `Welcome to the home page!!` });
 });
+
+app.post("/login",
+  passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' })
+);
 
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
   if (err instanceof statusCodedError) {
