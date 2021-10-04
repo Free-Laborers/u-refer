@@ -35,7 +35,7 @@ app.get("/home", (request: Request, response: Response) => {
 });
 
 app.post("/login",
-  passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' })
+  passport.authenticate('local')
 );
 
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
