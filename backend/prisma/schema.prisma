@@ -5,20 +5,21 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // url      = "postgresql://postgres:docker@localhost:5432/urefer?schema=public"
 }
 
 model Employee {
-  id            String     @id @default(uuid())
-  email         String     @unique
-  firstName     String
-  lastName      String
-  pronoun       String?
-  positionTitle String
-  createdDate   DateTime   @db.Date
-  isManager     Boolean?
-  password      String
-  jobPost       JobPost[]
-  Referral      Referral[]
+  id          String     @id @default(uuid())
+  email       String     @unique
+  password    String
+  firstName   String
+  lastName    String
+  pronoun     String?
+  position    String
+  createdDate DateTime  @default(now())
+  isManager   Boolean @default(false)
+  jobPost     JobPost[]
+  Referral    Referral[]
 }
 
 model Candidate {
@@ -28,20 +29,20 @@ model Candidate {
   lastName   String
   pronoun    String?
   phone      String
-  employeeId String?    @unique 
+  employeeId String?    @unique
   Referral   Referral[]
 }
 
 model JobPost {
   id                 String      @id @default(uuid())
   title              String
-  positionTitle      String
+  position           String
   description        String
   minYearsExperience Int
   salary             Int
   openings           Int         @default(1)
-  createdDate        DateTime
-  deletedDate        DateTime
+  createdDate        DateTime    @default(now())
+  deletedDate        DateTime?
   employee           Employee    @relation(fields: [hiringManagerId], references: [id])
   hiringManagerId    String
   Referral           Referral[]
@@ -58,7 +59,7 @@ model Referral {
   jobPostId            String
   candidateDescription String
   resumeFilePath       String
-  createdDate          DateTime
+  createdDate          DateTime  @default(now())
   acceptedDate         DateTime?
   deletedDate          DateTime?
 }
