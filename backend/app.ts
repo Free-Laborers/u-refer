@@ -23,7 +23,7 @@ passport.use(new LocalStrategy({ usernameField: "email" },
     if (password !== "password") {
       return done(null, false);
     }
-    return done(null, 'Administrator');
+    return done(null, { username: "admin" });
   }
 ));
 
