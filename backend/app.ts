@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "client/build")));
 
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy({ usernameField: "email" },
   function (username, password, done) {
     if (username !== "admin") {
       return done(null, false, { message: 'Incorrect username.' });
