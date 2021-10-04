@@ -37,7 +37,8 @@ app.get("/home", (request: Request, response: Response) => {
 app.post("/login",
   passport.authenticate('local'),
   function (req, res) {
-    res.send("User: " + req.user);
+    console.log(req.user);
+    res.send(req.user);
   }
 );
 
