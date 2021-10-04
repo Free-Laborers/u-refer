@@ -2,7 +2,6 @@
 // https://github.com/mui-org/material-ui/blob/next/docs/src/pages/getting-started/templates/sign-in/SignIn.tsx
 
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -11,10 +10,10 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
 
 function Copyright(props: any) {
   return (
@@ -29,33 +28,50 @@ function Copyright(props: any) {
   );
 }
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#1E5857"
+    },
+    secondary: {
+      main: "#E5E5E5"
+    }
+}});
 
 const Login = () => {
+  const [message, setMessage] = useState<string>("");
+  
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const data = new FormData(event.currentTarget);
+    const data = new FormData(event.currentTarget);
+    const login_data = {email: data.get('email'), password: data.get('password')}
     // eslint-disable-next-line no-console
-    fetch("/home")
-        .then(data => data.json())
-        .then(json => console.log(json.message));
+    fetch("/login", {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body:  JSON.stringify(login_data),
+    })
+        .then(response => response.json())
+        .then(json => setMessage(json.message));
   };
 
   return (
     <ThemeProvider theme={theme}>
+      <img src={"./1200px-UKG_logo.png"} alt="UKG_logo" width="150" height="50"/>
+      <style>{'body { background-color: #E5E5E5; }'}</style>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 6,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <img src={"./uRefer.png"} alt="UKG_logo" width="300" height="100"/>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
@@ -98,16 +114,12 @@ const Login = () => {
                   Forgot password?
                 </Link>
               </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
             </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
+      <Typography>Fetched result: {message}</Typography>
     </ThemeProvider>
   );
 }
