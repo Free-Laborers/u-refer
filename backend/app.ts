@@ -18,10 +18,10 @@ app.use(express.static(path.join(__dirname, "client/build")));
 passport.use(new LocalStrategy({ usernameField: "email" },
   function (username, password, done) {
     if (username !== "admin") {
-      return done(null, false);
+      return done(null, false, { message: "Username is wrong"});
     }
     if (password !== "password") {
-      return done(null, false);
+      return done(null, false, { message: "Password is wrong" });
     }
     return done(null, { username: "admin" });
   }
@@ -34,13 +34,13 @@ app.get("/home", (request: Request, response: Response) => {
   response.json({ message: `Welcome to the home page!!` });
 });
 
-app.post("/login",
-  passport.authenticate('local'),
-  function (req, res) {
-    console.log(req.user);
-    res.send(req.user);
-  }
-);
+app.post('/login', function(req, res, next ){
+  passport.authenticate('local', function(err, user, info) {
+    if (err) { return next(err) }
+    if (!user) { return res.json( { message: info.message }) }
+    res.json(user);
+  })(req, res, next);   
+});
 
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
   if (err instanceof statusCodedError) {
