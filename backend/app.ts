@@ -18,10 +18,10 @@ app.use(express.static(path.join(__dirname, "client/build")));
 passport.use(new LocalStrategy({ usernameField: "email" },
   function (username, password, done) {
     if (username !== "admin") {
-      return done(null, false, { message: 'Incorrect username.' });
+      return done(null, false);
     }
     if (password !== "password") {
-      return done(null, false, { message: 'Incorrect password' });
+      return done(null, false);
     }
     return done(null, 'Administrator');
   }
@@ -35,7 +35,10 @@ app.get("/home", (request: Request, response: Response) => {
 });
 
 app.post("/login",
-  passport.authenticate('local')
+  passport.authenticate('local'),
+  function (req, res) {
+    res.send("User: " + req.user);
+  }
 );
 
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
