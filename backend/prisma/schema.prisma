@@ -7,23 +7,72 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Company {
-  id        String         @id @default(uuid())
-  name      String         @unique
-  employees Employee[]
+model Employee {
+  id            String     @id @default(uuid())
+  email         String     @unique
+  firstName     String
+  lastName      String
+  pronoun       String?
+  positionTitle String
+  createdDate   DateTime   @db.Date
+  isManager     Boolean?
+  password      String
+  jobPost       JobPost[]
+  Referral      Referral[]
 }
 
-model Employee {
-  id             String          @id @default(uuid())
-  first_name     String
-  last_name      String
-  email          String          @unique
-  position_title String
-  created_date   DateTime       @db.Date
-  resigned_date  DateTime?      @db.Date
-  is_manager     Boolean?
-  password       String
-  company_id     String
-  pronoun        String?
-  companies      Company      @relation(fields: [company_id], references: [id])
+model Candidate {
+  id         String     @id @default(uuid())
+  email      String     @unique
+  firstName  String
+  lastName   String
+  pronoun    String?
+  phone      String
+  employeeId String?    @unique 
+  Referral   Referral[]
+}
+
+model JobPost {
+  id                 String      @id @default(uuid())
+  title              String
+  positionTitle      String
+  description        String
+  minYearsExperience Int
+  salary             Int
+  openings           Int         @default(1)
+  createdDate        DateTime
+  deletedDate        DateTime
+  employee           Employee    @relation(fields: [hiringManagerId], references: [id])
+  hiringManagerId    String
+  Referral           Referral[]
+  PostToTag          PostToTag[]
+}
+
+model Referral {
+  id                   String    @id @default(uuid())
+  employee             Employee  @relation(fields: [employeeId], references: [id])
+  candidate            Candidate @relation(fields: [candidateId], references: [id])
+  jobPost              JobPost   @relation(fields: [jobPostId], references: [id])
+  employeeId           String
+  candidateId          String
+  jobPostId            String
+  candidateDescription String
+  resumeFilePath       String
+  createdDate          DateTime
+  acceptedDate         DateTime?
+  deletedDate          DateTime?
+}
+
+model PostToTag {
+  id        String  @id @default(uuid())
+  jobPost   JobPost @relation(fields: [jobPostId], references: [id])
+  tag       Tag     @relation(fields: [tagId], references: [id])
+  jobPostId String
+  tagId     String
+}
+
+model Tag {
+  id        String      @id @default(uuid())
+  name      String
+  PostToTag PostToTag[]
 }

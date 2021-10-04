@@ -1,11 +1,10 @@
 import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 
-import { companyRouter } from "./routes/companyRouter";
+// import { companyRouter } from "./routes/companyRouter";
 import { DBAuthenticationError } from "./error/500s";
 import { statusCodedError } from "./error/statusCodedError";
-const cors = require('cors')
-
+const cors = require("cors");
 
 // -------------------firing express app
 const app = express();
@@ -15,26 +14,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "client/build")));
 
 // -------------------routes
-app.use("/company", companyRouter);
+// app.use("/company", companyRouter);
 app.get("/home", (request: Request, response: Response) => {
   console.log(request.url);
   response.json({ message: `Welcome to the home page!!` });
 });
 
+// ------------ error handling. It only has 500 error, but later more errors will be handled.
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
-  if (err instanceof statusCodedError) {
-    res.status(err.getStatusCode()).send(err.name);
-  } else {
-    res.status(500).send(err.name);
-  }
-
-  if (err instanceof DBAuthenticationError) {
-    console.error(
-      "DB Authentication Error: please check DATABASE_URL in .env file"
-    );
-    console.error(err.message);
-  }
-
+  res.status(500).send(err.stack);
   next();
 });
 
