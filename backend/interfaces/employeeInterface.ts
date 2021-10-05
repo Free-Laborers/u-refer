@@ -7,5 +7,5 @@ export interface EmployeeInsert {
   pronoun?: string;
   position: string;
   createDate?: Date;
-  isManager: boolean;
+  isManager?: boolean;
 }

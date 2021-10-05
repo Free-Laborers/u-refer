@@ -21,19 +21,18 @@ app.use(express.static(path.join(__dirname, "client/build")));
 
 // -------------------routes
 app.get("/", (request: Request, response: Response) => {
-  // console.log(request.query);
   response.json({ message: `Welcome to backend!!` });
 });
 
 app.get("/home", (request: Request, response: Response) => {
-  // console.log(request.query);
   response.json({ message: `Welcome to the home page!!` });
 });
 app.use("/employee", employeeRouter);
 
 // ------------ error handling. It only has 500 error, but later more errors will be handled.
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
-  res.status(500).send(err.stack);
+  res.status(500).send({ error: "internal server error" });
+  console.error(err.stack);
   next();
 });
 
