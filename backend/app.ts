@@ -4,7 +4,7 @@ import cors from "cors";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 
-import { companyRouter } from "./routes/companyRouter";
+import { userRouter } from "./routes/userRouter";
 import { DBAuthenticationError } from "./error/500s";
 import { statusCodedError } from "./error/statusCodedError";
 

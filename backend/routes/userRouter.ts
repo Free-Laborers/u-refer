@@ -1,10 +1,10 @@
 import express, { NextFunction, Request, Response } from "express";
-const companyRouter = express.Router();
+const userRouter = express.Router();
 import { DBAuthenticationError } from "../error/500s";
 
 import * as userControllers from "../controllers/userControllers";
 
-companyRouter.get(
+userRouter.get(
   "/",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -22,3 +22,5 @@ companyRouter.get(
     }
   }
 );
+
+export { userRouter };
