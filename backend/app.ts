@@ -20,9 +20,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "client/build")));
 
 // -------------------routes
-// app.use("/company", companyRouter);
+app.get("/", (request: Request, response: Response) => {
+  // console.log(request.query);
+  response.json({ message: `Welcome to backend!!` });
+});
+
 app.get("/home", (request: Request, response: Response) => {
-  console.log(request.query);
+  // console.log(request.query);
   response.json({ message: `Welcome to the home page!!` });
 });
 app.use("/employee", employeeRouter);
