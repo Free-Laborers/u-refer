@@ -14,6 +14,12 @@ const App = () => {
         <Route exact path='/login'>
           <Login />
         </Route>
+        <Route exact path='/browse'>
+          {/* <Login /> */}
+        </Route>
+        <Route exact path='/refer'>
+          {/* <Login /> */}
+        </Route>
       </Switch>
     </Router>
   )
