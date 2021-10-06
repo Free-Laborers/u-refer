@@ -4,8 +4,7 @@ const employeeRouter = express.Router();
 import { EmployeeInsert } from "../interfaces/employeeInterface";
 import * as employeeController from "../controllers/employeeControllers";
 
-type EmployeeWhereQueryBuilder = (body: any) => Partial<EmployeeInsert>;
-const whereClauseBuilder: EmployeeWhereQueryBuilder = (query: any) => {
+const whereClauseBuilder = (query: any): Partial<EmployeeInsert> => {
   const whereClause: Partial<EmployeeInsert> = {
     id: query.id,
     email: query.email,
@@ -26,8 +25,7 @@ const whereClauseBuilder: EmployeeWhereQueryBuilder = (query: any) => {
   return whereClause;
 };
 
-type EmployeeInsertQueryBuilder = (body: any) => EmployeeInsert;
-const insertClauseBuilder: EmployeeInsertQueryBuilder = (body: any) => {
+const insertClauseBuilder = (body: any): EmployeeInsert => {
   const insertClause: EmployeeInsert = {
     id: body.id,
     email: body.email,
