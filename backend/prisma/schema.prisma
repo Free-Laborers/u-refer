@@ -5,9 +5,11 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // url      = "postgresql://postgres:docker@localhost:5432/urefer?schema=public"
 }
 
 model Employee {
+<<<<<<< HEAD
   id            String     @id @default(uuid())
   email         String     @unique
   firstName     String
@@ -19,6 +21,19 @@ model Employee {
   password      String
   jobPost       JobPost[]
   Referral      Referral[]
+=======
+  id          String     @id @default(uuid())
+  email       String     @unique
+  password    String
+  firstName   String
+  lastName    String
+  pronoun     String?
+  position    String
+  createdDate DateTime  @default(now())
+  isManager   Boolean @default(false)
+  jobPost     JobPost[]
+  Referral    Referral[]
+>>>>>>> 835f8ebdbf8f72c8be7ee44146328605ca1e3501
 }
 
 model Candidate {
@@ -28,20 +43,33 @@ model Candidate {
   lastName   String
   pronoun    String?
   phone      String
+<<<<<<< HEAD
   employeeId String?    @unique 
+=======
+  employeeId String?    @unique
+>>>>>>> 835f8ebdbf8f72c8be7ee44146328605ca1e3501
   Referral   Referral[]
 }
 
 model JobPost {
   id                 String      @id @default(uuid())
   title              String
+<<<<<<< HEAD
   positionTitle      String
+=======
+  position           String
+>>>>>>> 835f8ebdbf8f72c8be7ee44146328605ca1e3501
   description        String
   minYearsExperience Int
   salary             Int
   openings           Int         @default(1)
+<<<<<<< HEAD
   createdDate        DateTime
   deletedDate        DateTime
+=======
+  createdDate        DateTime    @default(now())
+  deletedDate        DateTime?
+>>>>>>> 835f8ebdbf8f72c8be7ee44146328605ca1e3501
   employee           Employee    @relation(fields: [hiringManagerId], references: [id])
   hiringManagerId    String
   Referral           Referral[]
@@ -58,7 +86,11 @@ model Referral {
   jobPostId            String
   candidateDescription String
   resumeFilePath       String
+<<<<<<< HEAD
   createdDate          DateTime
+=======
+  createdDate          DateTime  @default(now())
+>>>>>>> 835f8ebdbf8f72c8be7ee44146328605ca1e3501
   acceptedDate         DateTime?
   deletedDate          DateTime?
 }

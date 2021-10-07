@@ -4,12 +4,19 @@ import cors from "cors";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 
-import { companyRouter } from "./routes/companyRouter";
 import { DBAuthenticationError } from "./error/500s";
 import { statusCodedError } from "./error/statusCodedError";
+const multer = require("multer");
+const upload = multer();
+
+import { employeeRouter } from "./routes/employeeRouters";
 
 // -------------------firing express app
 const app = express();
+
+//body paramter enable
+app.use(upload.array());
+
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -23,16 +30,19 @@ passport.use(new LocalStrategy({ usernameField: "email" },
     if (password !== "password") {
       return done(null, false, { message: "Password is wrong" });
     }
-    return done(null, { username: "admin" });
+    return done(null, { username: "admin", message:"Login Successful" });
   }
 ));
 
 // -------------------routes
-app.use("/company", companyRouter);
+app.get("/", (request: Request, response: Response) => {
+  response.json({ message: `Welcome to backend!!` });
+});
+
 app.get("/home", (request: Request, response: Response) => {
-  console.log(request.url);
   response.json({ message: `Welcome to the home page!!` });
 });
+app.use("/employee", employeeRouter);
 
 app.post('/login', function(req, res, next ){
   passport.authenticate('local', function(err, user, info) {
@@ -42,20 +52,10 @@ app.post('/login', function(req, res, next ){
   })(req, res, next);   
 });
 
+// ------------ error handling. It only has 500 error, but later more errors will be handled.
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
-  if (err instanceof statusCodedError) {
-    res.status(err.getStatusCode()).send(err.name);
-  } else {
-    res.status(500).send(err.name);
-  }
-
-  if (err instanceof DBAuthenticationError) {
-    console.error(
-      "DB Authentication Error: please check DATABASE_URL in .env file"
-    );
-    console.error(err.message);
-  }
-
+  res.status(500).send({ error: "internal server error" });
+  console.error(err.stack);
   next();
 });
 
