@@ -1,3 +1,4 @@
+
 /* beforeEach((done) =>{
     //conect to the database
 });
@@ -16,3 +17,4 @@ describe("Simple basic tests", ()=>{
         expect("Free Laborers").toContain("Free");
     });
 });
+

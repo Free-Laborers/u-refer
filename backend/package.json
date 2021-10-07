@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {
+  "type": "module",
+   "scripts": {
     "start": "nodemon app.ts",
     "dev": "ts-node-dev app.ts",
-    "test": "jest"
+    "test": "jest",
+    "preset": "ts-jest"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +29,7 @@
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "@types/node": "^16.9.6",
+    "@types/supertest": "^2.0.11",
     "@types/validator": "^13.6.3",
     "jest": "^27.2.4",
     "nodemon": "^2.0.13",
