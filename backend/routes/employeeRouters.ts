@@ -51,10 +51,10 @@ employeeRouter.get(
   "/",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const comployees = await employeeController.getEmployees(
+      const employees = await employeeController.getEmployees(
         whereClauseBuilder(req.query)
       );
-      res.status(200).json(comployees);
+      res.status(200).json(employees);
     } catch (e: any) {
       next(new Error(e));
     }
