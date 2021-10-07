@@ -15,10 +15,10 @@ const App = () => {
           <Login />
         </Route>
         <Route exact path='/browse'>
-          {/* <Login /> */}
+          {/* TODO */}
         </Route>
         <Route exact path='/refer'>
-          {/* <Login /> */}
+          {/* TODO */}
         </Route>
       </Switch>
     </Router>
