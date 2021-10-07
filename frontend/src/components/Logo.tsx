@@ -4,12 +4,9 @@ type LogoColorType = 'primary' | 'white'
 type LogoProps = React.SVGProps<SVGSVGElement> & { color?: LogoColorType }
 
 function SvgLogo(props: LogoProps) {
-  const colors = {
-    primary: '#025856',
-    white: '#ffffff',
-  }
 
-  const color = colors[props.color || 'primary']
+  // Default color is dark green
+  const color = props.color === 'white' ? '#ffffff' : '#025856'
 
   return (
     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 335.68 107.49' height='3rem' {...props}>

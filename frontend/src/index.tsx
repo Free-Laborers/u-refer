@@ -5,7 +5,7 @@ import App from './App'
 import { createTheme } from '@mui/material/styles'
 import { ThemeProvider } from '@emotion/react'
 
-let theme = createTheme({
+const light = createTheme({
   palette: {
     primary: {
       main: '#025856',
@@ -16,17 +16,9 @@ let theme = createTheme({
   },
 })
 
-theme = createTheme(theme, {
-  palette: {
-    info: {
-      main: theme.palette.secondary.main,
-    },
-  },
-})
-
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={light}>
       <CssBaseline />
       <App />
     </ThemeProvider>
