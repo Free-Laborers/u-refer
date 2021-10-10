@@ -1,24 +1,55 @@
-import { useState } from 'react';
-import { Button, Typography } from '@mui/material'
+import { useEffect, useState } from 'react';
+import { Typography } from '@mui/material'
+import { Redirect } from 'react-router';
 // import axios from 'axios'
 
 export default function Home() {
-  const [message, setMessage] = useState<string>("");
-  // const [fetchedResult, setFetchedResult] = useState<any>(null);
-  // const testRequest = async () => {
-  //   const res = await axios.get('http://localhost:5000/home')
-  //   setFetchedResult(res.data)
-  // }
-  const testRequest = async function() {
-    fetch("/home")
-        .then(res => res.json())
-        .then(json => setMessage(json.message));
+  const [redirect, setRedirect] = useState<boolean>(false);
+  const [userData, setUserData] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    position: "",
+    isManager: "",
+  });
+
+  useEffect(() => {
+    async function getData() {
+      const myHeaders = new Headers();
+      const auth = localStorage.getItem('authorization');
+      myHeaders.append('authorization', auth ? auth : '');
+
+      const response = await fetch("/employee/profile", {
+        method: 'GET',
+        headers: myHeaders
+      });
+
+      if (response.ok) {
+        const json = await response.json();
+        return setUserData(json);
+      }
+
+      return setRedirect(true); // redirect to login
+    }
+
+    getData();
+  }, []);
+
+  if (redirect) {
+    return <Redirect to="/login" />
   }
+
   return (
     <>
-      <Typography variant='h1'>Home</Typography>
-      <Button onClick={testRequest}>Fetch</Button>
-      <Typography>Fetched result: {message}</Typography>
+      <Typography variant='h1'>Welcome home!</Typography>
+      <Typography variant='h2'>
+        Data of logged in user: <br/>
+        Email: {userData.email} <br/>
+        First name: {userData.firstName} <br/>
+        Last name: {userData.lastName} <br/>
+        Position: {userData.position} <br/>
+        Is manager: {userData.isManager}
+      </Typography>
     </>
   )
 }
