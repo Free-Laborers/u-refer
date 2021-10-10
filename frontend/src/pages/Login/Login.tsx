@@ -14,19 +14,20 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
+import { Redirect } from 'react-router';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+// function Copyright(props: any) {
+//   return (
+//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
+//       {'Copyright © '}
+//       <Link color="inherit" href="https://material-ui.com/">
+//         Your Website
+//       </Link>{' '}
+//       {new Date().getFullYear()}
+//       {'.'}
+//     </Typography>
+//   );
+// }
 
 const theme = createTheme({
   palette: {
@@ -38,24 +39,56 @@ const theme = createTheme({
     }
 }});
 
+function validateEmail(email: any) {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
 const Login = () => {
-  const [message, setMessage] = useState<string>("");
+  const [errMessage, setErrMessage] = useState<string>("");
+  const [redirect, setRedirect] = useState<boolean>(false);
   
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const login_data = {email: data.get('email'), password: data.get('password')}
+    if (!(data.get('email') && data.get('password'))) {
+      return setErrMessage("Please fill out the email and password fields");
+    }
+
+    const login_data = {
+      email: data.get('email'),
+      password: data.get('password'),
+      rememberMe: Boolean(data.get('rememberMe'))
+    }
+
+    if (!validateEmail(login_data.email)) {
+      return setErrMessage("Please enter a valid email");
+    }
+
     // eslint-disable-next-line no-console
     fetch("/login", {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json'
       },
-      body:  JSON.stringify(login_data),
+      body: JSON.stringify(login_data),
     })
-        .then(response => response.json())
-        .then(json => setMessage(json.message));
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Username or password is wrong")
+        }
+        return response.json();
+      })
+      .then(json => {
+        localStorage.setItem('authorization', json.token);
+        setRedirect(true);
+      })
+      .catch(err => setErrMessage(err));
   };
+
+  if (redirect) {
+    return <Redirect to='/' />
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -99,6 +132,8 @@ const Login = () => {
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
+              name="rememberMe"
+              id="rememberMe"
             />
             <Button
               type="submit"
@@ -117,9 +152,10 @@ const Login = () => {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Typography variant='caption' color='red'>
+          {errMessage}
+        </Typography>
       </Container>
-      <Typography>Fetched result: {message}</Typography>
     </ThemeProvider>
   );
 }
