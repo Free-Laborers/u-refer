@@ -6,6 +6,7 @@ const upload = multer();
 import { employeeRouter } from "./routes/employeeRouters";
 import { DBAuthenticationError } from "./error/500s";
 import { statusCodedError } from "./error/statusCodedError";
+import { jobPostRouter } from "./routes/jobPostRouters";
 const cors = require("cors");
 
 // -------------------firing express app
@@ -28,6 +29,7 @@ app.get("/home", (request: Request, response: Response) => {
   response.json({ message: `Welcome to the home page!!` });
 });
 app.use("/employee", employeeRouter);
+app.use("/jobs", jobPostRouter);
 
 // ------------ error handling. It only has 500 error, but later more errors will be handled.
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
