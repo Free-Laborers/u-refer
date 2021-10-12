@@ -45,7 +45,7 @@ export default function Home() {
   return (
     <>
       <Typography variant='h1'>Welcome home!</Typography>
-      <Typography variant='h2'>
+      <Typography>
         Data of logged in user: <br/>
         Email: {userData.email} <br/>
         First name: {userData.firstName} <br/>

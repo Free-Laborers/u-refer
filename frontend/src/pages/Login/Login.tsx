@@ -66,7 +66,6 @@ const Login = () => {
       return setErrMessage("Please enter a valid email");
     }
 
-    // eslint-disable-next-line no-console
     fetch("/login", {
       method: 'POST',
       headers:{
@@ -76,7 +75,7 @@ const Login = () => {
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error("Email or password is wrong")
+          return Promise.reject("Email or password is incorrect.");
         }
         return response.json();
       })
