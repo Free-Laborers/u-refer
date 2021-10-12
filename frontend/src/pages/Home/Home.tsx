@@ -26,7 +26,7 @@ export default function Home() {
 
       if (response.ok) {
         const json = await response.json();
-        return setUserData(json);
+        return setUserData(json.user);
       }
 
       return setRedirect(true); // redirect to login
