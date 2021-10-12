@@ -39,6 +39,7 @@ const theme = createTheme({
     }
 }});
 
+// https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
 function validateEmail(email: any) {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
@@ -75,7 +76,7 @@ const Login = () => {
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error("Username or password is wrong")
+          throw new Error("Email or password is wrong")
         }
         return response.json();
       })
