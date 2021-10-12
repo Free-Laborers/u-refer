@@ -6,13 +6,14 @@
   "scripts": {
     "start": "nodemon app.ts",
     "dev": "ts-node-dev app.ts",
-    "test": "jest"
+    "test": "jest",
+    "preset": "ts-jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^3.1.1",
+    "@prisma/client": "^3.2.1",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "cors": "^2.8.5",
@@ -22,16 +23,24 @@
     "pg": "^8.7.1",
     "pg-promise": "^10.11.0",
     "reflect-metadata": "^0.1.13",
-    "ts-node": "^10.2.1",
-    "typescript": "^4.4.3"
+    "ts-node": "^10.2.1"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "devDependencies": {
+    "@types/faker": "^5.5.8",
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.9.6",
+    "@types/supertest": "^2.0.11",
     "@types/validator": "^13.6.3",
+    "faker": "^5.5.3",
     "jest": "^27.2.4",
     "nodemon": "^2.0.13",
-    "prisma": "^3.1.1",
+    "prisma": "^3.2.1",
     "supertest": "^6.1.6",
-    "ts-node-dev": "^1.1.8"
+    "ts-jest": "^27.0.5",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.3"
   }
 }
