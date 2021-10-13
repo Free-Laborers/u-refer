@@ -66,7 +66,7 @@ const Login = () => {
       return setErrMessage("Please enter a valid email");
     }
 
-    fetch("/login", {
+    fetch("http://127.0.0.1:5000/login", {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json'
@@ -142,6 +142,16 @@ const Login = () => {
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
+            </Button>
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={() => {
+                localStorage.setItem('authorization', "");
+                alert("successfully logged out!")
+              }}  >
+                Sign Out
             </Button>
             <Grid container>
               <Grid item xs>
