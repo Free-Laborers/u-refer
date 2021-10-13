@@ -31,7 +31,7 @@ app.get("/unprotected", (request: Request, response: Response) => {
   response.json({ msg: "unprotected" });
 });
 
-app.post("/signin", async (req, res, next) => {
+app.post("/login", async (req, res, next) => {
   try {
     passport.authenticate(
       "local",
@@ -97,11 +97,6 @@ app.use(passport.authenticate("jwt", { session: false }));
 // -------------------protected routes
 app.get("/", (request: Request, response: Response) => {
   response.json({ message: `Welcome to backend!!` });
-});
-
-//this home router returns the authenticated employee info
-app.get("/home", (request: Request, response: Response) => {
-  response.json({ message: request.user });
 });
 
 app.use("/employee", employeeRouter);
