@@ -4,7 +4,7 @@ import { Redirect } from 'react-router';
 // import axios from 'axios'
 
 export default function Home() {
-  const [redirect, setRedirect] = useState<boolean>(false);
+  const [redirect, setRedirect] = useState<boolean>(false); // we could also do useState<boolean>(auth)...??? check how it looks
   const [userData, setUserData] = useState({
     email: "",
     firstName: "",
@@ -15,18 +15,21 @@ export default function Home() {
 
   useEffect(() => {
     async function getData() {
-      const myHeaders = new Headers();
       const auth = localStorage.getItem('authorization');
-      myHeaders.append('authorization', auth ? auth : '');
 
-      const response = await fetch("/employee/profile", {
-        method: 'GET',
-        headers: myHeaders
-      });
+      if (auth) {
+        const myHeaders = new Headers();
+        myHeaders.append('authorization', auth);
 
-      if (response.ok) {
-        const json = await response.json();
-        return setUserData(json);
+        const response = await fetch("/employee/profile", {
+          method: 'GET',
+          headers: myHeaders
+        });
+
+        if (response.ok) {
+          const json = await response.json();
+          return setUserData(json.user);
+        }
       }
 
       return setRedirect(true); // redirect to login
@@ -42,7 +45,7 @@ export default function Home() {
   return (
     <>
       <Typography variant='h1'>Welcome home!</Typography>
-      <Typography variant='h2'>
+      <Typography>
         Data of logged in user: <br/>
         Email: {userData.email} <br/>
         First name: {userData.firstName} <br/>
