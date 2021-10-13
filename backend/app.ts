@@ -45,10 +45,17 @@ app.post("/login", async (req, res, next) => {
             res.send(loginError);
             return;
           }
+          console.log(req.body.rememberMe);
+          const expiration =
+            req.body.rememberMe === "false"
+              ? { expiresIn: "1h" }
+              : { expiresIn: "1d" };
+          console.log(expiration);
+
           const token = jwt.sign(
             { id: user.id, email: user.email },
             "jwt-secret-key",
-            { expiresIn: "1d" }
+            expiration
           );
           res.json({ token });
         });
