@@ -1,18 +1,28 @@
-import { createEmployee, createCandidate, createJobPost, createReferral } from "./factories"
+import { PrismaClient } from '@prisma/client';
+import { createEmployee, createCandidate, createJobPost, createReferral, addTags } from "./factories"
 
+const prisma = new PrismaClient()
+
+const clearAllTables = async () => {
+  await Promise.all([
+    prisma.employee.deleteMany({}),
+    prisma.candidate.deleteMany({}),
+    prisma.tag.deleteMany({}),
+    prisma.postToTag.deleteMany({}),
+    prisma.referral.deleteMany({}),
+    prisma.jobPost.deleteMany({}),
+  ])
+}
 
 const main = async () => {
-  // TODO
-  // Add seed data (using the factories)
-  // Note that certain factories have dependent fields (e.g. to create a job post, you must use the ID of an existing manger for the hiringManagerId)
-  for (let i = 0; i < 10; ++i) {
-    console.log(i)
-    const m = await createEmployee({isManager: true})
-    const e = await createEmployee({isManager: true})
-    for(let i = 0; i < 3; ++i){
-      createJobPost({hiringManagerId: m.id})
-    }
-  }
+  await clearAllTables()
+  const manager   = await createEmployee({ isManager: true })
+  const employee  = await createEmployee({ isManager: false })
+  const candidate = await createCandidate()
+  const jobPost   = await createJobPost({ hiringManagerId: manager.id })
+  const referral  = await createReferral({ employeeId: employee.id, jobPostId: jobPost.id, candidateId: candidate.id })
+  addTags(jobPost, ['React', 'Prisma'])
+  
 }
 
 main()
