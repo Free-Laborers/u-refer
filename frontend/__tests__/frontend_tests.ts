@@ -1,4 +1,6 @@
 import * as React from 'react'
+import ReactDOM from 'react-dom'
+//import App from './App'
 describe("Simple test", ()=>{
     it('1==1', ()=>{
         expect(1).toBe(1);
