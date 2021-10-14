@@ -1,4 +1,4 @@
-import { Drawer, Slider, TextField, Box } from '@mui/material'
+import { Drawer, Slider, TextField, Typography } from '@mui/material'
 
 interface FilterDrawerProps {
   width?: number
@@ -18,7 +18,8 @@ export default function FilterDrawer(props: FilterDrawerProps) {
       }}
       anchor='left'
       variant='permanent'>
-      <TextField placeholder='Search' />
+      <Typography variant='body2'>Search</Typography>
+      <TextField size='small' id='search' placeholder='Software Engineer...' />
       <TextField placeholder='Search' />
       <Slider min={0} max={100000} step={10000} value={[0, 100000]} />
     </Drawer>
