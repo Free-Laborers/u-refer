@@ -1,10 +1,8 @@
 import express, { NextFunction, Request, Response } from "express";
 import path from "path";
-const cors = require("cors");
-const multer = require("multer");
-const upload = multer();
-const passport = require("passport");
-const jwt = require("jsonwebtoken");
+import cors from "cors";
+import passport from "passport";
+import jwt from "jsonwebtoken";
 
 const passportConfig = require("./passport");
 import { employeeRouter } from "./routes/employeeRouters";
@@ -14,9 +12,6 @@ import { EmployeeInsert } from "./interfaces/employeeInterface";
 
 // -------------------firing express app
 const app = express();
-
-//body paramter enable
-app.use(upload.array());
 
 passportConfig();
 
