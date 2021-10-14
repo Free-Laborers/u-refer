@@ -99,12 +99,24 @@ export const createReferral = async (referralData: RequireFields<Referral, 'empl
   return res
 }
 
-export const createTag = async (tagData: Partial<Tag>) => {
-  const tagOptions = ['Java', 'JavaScript', 'React', 'Frontend', 'Backend', 'Fullstack', 'Dev Ops', 'Prisma', 'Docker', 'Junior', 'Senior']
+export const createTag = async (tagData?: Partial<Tag>) => {
+  const tagOptions = [
+    'Java',
+    'JavaScript',
+    'React',
+    'Frontend',
+    'Backend',
+    'Fullstack',
+    'Dev Ops',
+    'Prisma',
+    'Docker',
+    'Junior',
+    'Senior',
+  ]
   const name = tagOptions[Math.floor(Math.random() * tagOptions.length)]
 
   const defaultData = {
-    name,
+    name
   }
 
   const res = await prisma.tag.create({
@@ -120,4 +132,29 @@ export const createPostToTag = async (tagData: RequireFields<PostToTag, 'jobPost
   })
 
   return res
+}
+
+/**
+ * 
+ * @param jobPost Job post object that the tags should be created for
+ * @param tags No value -> single random tag. Single string -> single specified tag. Array of strings -> multiple specified tags.
+ * @returns PostToTag(s) of the created tag(s)
+ */
+export const addTags = async (jobPost: JobPost, tags?: string[] | string): Promise<PostToTag | PostToTag[]> => {
+  // Random tag
+  if(!tags){
+    const t = await createTag()
+    const ptt = await createPostToTag({ jobPostId: jobPost.id, tagId: t.id })
+    return ptt
+  }
+  // Specified tags
+  else if(Array.isArray(tags)){
+    const ts = await Promise.all(tags.map(async t => await createTag({ name: t })))
+    const ptts = await Promise.all(ts.map(t => createPostToTag({jobPostId: jobPost.id, tagId: t.id})))
+    return ptts
+  }
+  // Specified tag
+  const t = await createTag({ name: tags })
+  const ptt = await createPostToTag({ jobPostId: jobPost.id, tagId: t.id })
+  return ptt
 }
