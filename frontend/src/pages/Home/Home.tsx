@@ -45,7 +45,7 @@ export default function Home() {
   }, []);
 
   if (redirect) {
-    localStorage.removeItem('authorization');
+    // localStorage.removeItem('authorization');
     return <Redirect to="/login" />
   }
 
@@ -66,7 +66,7 @@ export default function Home() {
         sx={{ mt: 3, mb: 2 }}
         onClick={() => {
           localStorage.removeItem('authorization');
-          alert("successfully logged out!")
+          setRedirect(true);
         }}>
           Sign Out
       </Button>
