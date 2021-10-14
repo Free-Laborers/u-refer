@@ -2,16 +2,14 @@ version: '3.8'
 services:
   frontend:
     container_name: urefer-frontend
-    build: ./frontend
     networks:
-      - backend
       - frontend
+    build: ./frontend
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
     environment:
       CHOKIDAR_USEPOLLING: "true"
   backend:
@@ -27,7 +25,7 @@ services:
     depends_on: 
       - db
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-docker}@urefer-db:5432/urefer?schema=public
+      DATABASE_URL: postgresql://postgres:docker@urefer-db:5432/urefer?schema=public
     stdin_open: true # docker run -i
     tty: true        # docker run -t
   db:
@@ -35,8 +33,8 @@ services:
       - backend
     image: postgres:latest
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-docker}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
       POSTGRES_DB: "urefer"
     container_name: urefer-db
     restart: always
