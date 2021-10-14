@@ -1,15 +1,15 @@
 import { Paper, Typography } from '@mui/material'
 // import { JobPost } from '../../../../../backend/node_modules/prisma/prisma-client'
 
-interface JobCardProps {
+interface JobPreviewCardProps {
   job
 }
 
-export default function JobCard(props: JobCardProps) {
+export default function JobPreviewCard(props: JobPreviewCardProps) {
   const { job } = props
   return (
-    <Paper sx={{mx: 2, p: 2, height: '100%'}}>
-      <Typography variant='h6'>{job?.title}</Typography>
+    <Paper sx={{m: 2, mt: 0, p: 2}}>
+      <Typography variant='h6'>{job.title}</Typography>
     </Paper>
   )
 }
