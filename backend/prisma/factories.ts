@@ -32,9 +32,7 @@ export const createEmployee = async (employeeData?: Partial<Employee>) => {
     isManager,
   }
 
-  const res = await prisma.employee.create({
-    data: Object.assign(defaultData, employeeData),
-  })
+  const res = await prisma.employee.create({ data: Object.assign(defaultData, employeeData) })
 
   return res
 }
@@ -52,9 +50,7 @@ export const createCandidate = async (candidateData?: Partial<Candidate>) => {
     phone,
   }
 
-  const res = await prisma.candidate.create({
-    data: Object.assign(defaultData, candidateData),
-  })
+  const res = await prisma.candidate.create({ data: Object.assign(defaultData, candidateData) })
 
   return res
 }
@@ -65,7 +61,7 @@ export const createJobPost = async (jobPostData: RequireFields<JobPost, 'hiringM
   const description = faker.lorem.paragraphs(2)
   const minYearsExperience = faker.datatype.number(10)
   const salary = faker.datatype.number(150000)
-  const openings = faker.datatype.number(3)
+  const openings = faker.datatype.number(3) + 1
 
   const defaultData = {
     title,
@@ -92,9 +88,7 @@ export const createReferral = async (referralData: RequireFields<Referral, 'empl
     resumeFilePath,
   }
 
-  const res = await prisma.referral.create({
-    data: Object.assign(defaultData, referralData),
-  })
+  const res = await prisma.referral.create({ data: Object.assign(defaultData, referralData) })
 
   return res
 }
@@ -114,23 +108,13 @@ export const createTag = async (tagData?: Partial<Tag>) => {
     'Senior',
   ]
   const name = tagOptions[Math.floor(Math.random() * tagOptions.length)]
-
-  const defaultData = {
-    name
-  }
-
-  const res = await prisma.tag.create({
-    data: Object.assign(defaultData, tagData),
-  })
-
+  const defaultData = { name }
+  const res = await prisma.tag.create({ data: Object.assign(defaultData, tagData)})
   return res
 }
 
 export const createPostToTag = async (tagData: RequireFields<PostToTag, 'jobPostId' | 'tagId'>) => {
-  const res = await prisma.postToTag.create({
-    data: tagData,
-  })
-
+  const res = await prisma.postToTag.create({ data: tagData })
   return res
 }
 
