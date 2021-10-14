@@ -1,4 +1,4 @@
-import { Typography, Box, Grid } from '@mui/material'
+import { Box } from '@mui/material'
 import useAxios from 'axios-hooks'
 import { useState } from 'react'
 import FilterDrawer from './components/FilterDrawer'
@@ -11,10 +11,10 @@ export default function JobFeed() {
   const [selectedJob, setselectedJob] = useState<any>(null)
   const drawerWidth = 270
   return (
-    <Box height={'calc(100vh - 64px)'} bgcolor='pink' sx={{ ml: `${drawerWidth}px` }}>
+    <Box height={'calc(100vh - 64px)'} sx={{ ml: `${drawerWidth}px` }}>
       <FilterDrawer width={drawerWidth} />
-      <Box display='flex' flexDirection='column' height='100%'>
-        <Typography variant='h1'>Job Feed</Typography>
+      <Box p={3} display='flex' flexDirection='column' height='100%'>
+        {/* <Typography variant='h1'>Job Feed</Typography> */}
         <Box height='100%' display='flex'>
           <Box overflow='auto'>
             {data && data.map(job => <JobPreviewCard job={job} />)}
