@@ -1,4 +1,4 @@
-import { PrismaClient, Employee, Candidate, JobPost, Referral } from '@prisma/client'
+import { PrismaClient, Employee, Candidate, JobPost, Referral, Tag, PostToTag } from '@prisma/client'
 import faker from 'faker'
 const prisma = new PrismaClient()
 
@@ -94,6 +94,29 @@ export const createReferral = async (referralData: RequireFields<Referral, 'empl
 
   const res = await prisma.referral.create({
     data: Object.assign(defaultData, referralData),
+  })
+
+  return res
+}
+
+export const createTag = async (tagData: Partial<Tag>) => {
+  const tagOptions = ['Java', 'JavaScript', 'React', 'Frontend', 'Backend', 'Fullstack', 'Dev Ops', 'Prisma', 'Docker', 'Junior', 'Senior']
+  const name = tagOptions[Math.floor(Math.random() * tagOptions.length)]
+
+  const defaultData = {
+    name,
+  }
+
+  const res = await prisma.tag.create({
+    data: Object.assign(defaultData, tagData),
+  })
+
+  return res
+}
+
+export const createPostToTag = async (tagData: RequireFields<PostToTag, 'jobPostId' | 'tagId'>) => {
+  const res = await prisma.postToTag.create({
+    data: tagData,
   })
 
   return res
