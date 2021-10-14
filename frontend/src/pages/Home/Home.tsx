@@ -1,27 +1,33 @@
 import { useEffect, useState } from 'react';
-import { Typography } from '@mui/material'
+import { Typography, Button } from '@mui/material'
 import { Redirect } from 'react-router';
-// import axios from 'axios'
+
+interface UserData {
+  email: string,
+  firstName: string,
+  lastName: string,
+  position: string,
+  isManager: boolean | undefined
+}
 
 export default function Home() {
-  const [redirect, setRedirect] = useState<boolean>(false); // we could also do useState<boolean>(auth)...??? check how it looks
-  const [userData, setUserData] = useState({
+  const [redirect, setRedirect] = useState<boolean>(localStorage.getItem('authorization') === null);  
+  const [userData, setUserData] = useState<UserData>({
     email: "",
     firstName: "",
     lastName: "",
     position: "",
-    isManager: "",
+    isManager: undefined,
   });
 
   useEffect(() => {
     async function getData() {
       const auth = localStorage.getItem('authorization');
-
       if (auth) {
         const myHeaders = new Headers();
         myHeaders.append('authorization', auth);
 
-        const response = await fetch("http://127.0.0.1:5000/employee/profile", {
+        const response = await fetch("/employee/profile", {
           method: 'GET',
           headers: myHeaders
         });
@@ -39,6 +45,7 @@ export default function Home() {
   }, []);
 
   if (redirect) {
+    localStorage.removeItem('authorization');
     return <Redirect to="/login" />
   }
 
@@ -51,8 +58,18 @@ export default function Home() {
         First name: {userData.firstName} <br/>
         Last name: {userData.lastName} <br/>
         Position: {userData.position} <br/>
-        Is manager: {userData.isManager}
+        Is manager: {String(userData.isManager)}
       </Typography>
+      <Button
+        fullWidth
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+        onClick={() => {
+          localStorage.removeItem('authorization');
+          alert("successfully logged out!")
+        }}>
+          Sign Out
+      </Button>
     </>
   )
 }

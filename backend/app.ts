@@ -45,13 +45,10 @@ app.post("/login", async (req, res, next) => {
             res.send(loginError);
             return;
           }
-          console.log(req.body.rememberMe);
-          console.log(typeof req.body.rememberMe);
 
           const expiration = req.body.rememberMe
-            ? { expiresIn: "1d" }
+            ? { expiresIn: "7d" }
             : { expiresIn: "1h" };
-          console.log(expiration);
 
           const token = jwt.sign(
             { id: user.id, email: user.email },
@@ -79,13 +76,7 @@ app.post("/signup", async (req: Request, res: Response, next: NextFunction) => {
       position: body.position,
       pronoun: body.pronoun,
       createDate: body.date,
-      isManager:
-        // this part can only be boolean|undefined, or prisma will rasie type error.
-        body.isManager === "true"
-          ? true
-          : body.isManager === "false"
-          ? false
-          : undefined,
+      isManager: body.isManager === "true",
     };
 
     return insertClause;
