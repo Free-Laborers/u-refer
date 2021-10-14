@@ -6,6 +6,6 @@ export interface EmployeeInsert {
   lastName: string;
   pronoun?: string;
   position: string;
-  createDate?: Date;
+  createdDate?: Date;
   isManager?: boolean;
 }

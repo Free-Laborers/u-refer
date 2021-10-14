@@ -75,7 +75,7 @@ app.post("/signup", async (req: Request, res: Response, next: NextFunction) => {
       lastName: body.lastName,
       position: body.position,
       pronoun: body.pronoun,
-      createDate: body.date,
+      createdDate: body.date,
       isManager: body.isManager === "true",
     };
 
