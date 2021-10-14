@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { PrismaClient } from '@prisma/client';
 import { createEmployee, createCandidate, createJobPost, createReferral, addTags } from "./factories"
+=======
+import { createEmployee, createCandidate, createJobPost, createReferral, createTag } from "./factories"
+import { PrismaClient } from ".prisma/client"
+>>>>>>> begins work on tag select
 
 const prisma = new PrismaClient()
 

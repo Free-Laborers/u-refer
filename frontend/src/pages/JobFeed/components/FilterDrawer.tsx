@@ -1,4 +1,6 @@
-import { Drawer, Slider, TextField, Typography } from '@mui/material'
+import { Drawer, Slider, TextField, Typography, Select, Box, Chip, MenuItem, FormControl, InputLabel, OutlinedInput } from '@mui/material'
+import { useState } from 'react'
+import TagSelect from './TagSelect'
 
 interface FilterDrawerProps {
   width?: number
@@ -18,9 +20,16 @@ export default function FilterDrawer(props: FilterDrawerProps) {
       }}
       anchor='left'
       variant='permanent'>
+      {/* SEARCH */}
       <Typography variant='body2'>Search</Typography>
       <TextField size='small' id='search' placeholder='Software Engineer...' />
-      <TextField placeholder='Search' />
+
+      {/* TAGS */}
+      <TagSelect />
+      <div>
+        
+      </div>
+
       <Slider min={0} max={100000} step={10000} value={[0, 100000]} />
     </Drawer>
   )

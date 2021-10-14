@@ -14,7 +14,6 @@ export default function JobFeed() {
     <Box height={'calc(100vh - 64px)'} sx={{ ml: `${drawerWidth}px` }}>
       <FilterDrawer width={drawerWidth} />
       <Box p={3} display='flex' flexDirection='column' height='100%'>
-        {/* <Typography variant='h1'>Job Feed</Typography> */}
         <Box height='100%' display='flex'>
           <Box overflow='auto'>
             {data && data.map(job => <JobPreviewCard job={job} />)}
