@@ -45,7 +45,7 @@ export default function Home() {
   }, []);
 
   if (redirect) {
-    // localStorage.removeItem('authorization');
+    localStorage.removeItem('authorization');
     return <Redirect to="/login" />
   }
 
