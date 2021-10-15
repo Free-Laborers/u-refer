@@ -14,7 +14,7 @@ model Employee {
   firstName     String
   lastName      String
   pronoun       String?
-  positionTitle String
+  position      String
   createdDate   DateTime   @db.Date
   isManager     Boolean?
   password      String
@@ -36,7 +36,7 @@ model Candidate {
 model JobPost {
   id                 String      @id @default(uuid())
   title              String
-  positionTitle      String
+  position           String
   description        String
   minYearsExperience Int
   salary             Int
