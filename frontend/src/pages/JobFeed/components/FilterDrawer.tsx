@@ -15,25 +15,31 @@ export default function FilterDrawer(props: FilterDrawerProps) {
         '& .MuiDrawer-paper': {
           width: width,
           boxSizing: 'border-box',
-          p: 3,
+          p: 4,
           pt: 12,
         },
       }}
       anchor='left'
       variant='permanent'>
       {/* SEARCH */}
-      <Typography variant='body2'>Search</Typography>
-      <TextField size='small' id='search' placeholder='Software Engineer...' />
+      <Box>
+        <Typography variant='body2'>Search</Typography>
+        <TextField fullWidth size='small' id='search' placeholder='Software Engineer...' />
+      </Box>
 
       {/* TAGS */}
-      <Typography variant='body2'>Tags</Typography>
-      <TagSelect />
+      <Box>
+        <Typography variant='body2'>Tags</Typography>
+        <TagSelect />
+      </Box>
 
-      {/* Salary Range */}
-      <Typography variant='body2'>Salary</Typography>
-      <SalarySlider />
+      {/* SALARY */}
+      <Box>
+        <Typography variant='body2'>Salary</Typography>
+        <SalarySlider />
+      </Box>
 
-      {/* Experience Range */}
+      {/* EXPERIENCE */}
       <Typography variant='body2'>Experience</Typography>
       <Slider min={0} max={100000} step={10000} value={[0, 100000]} />
      
