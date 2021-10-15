@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import { PrismaClient } from '@prisma/client';
-import { createEmployee, createCandidate, createJobPost, createReferral, addTags } from "./factories"
-=======
-import { createEmployee, createCandidate, createJobPost, createReferral, createTag } from "./factories"
-import { PrismaClient } from ".prisma/client"
->>>>>>> begins work on tag select
+import { createEmployee, createCandidate, createJobPost, createReferral, addTags, createTag } from "./factories"
 
 const prisma = new PrismaClient()
 
@@ -21,12 +16,11 @@ const clearAllTables = async () => {
 
 const main = async () => {
   await clearAllTables()
-  const manager   = await createEmployee({ isManager: true })
-  const employee  = await createEmployee({ isManager: false })
-  const candidate = await createCandidate()
-  const jobPost   = await createJobPost({ hiringManagerId: manager.id })
-  const referral  = await createReferral({ employeeId: employee.id, jobPostId: jobPost.id, candidateId: candidate.id })
-  addTags(jobPost, ['React', 'Prisma'])
+  await createTag({ name: 'React' })
+  await createTag({ name: 'Angular' })
+  await createTag({ name: 'Another' })
+  await createTag({ name: 'Test' })
+  
   
 }
 
