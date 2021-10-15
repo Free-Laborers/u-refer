@@ -14,7 +14,7 @@ model Employee {
   firstName     String
   lastName      String
   pronoun       String?
-  positionTitle String
+  position      String
   createdDate   DateTime   @db.Date
   isManager     Boolean?
   password      String
