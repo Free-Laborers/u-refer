@@ -1,5 +1,6 @@
 import { Drawer, Slider, TextField, Typography, Select, Box, Chip, MenuItem, FormControl, InputLabel, OutlinedInput } from '@mui/material'
 import { useState } from 'react'
+import SalarySlider from './SalarySlider'
 import TagSelect from './TagSelect'
 
 interface FilterDrawerProps {
@@ -25,12 +26,18 @@ export default function FilterDrawer(props: FilterDrawerProps) {
       <TextField size='small' id='search' placeholder='Software Engineer...' />
 
       {/* TAGS */}
+      <Typography variant='body2'>Tags</Typography>
       <TagSelect />
-      <div>
-        
-      </div>
 
+      {/* Salary Range */}
+      <Typography variant='body2'>Salary</Typography>
+      <SalarySlider />
+
+      {/* Experience Range */}
+      <Typography variant='body2'>Experience</Typography>
       <Slider min={0} max={100000} step={10000} value={[0, 100000]} />
+     
+
     </Drawer>
   )
 }
