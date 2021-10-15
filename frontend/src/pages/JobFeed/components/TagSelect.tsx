@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 export default function TagSelect() {
   // const tags = ['React', 'MUI', 'Another']
-  const [{ data, loading, error }, refetch] = useAxios('http://localhost:5000/tags')
+  const [{ data }] = useAxios('http://localhost:5000/tags')
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const tags = data?.tags || []
 
@@ -24,9 +24,9 @@ export default function TagSelect() {
           ))}
         </Box>
       )}>
-      {tags.map(tag => (
-        <MenuItem key={tag} value={tag}>
-          {tag}
+      {tags.map(({name, id}) => (
+        <MenuItem key={id} value={name}>
+          {name}
         </MenuItem>
       ))}
     </Select>
