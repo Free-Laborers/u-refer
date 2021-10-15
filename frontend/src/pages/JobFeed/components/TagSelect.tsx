@@ -39,12 +39,12 @@ export default function TagSelect() {
       multiple
       value={selectedTags}
       onChange={handleChange}
-      input={<OutlinedInput />}
+      input={<OutlinedInput fullWidth placeholder='Tags' />}
       renderValue={selected => (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
           {selected.map(value => (
             // TODO Figure out why handleDelete is not triggered when button is clicked
-            <Chip key={value} label={value} onDelete={() => handleDelete(value)} />
+            <Chip size='small' key={value} label={value} onDelete={() => handleDelete(value)} />
           ))}
         </Box>
       )}
