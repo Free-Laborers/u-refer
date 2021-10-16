@@ -5,6 +5,7 @@ const upload = multer();
 
 import { employeeRouter } from "./routes/employeeRouters";
 import { DBAuthenticationError } from "./error/500s";
+import { Employee } from "@prisma/client";
 const cors = require("cors");
 
 // -------------------firing express app
@@ -18,6 +19,13 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "client/build")));
 
+declare global {
+  namespace Express {
+    export interface Request {
+      user?: Employee;
+    }
+  }
+}
 // -------------------routes
 app.get("/", (request: Request, response: Response) => {
   response.json({ message: `Welcome to backend!!` });
