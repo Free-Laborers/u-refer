@@ -5,7 +5,6 @@ const upload = multer();
 
 import { employeeRouter } from "./routes/employeeRouters";
 import { DBAuthenticationError } from "./error/500s";
-import { statusCodedError } from "./error/statusCodedError";
 const cors = require("cors");
 
 // -------------------firing express app
