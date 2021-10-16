@@ -20,20 +20,12 @@ const checkUserIsManager = (
   }
 };
 
-jobPostRouter.post(
-  "/",
-  checkUserIsManager,
-  (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).json({ message: "hi" });
-  }
-);
+jobPostRouter.post("/", (req: Request, res: Response, next: NextFunction) => {
+  res.status(200).json({ message: "hi" });
+});
 
-jobPostRouter.get(
-  "/",
-  checkUserIsManager,
-  (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).json({ message: "hi" });
-  }
-);
+jobPostRouter.get("/", (req: Request, res: Response, next: NextFunction) => {
+  res.status(200).json({ message: "hi" });
+});
 
 export { jobPostRouter };
