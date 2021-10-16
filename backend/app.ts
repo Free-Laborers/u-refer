@@ -2,11 +2,12 @@ import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 const multer = require("multer");
 const upload = multer();
+const cors = require("cors");
 
 import { employeeRouter } from "./routes/employeeRouters";
 import { DBAuthenticationError } from "./error/500s";
 import { Employee } from "@prisma/client";
-const cors = require("cors");
+import { StatusCodedError } from "./error/statusCodedError";
 
 // -------------------firing express app
 const app = express();
@@ -38,7 +39,11 @@ app.use("/employee", employeeRouter);
 
 // ------------ error handling. It only has 500 error, but later more errors will be handled.
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
-  res.status(500).send({ error: "internal server error" });
+  if (err instanceof StatusCodedError) {
+    res.status(err.getStatusCode()).send({ error: err.message });
+  } else {
+    res.status(500).send({ error: "internal server error" });
+  }
   console.error(err.stack);
   next();
 });
