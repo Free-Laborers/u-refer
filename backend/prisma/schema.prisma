@@ -15,7 +15,7 @@ model Employee {
   lastName      String
   pronoun       String?
   position      String
-  createdDate   DateTime   @db.Date
+  createdDate   DateTime   @db.Date @default(now())
   isManager     Boolean?
   password      String
   jobPost       JobPost[]
@@ -41,8 +41,8 @@ model JobPost {
   minYearsExperience Int
   salary             Int
   openings           Int         @default(1)
-  createdDate        DateTime
-  deletedDate        DateTime
+  createdDate        DateTime    @db.Date @default(now())
+  deletedDate        DateTime?
   employee           Employee    @relation(fields: [hiringManagerId], references: [id])
   hiringManagerId    String
   Referral           Referral[]
@@ -59,7 +59,7 @@ model Referral {
   jobPostId            String
   candidateDescription String
   resumeFilePath       String
-  createdDate          DateTime
+  createdDate          DateTime @db.Date @default(now())
   acceptedDate         DateTime?
   deletedDate          DateTime?
 }
