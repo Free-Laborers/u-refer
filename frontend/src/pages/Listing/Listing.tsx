@@ -8,11 +8,31 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Grid } from '@mui/material';
+import { Autocomplete, AutocompleteRenderInputParams, Chip, Grid } from '@mui/material';
 
 const theme = createTheme();
 
+//I do not have an clear idea about where the frontend will store the list of Tags
+//todo: store the list of tags somewhere and use it for this component.
+const tags: string[] = [
+    "React", 
+    "Prisma",
+];
 const Listing = () => {
+    const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
+    const [selectedTagsSet, setSelectedTagsSet]  = React.useState<Set<string>>(new Set());
+    const TagChipsJSX = selectedTags.map(tag => {
+        return (
+            <Grid item key = {tag}>
+                <Chip label = {tag} onDelete={() => {
+                    setSelectedTags(selectedTags.filter(t => t !== tag));
+                    selectedTagsSet.delete(tag);
+                    setSelectedTagsSet(selectedTagsSet)
+                }}></Chip>
+            </Grid>
+        )
+    }) 
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -123,18 +143,24 @@ const Listing = () => {
                                 />
                             </Grid>
                         </Grid>
-                        <TextField
-                            margin="normal"
-                            required
-                            id="openings"
-                            autoComplete="openings"
-                            label="Tags"
-                            name="openings"
-                            InputLabelProps={{
-                                shrink: true,
+                        <Autocomplete
+                            id='tagsAutoComplete' 
+                            renderInput={function (params: AutocompleteRenderInputParams): React.ReactNode {
+                                return <TextField {...params} label = "Tags" />
                             }}
-                            autoFocus
+                            sx = {{width: 300}}
+                            options={tags}
+                            onChange={(event, value) => {
+                                if (value && !selectedTagsSet.has(value)){
+                                    setSelectedTags(selectedTags.concat(value));
+                                    selectedTagsSet.add(value);
+                                    setSelectedTagsSet(selectedTagsSet)
+                                } 
+                            }}
                         />
+                        <Grid container direction={"row"} spacing={1} m={1}>
+                            {TagChipsJSX}
+                        </Grid>
                         <Button
                             style={{
                                 borderRadius: 35,
