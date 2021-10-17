@@ -1,4 +1,4 @@
-class statusCodedError extends Error {
+class StatusCodedError extends Error {
   status: number;
   constructor(message: string, status: number) {
     super(message);
@@ -10,4 +10,4 @@ class statusCodedError extends Error {
   }
 }
 
-export { statusCodedError };
+export { StatusCodedError };
