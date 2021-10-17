@@ -9,4 +9,5 @@ export interface JobPostInsert {
   createdDate?: Date;
   deletedDate?: Date;
   hiringManagerId: string;
+  PostToTag?: object;
 }
