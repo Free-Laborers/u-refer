@@ -8,6 +8,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Grid } from '@mui/material';
 
 const theme = createTheme();
 
@@ -28,7 +29,7 @@ const Listing = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="md">
                 <CssBaseline />
                 <Box
                     sx={{
@@ -63,54 +64,77 @@ const Listing = () => {
                             margin="normal"
                             required
                             fullWidth
+                            multiline
+                            rows = {16}
                             id="description"
                             label="Job Description"
                             name="description"
                             autoFocus
-                        /><TextField
-                            margin="normal"
-                            required
-                            id="minYears"
-                            autoComplete="openings"
-                            label="Minimum Years of Experience"
-                            type="number"
-                            name="minYears"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            autoFocus
-                        /><TextField
-                            margin="normal"
-                            required
-                            id="salary"
-                            label="Salary"
-                            name="salary"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <AttachMoneyIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            variant="standard"
-                            type="number"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        /><TextField
+                        />
+                        <Grid container direction = {"row"} spacing = {3}>
+                            <Grid item>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    id="minYears"
+                                    autoComplete="openings"
+                                    label="Minimum Years of Experience"
+                                    type="number"
+                                    name="minYears"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    autoFocus
+                                />
+                            </Grid>
+                            <Grid item>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    id="salary"
+                                    label="Salary"
+                                    name="salary"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <AttachMoneyIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    type="number"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    id="openings"
+                                    autoComplete="openings"
+                                    label="Number of Openings"
+                                    type="number"
+                                    name="openings"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    autoFocus
+                                />
+                            </Grid>
+                        </Grid>
+                        <TextField
                             margin="normal"
                             required
                             id="openings"
                             autoComplete="openings"
-                            label="Number of Openings"
-                            type="number"
+                            label="Tags"
                             name="openings"
                             InputLabelProps={{
                                 shrink: true,
                             }}
                             autoFocus
                         />
-
                         <Button
                             style={{
                                 borderRadius: 35,
