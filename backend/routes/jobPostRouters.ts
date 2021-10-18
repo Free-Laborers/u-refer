@@ -24,6 +24,11 @@ const checkUserIsManager = (
 };
 
 const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
+  let openings = undefined;
+  if (body.openings) {
+    openings = Number(body.openings);
+  }
+
   const insertClause: JobPostInsert = {
     id: body.id,
     title: body.title,
@@ -31,7 +36,7 @@ const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
     description: body.description,
     minYearsExperience: Number(body.minYearsExperience),
     salary: Number(body.salary),
-    openings: Number(body.openings),
+    openings: openings,
     createdDate: body.createdDate,
     deletedDate: body.deletedDate,
     hiringManagerId: body.hiringManagerId,
