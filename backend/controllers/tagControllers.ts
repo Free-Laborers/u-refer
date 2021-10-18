@@ -8,3 +8,7 @@ export const findOneTagWithName = (name: string) => {
     },
   });
 };
+
+export const getTags = () => {
+  return prisma.tag.findMany({});
+};

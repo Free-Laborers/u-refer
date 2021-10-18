@@ -10,6 +10,7 @@ import { jobPostRouter } from "./routes/jobPostRouters";
 import { DBAuthenticationError } from "./error/500s";
 import { Employee } from "@prisma/client";
 import { StatusCodedError } from "./error/statusCodedError";
+import { tagRouter } from "./routes/tagRouters";
 
 // -------------------firing express app
 const app = express();
@@ -39,6 +40,7 @@ app.get("/home", (request: Request, response: Response) => {
 });
 app.use("/employee", employeeRouter);
 app.use("/jobPost", jobPostRouter);
+app.use("/tags", tagRouter);
 
 // ------------ error handling. It only has 500 error, but later more errors will be handled.
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {

@@ -7,3 +7,10 @@ export const createOneJobPost = (dataClause: JobPostInsert) => {
     data: dataClause,
   });
 };
+export const getJobPostings = () => {
+  return prisma.jobPost.findMany({
+    include: {
+      PostToTag: true,
+    },
+  });
+};

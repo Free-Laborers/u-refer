@@ -74,4 +74,16 @@ jobPostRouter.post(
   }
 );
 
+jobPostRouter.get(
+  "/",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const comployees = await jobPostController.getJobPostings();
+      res.status(200).json(comployees);
+    } catch (e: any) {
+      next(new Error(e));
+    }
+  }
+);
+
 export { jobPostRouter };
