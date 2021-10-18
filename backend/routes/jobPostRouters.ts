@@ -42,22 +42,38 @@ const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
     hiringManagerId: body.hiringManagerId,
   };
 
-  if (body.tags) {
+  if (body.tags && body.tags.length != 0) {
+    console.log(body.tags);
     const postToTagObjects = [];
-    for (const tagName in body.tags) {
-      const tag = await tagController.findOneTagWithName(tagName);
+    for (let i = 0; i < body.tags.length; i++) {
+      const tag = await tagController.findOneTagWithName(body.tags[i]);
       if (tag) {
         postToTagObjects.push({
-          jobPostId: body.id,
           tagId: tag.id,
         });
       }
     }
-
+    console.log(postToTagObjects);
     insertClause.PostToTag = {
-      createMany: postToTagObjects,
+      createMany: { data: postToTagObjects },
     };
   }
+
+  // const postToTagObjects: { jobPostId: string; tagId: string }[] = [];
+  // await body.tags.forEach(async (tagName: string) => {
+  //   const tag = await tagController.findOneTagWithName(tagName);
+  //   // console.log(tag);
+  //   if (tag) {
+  //     postToTagObjects.push({
+  //       jobPostId: body.id,
+  //       tagId: tag.id,
+  //     });
+  //   }
+  // });
+  // console.log(postToTagObjects);
+  // insertClause.PostToTag = {
+  //   createMany: postToTagObjects,
+  // };
 
   return insertClause;
 };
