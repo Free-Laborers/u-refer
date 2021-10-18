@@ -1,3 +1,4 @@
+import { JobListingFilterType } from './../controllers/jobPostControllers';
 // import { getJobPostings } from './../controllers/jobPostControllers';
 import express, { NextFunction, Request, Response } from 'express'
 const jobPostRouter = express.Router()
@@ -44,10 +45,24 @@ const insertClauseBuilder = (body: any): EmployeeInsert => {
   return insertClause
 }
 
+
+const coerceToNumberOrNull = (x: any) => {
+  const res = parseInt(x)
+  return isNaN(res) ? null : res
+}
+
 jobPostRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const comployees = await jobPostingsController.getJobPostings()
-    res.status(200).json(comployees)
+    const filters: Partial<JobListingFilterType> = {
+      searchString: req.query.searchString as string,
+      maxExperience: coerceToNumberOrNull(req.query.maxExperience as string),
+      minExperience: coerceToNumberOrNull(req.query.minExperience as string),
+      maxSalary: coerceToNumberOrNull(req.query.maxSalary as string),
+      minSalary: coerceToNumberOrNull(req.query.minSalary as string),
+      tagIds: req.query.tagIds as string[]
+    }
+    const jobs = await jobPostingsController.getJobPostings({...filters})
+    res.status(200).json(jobs)
   } catch (e: any) {
     next(new Error(e))
   }
