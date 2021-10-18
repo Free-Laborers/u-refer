@@ -42,16 +42,21 @@ const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
     hiringManagerId: body.hiringManagerId,
   };
 
-  if (body.tag) {
-    const tag = await tagController.findOneTagWithName(body.tag);
-    if (tag) {
-      insertClause.PostToTag = {
-        create: {
+  if (body.tags) {
+    const postToTagObjects = [];
+    for (const tagName in body.tags) {
+      const tag = await tagController.findOneTagWithName(tagName);
+      if (tag) {
+        postToTagObjects.push({
           jobPostId: body.id,
           tagId: tag.id,
-        },
-      };
+        });
+      }
     }
+
+    insertClause.PostToTag = {
+      createMany: postToTagObjects,
+    };
   }
 
   return insertClause;
