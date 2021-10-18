@@ -24,6 +24,11 @@ const checkUserIsManager = (
 };
 
 const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
+  let openings = undefined;
+  if (body.openings) {
+    openings = Number(body.openings);
+  }
+
   const insertClause: JobPostInsert = {
     id: body.id,
     title: body.title,
@@ -31,23 +36,44 @@ const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
     description: body.description,
     minYearsExperience: Number(body.minYearsExperience),
     salary: Number(body.salary),
-    openings: Number(body.openings),
+    openings: openings,
     createdDate: body.createdDate,
     deletedDate: body.deletedDate,
     hiringManagerId: body.hiringManagerId,
   };
 
-  if (body.tag) {
-    const tag = await tagController.findOneTagWithName(body.tag);
-    if (tag) {
-      insertClause.PostToTag = {
-        create: {
-          jobPostId: body.id,
+  if (body.tags && body.tags.length != 0) {
+    console.log(body.tags);
+    const postToTagObjects = [];
+    for (let i = 0; i < body.tags.length; i++) {
+      const tag = await tagController.findOneTagWithName(body.tags[i]);
+      if (tag) {
+        postToTagObjects.push({
           tagId: tag.id,
-        },
-      };
+        });
+      }
     }
+    console.log(postToTagObjects);
+    insertClause.PostToTag = {
+      createMany: { data: postToTagObjects },
+    };
   }
+
+  // const postToTagObjects: { jobPostId: string; tagId: string }[] = [];
+  // await body.tags.forEach(async (tagName: string) => {
+  //   const tag = await tagController.findOneTagWithName(tagName);
+  //   // console.log(tag);
+  //   if (tag) {
+  //     postToTagObjects.push({
+  //       jobPostId: body.id,
+  //       tagId: tag.id,
+  //     });
+  //   }
+  // });
+  // console.log(postToTagObjects);
+  // insertClause.PostToTag = {
+  //   createMany: postToTagObjects,
+  // };
 
   return insertClause;
 };
