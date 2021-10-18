@@ -11,6 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Autocomplete, AutocompleteRenderInputParams, Chip, Grid } from '@mui/material';
 
 const theme = createTheme();
+const axios = require('axios');
 
 //I do not have an clear idea about where the frontend will store the list of Tags
 //todo: store the list of tags somewhere and use it for this component.
@@ -21,6 +22,7 @@ const tags: string[] = [
 const Listing = () => {
     const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
     const [selectedTagsSet, setSelectedTagsSet]  = React.useState<Set<string>>(new Set());
+    const [errMessage, setErrMessage] = React.useState<string>("");
     const TagChipsJSX = selectedTags.map(tag => {
         return (
             <Grid item key = {tag}>
@@ -33,18 +35,45 @@ const Listing = () => {
         )
     }) 
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
+        if (
+            !(data.get('title')) &&
+            !(data.get('position')) &&
+            !(data.get('description')) &&
+            !(data.get('minYears')) &&
+            !(data.get('salary')) &&
+            !(data.get("openings"))
+        ){
+            return setErrMessage("Please fill out the required fields");
+        }
+        const jobListingData = {
             title: data.get('title'),
             position: data.get('position'),
             description: data.get('description'),
-            minYearsExperience: data.get('minYears'),
-            salary: data.get('salary'),
-            openings: data.get('openings')
-        });
+            minYearsExperience: Number(data.get('minYears')),
+            salary: Number(data.get('salary')),
+            openings: Number(data.get('openings')),
+            tags: selectedTags,
+            //todo: change the line below once the login is implemented.
+            hiringManagerId: "e839a1fb-1241-4016-b289-eb19544f66f0"
+        }
+
+        try {
+            const config = {
+                method: 'post',
+                url: 'http://127.0.0.1:5000/jobPost',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data : JSON.stringify(jobListingData)
+            };
+            const response = await axios(config);
+            console.log(response.data);
+        } catch (e){
+            console.error(e);
+        }
     };
 
     return (

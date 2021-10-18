@@ -24,26 +24,21 @@ const checkUserIsManager = (
 };
 
 const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
-  let openings = undefined;
-  if (body.openings) {
-    openings = Number(body.openings);
-  }
-
+  //will recieve raw data, so no parsing necessary.
   const insertClause: JobPostInsert = {
     id: body.id,
     title: body.title,
     position: body.position,
     description: body.description,
-    minYearsExperience: Number(body.minYearsExperience),
-    salary: Number(body.salary),
-    openings: openings,
+    minYearsExperience: body.minYearsExperience,
+    salary: body.salary,
+    openings: body.openings,
     createdDate: body.createdDate,
     deletedDate: body.deletedDate,
     hiringManagerId: body.hiringManagerId,
   };
 
-  if (body.tags && body.tags.length != 0) {
-    console.log(body.tags);
+  if (body.tags) {
     const postToTagObjects = [];
     for (let i = 0; i < body.tags.length; i++) {
       const tag = await tagController.findOneTagWithName(body.tags[i]);
@@ -53,27 +48,10 @@ const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
         });
       }
     }
-    console.log(postToTagObjects);
     insertClause.PostToTag = {
       createMany: { data: postToTagObjects },
     };
   }
-
-  // const postToTagObjects: { jobPostId: string; tagId: string }[] = [];
-  // await body.tags.forEach(async (tagName: string) => {
-  //   const tag = await tagController.findOneTagWithName(tagName);
-  //   // console.log(tag);
-  //   if (tag) {
-  //     postToTagObjects.push({
-  //       jobPostId: body.id,
-  //       tagId: tag.id,
-  //     });
-  //   }
-  // });
-  // console.log(postToTagObjects);
-  // insertClause.PostToTag = {
-  //   createMany: postToTagObjects,
-  // };
 
   return insertClause;
 };
