@@ -2,7 +2,7 @@ import { PrismaClient, Prisma } from '@prisma/client'
 import * as _ from 'lodash'
 
 export interface JobListingFilterType {
-  tagIds: string[] | null
+  tags: string[] | null
   minSalary: number | null
   maxSalary: number | null
   minExperience: number | null
@@ -11,29 +11,22 @@ export interface JobListingFilterType {
 }
 
 const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
-  const { tagIds, minSalary, maxSalary, minExperience, maxExperience, searchString } = args
+  const { tags, minSalary, maxSalary, minExperience, maxExperience, searchString } = args
   let whereClause: Prisma.JobPostWhereInput = {}
 
-  // Tag ids
-  if (tagIds && tagIds.length > 0) {
-    whereClause.PostToTag = {
-      some: {
-        tag: {
-          name: {
-            in: tagIds,
-          },
-        },
-      },
+  if (searchString) {
+    whereClause.title = {
+      contains: searchString
     }
   }
 
   // Tag ids
-  if (tagIds && tagIds.length > 0) {
+  if (tags && tags.length > 0) {
     whereClause.PostToTag = {
       some: {
         tag: {
           name: {
-            in: tagIds,
+            in: tags,
           },
         },
       },

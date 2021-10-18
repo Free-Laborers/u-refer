@@ -1,4 +1,4 @@
-import { Chip, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme } from '@mui/material'
+import { Chip, MenuItem, OutlinedInput, Select, SelectChangeEvent, SelectProps, Theme } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { Box } from '@mui/system'
 import useAxios from 'axios-hooks'
@@ -11,7 +11,13 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   }
 }
 
-export default function TagSelect() {
+type TagSelectProps = {
+  value: string[],
+  onChange: (val: string[]) => any
+}
+
+export default function TagSelect(props: TagSelectProps) {
+  const { onChange, value } = props
   const theme = useTheme()
   const [{ data }] = useAxios('http://localhost:5000/tags')
   const [selectedTags, setSelectedTags] = useState<string[]>([])
@@ -19,7 +25,6 @@ export default function TagSelect() {
 
   const handleDelete = (valToDelete: string) => {
     const newTags = [...selectedTags].filter(t => t !== valToDelete)
-    console.log(newTags)
     setSelectedTags(newTags)
   }
 
@@ -27,17 +32,15 @@ export default function TagSelect() {
     const {
       target: { value },
     } = event
-    setSelectedTags(
-      // On autofill we get a the stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    )
+    onChange && onChange(value as string[])
   }
 
   return (
     <Select
+      // {...selectProps}
       size='small'
       multiple
-      value={selectedTags}
+      value={value}
       onChange={handleChange}
       input={<OutlinedInput fullWidth placeholder='Tags' />}
       renderValue={selected => (
@@ -49,9 +52,10 @@ export default function TagSelect() {
         </Box>
       )}
     >
-      {tags.map(({ name, id }) => (
-        <MenuItem key={name} value={name} style={getStyles(name, selectedTags, theme)}>
-          {name}
+      {/* Remove duplicates and map name to select items */}
+      {Array.from(new Set<string>(tags.map(t => t.name))).map((x) => (
+        <MenuItem key={x} value={x} style={getStyles(x, selectedTags, theme)}>
+          {x}
         </MenuItem>
       ))}
     </Select>
