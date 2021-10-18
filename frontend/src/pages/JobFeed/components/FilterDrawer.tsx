@@ -1,5 +1,5 @@
-import { Drawer, Slider, TextField, Typography, Select, Box, Chip, MenuItem, FormControl, InputLabel, OutlinedInput } from '@mui/material'
-import { useState } from 'react'
+import { Drawer, Slider, TextField, Typography, Box } from '@mui/material'
+import useJobFeedFilters from '../../../contexts/JobFeedFilterContext'
 import SalarySlider from './SalarySlider'
 import TagSelect from './TagSelect'
 
@@ -9,6 +9,7 @@ interface FilterDrawerProps {
 
 export default function FilterDrawer(props: FilterDrawerProps) {
   const width = props?.width || 270
+  const { setSearchString, searchString, tags, setTags } = useJobFeedFilters();
   return (
     <Drawer
       sx={{
@@ -24,13 +25,13 @@ export default function FilterDrawer(props: FilterDrawerProps) {
       {/* SEARCH */}
       <Box>
         <Typography variant='body2'>Search</Typography>
-        <TextField fullWidth size='small' id='search' placeholder='Software Engineer...' />
+        <TextField fullWidth size='small' id='search' placeholder='Software Engineer...' value={searchString} onChange={e => setSearchString(e.target.value)} />
       </Box>
 
       {/* TAGS */}
       <Box>
         <Typography variant='body2'>Tags</Typography>
-        <TagSelect />
+        <TagSelect value={tags} onChange={setTags} />
       </Box>
 
       {/* SALARY */}

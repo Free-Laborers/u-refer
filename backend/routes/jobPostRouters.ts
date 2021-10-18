@@ -59,7 +59,7 @@ jobPostRouter.get('/', async (req: Request, res: Response, next: NextFunction) =
       minExperience: coerceToNumberOrNull(req.query.minExperience as string),
       maxSalary: coerceToNumberOrNull(req.query.maxSalary as string),
       minSalary: coerceToNumberOrNull(req.query.minSalary as string),
-      tagIds: req.query.tagIds as string[]
+      tags: req.query.tags as string[]
     }
     const jobs = await jobPostingsController.getJobPostings({...filters})
     res.status(200).json(jobs)
