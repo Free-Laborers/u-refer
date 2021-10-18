@@ -13,7 +13,7 @@ const whereClauseBuilder = (query: any): Partial<EmployeeInsert> => {
     lastName: query.lastName,
     pronoun: query.pronoun,
     position: query.position,
-    createDate: query.date,
+    createdDate: query.date,
     isManager:
       query.isManager === "true"
         ? true
@@ -34,7 +34,7 @@ const insertClauseBuilder = (body: any): EmployeeInsert => {
     lastName: body.lastName,
     pronoun: body.pronoun,
     position: body.position,
-    createDate: body.date,
+    createdDate: body.date,
     isManager:
       // this part can only be boolean|undefined, or prisma will rasie type error.
       body.isManager === "true"
