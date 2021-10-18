@@ -7,7 +7,7 @@ export const getEmployees = (whereClause: Partial<EmployeeInsert>) => {
   return prisma.employee.findMany({
     where: whereClause,
     include: {
-      jobPost: true,
+      JobPost: true,
       Referral: true,
     },
   });
