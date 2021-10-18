@@ -7,7 +7,7 @@ import JobPreviewCard from './components/JobPreviewCard'
 // import { JobPost } from '../../../../backend/node_modules/prisma/prisma-client'
 
 export default function JobFeed() {
-  const [{ data, loading, error }, refetch] = useAxios('http://localhost:5000/jobs')
+  const [{ data, loading, error }, refetch] = useAxios('http://localhost:5000/jobPost')
   const [selectedJob, setselectedJob] = useState<any>(null)
   const drawerWidth = 270
   

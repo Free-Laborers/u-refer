@@ -57,7 +57,7 @@ const Listing = () => {
             openings: Number(data.get('openings')),
             tags: selectedTags,
             //todo: change the line below once the login is implemented.
-            hiringManagerId: "e839a1fb-1241-4016-b289-eb19544f66f0"
+            hiringManagerId: "44e9a39d-ebfb-4c86-adaf-bcc23d1c2d95"
         }
 
         try {
