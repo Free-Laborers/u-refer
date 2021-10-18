@@ -10,6 +10,9 @@ const light = createTheme({
     primary: {
       main: '#025856',
     },
+    background: {
+      default: '#fafafa'
+    },
     secondary: {
       main: '#2ad5c4',
     },
