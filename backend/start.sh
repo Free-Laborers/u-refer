@@ -14,5 +14,5 @@ case $UREFER_ENV in
             echo Please set UREFER_ENV to one of DEV, PROD, TEST
             echo assuming UREFER_ENV is DEV
         fi
-        npm start
+        npm run dev ;;
 esac
