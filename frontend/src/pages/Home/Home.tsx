@@ -21,14 +21,15 @@ export default function Home() {
         const myHeaders = new Headers();
         myHeaders.append('authorization', auth);
 
-        const response = await fetch("http://127.0.0.1:5000/employee/profile", {
-          method: 'GET',
-          headers: myHeaders
-        });
-
-        if (response.ok) {
+        try {
+          const response = await fetch("http://127.0.0.1:5000/employee/profile", {
+            method: 'GET',
+            headers: myHeaders
+          });
           const json = await response.json();
           return setUserData(json.user);
+        } catch {
+          return setRedirect(true); // redirect to login
         }
       }
 
