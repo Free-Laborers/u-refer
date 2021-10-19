@@ -1,9 +1,19 @@
 import { Slider } from '@mui/material'
 import { useState } from 'react'
 
-export default function SalarySlider() {
+interface SalarySliderProps {
+  value: [number, number]
+  onChange: (salaryRange: [number, number]) => any
+}
+
+export default function SalarySlider(props: SalarySliderProps) {
   // TODO fetch actual max and min salaries
-  const [salaryRange, setsalaryRange] = useState<[number, number]>([0, 100000])
+  const { value, onChange } = props
+
+  const handleChange = (e, value) => {
+    onChange(value as [number, number])
+  }
+
   return (
     <Slider
       sx={{
@@ -20,12 +30,12 @@ export default function SalarySlider() {
         }
       }}
       valueLabelFormat={v => '$' + v.toLocaleString()}
-      onChange={(e, value) => setsalaryRange(value as [number, number])}
+      onChange={handleChange}
       valueLabelDisplay='on'
       min={0}
       max={100000}
       step={10000}
-      value={salaryRange}
+      value={value}
     />
   )
 }

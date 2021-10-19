@@ -8,21 +8,16 @@ import JobPreviewCard from './components/JobPreviewCard'
 
 export default function JobFeed() {
   const [selectedJob, setselectedJob] = useState<any>(null)
-  const { searchString, tags } = useJobFeedFilters()
+  const { searchString, tags, minSalary, maxSalary } = useJobFeedFilters()
   const [{ data, loading, error }, refetch] = useAxios({
     url: 'http://localhost:5000/jobs',
     params: { 
-      // minExperience,
-      // maxExperience,
-      // minSalary,
-      // maxSalary,
-      // tags,
       searchString,
       tags,
+      minSalary,
+      maxSalary
     }
   })
-  console.log(`tags`, tags)
-  // console.log(`filters`, filters)
   const drawerWidth = 270
   
   return (
