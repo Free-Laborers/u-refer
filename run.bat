@@ -1,5 +1,5 @@
 @echo off
-cd %~dp0frontend
+cd frontend
 CALL npm install
 cd ..
 cd .\backend

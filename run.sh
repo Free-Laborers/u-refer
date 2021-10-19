@@ -1,4 +1,4 @@
-echo ((dirname "$0"))frontend
+cd frontend
 npm install
 cd ../backend
 npm install
