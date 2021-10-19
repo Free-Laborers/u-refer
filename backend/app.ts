@@ -2,6 +2,8 @@ import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 const multer = require("multer");
 const upload = multer();
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 import { employeeRouter } from "./routes/employeeRouters";
 import { DBAuthenticationError } from "./error/500s";
@@ -41,3 +43,18 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
 });
+
+//From https://swagger.io/specification/#infoObject
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Employee Api',
+      description: "Employee Api Information",
+      servers: ["localhost:5000"]
+    }
+  },
+  apis: ['routes/*.ts']
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));

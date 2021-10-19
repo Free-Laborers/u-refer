@@ -47,6 +47,15 @@ const insertClauseBuilder = (body: any): EmployeeInsert => {
   return insertClause;
 };
 
+/**
+ * @swagger
+ * /employee:
+ *  get:
+ *    description: Use to get an employee
+ *    responses:
+ *      '200': 
+ *         description: success
+ */
 employeeRouter.get(
   "/",
   async (req: Request, res: Response, next: NextFunction) => {
@@ -61,6 +70,15 @@ employeeRouter.get(
   }
 );
 
+/**
+ * @swagger
+ * /employee:
+ *  post:
+ *    description: Use to post an employee
+ *    responses:
+ *      '200': 
+ *         description: success
+ */
 employeeRouter.post(
   "/create",
   async (req: Request, res: Response, next: NextFunction) => {
