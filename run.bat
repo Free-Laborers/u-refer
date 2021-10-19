@@ -3,6 +3,7 @@ cd frontend
 CALL npm install
 cd ..
 cd .\backend
+@RD /s /q prisma\migrations
 CALL npm install
 cd ..
 CALL docker-compose up --build -d
