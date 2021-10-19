@@ -57,9 +57,6 @@ export default function TagSelect(props: TagSelectProps) {
           ))}
         </Box>
       )}>
-      <MenuItem disabled value={[]}>
-        <em>Placeholder</em>
-      </MenuItem>
       {/* Remove duplicates and map name to select items */}
       {Array.from(new Set<string>(tags.map(t => t.name))).map(x => (
         <MenuItem key={x} value={x} style={getStyles(x, value, theme)}>

@@ -1,4 +1,4 @@
-import { Drawer, Slider, TextField, Typography, Box } from '@mui/material'
+import { Drawer, TextField, Typography, Box, Divider } from '@mui/material'
 import useJobFeedFilters from '../../../contexts/JobFeedFilterContext'
 import ExperienceSlider from './ExperienceSlider'
 import SalarySlider from './SalarySlider'
@@ -35,7 +35,7 @@ export default function FilterDrawer(props: FilterDrawerProps) {
     setMinExperience(experienceRange[0])
     setMaxExperience(experienceRange[1])
   }
-  
+
   return (
     <Drawer
       sx={{
@@ -49,7 +49,7 @@ export default function FilterDrawer(props: FilterDrawerProps) {
       anchor='left'
       variant='permanent'>
       {/* SEARCH */}
-      <Box>
+      <Box mb={3}>
         <Typography variant='body2'>Search</Typography>
         <TextField
           fullWidth
@@ -60,22 +60,25 @@ export default function FilterDrawer(props: FilterDrawerProps) {
           onChange={e => setSearchString(e.target.value)}
         />
       </Box>
+      <Divider sx={{ mx: -4 }} />
 
       {/* TAGS */}
-      <Box>
+      <Box mt={3}>
         <Typography variant='body2'>Tags</Typography>
         <TagSelect value={tags} onChange={setTags} />
       </Box>
 
       {/* SALARY */}
-      <Box>
+      <Box mt={3}>
         <Typography variant='body2'>Salary</Typography>
         <SalarySlider value={[minSalary, maxSalary]} onChange={handleSalaryChange} />
       </Box>
 
       {/* EXPERIENCE */}
-      <Typography variant='body2'>Experience</Typography>
-      <ExperienceSlider value={[minExperience, maxExperience]} onChange={handleExperienceChange} />
+      <Box mt={3}>
+        <Typography variant='body2'>Experience</Typography>
+        <ExperienceSlider value={[minExperience, maxExperience]} onChange={handleExperienceChange} />
+      </Box>
     </Drawer>
   )
 }
