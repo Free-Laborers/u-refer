@@ -9,7 +9,11 @@ interface FilterDrawerProps {
 
 export default function FilterDrawer(props: FilterDrawerProps) {
   const width = props?.width || 270
-  const { setSearchString, searchString, tags, setTags } = useJobFeedFilters();
+  const { setSearchString, searchString, tags, setTags, minSalary, maxSalary, setMinSalary, setMaxSalary } = useJobFeedFilters()
+  const handleSalaryChange = (salary: [number, number]) => {
+    setMinSalary(salary[0])
+    setMaxSalary(salary[1])
+  }
   return (
     <Drawer
       sx={{
@@ -37,7 +41,7 @@ export default function FilterDrawer(props: FilterDrawerProps) {
       {/* SALARY */}
       <Box>
         <Typography variant='body2'>Salary</Typography>
-        <SalarySlider />
+        <SalarySlider value={[minSalary, maxSalary]} onChange={handleSalaryChange}/>
       </Box>
 
       {/* EXPERIENCE */}
