@@ -42,7 +42,7 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
     // @ts-ignore
     whereClause.AND.push({
       minYearsExperience: {
-        gt: minExperience,
+        gt: minExperience - 1,
       },
     })
   }
@@ -51,7 +51,7 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
     // @ts-ignore
     whereClause.AND.push({
       minYearsExperience: {
-        lt: maxExperience,
+        lt: maxExperience + 1,
       },
     })
   }
@@ -60,7 +60,7 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
     // @ts-ignore
     whereClause.AND.push({
       salary: {
-        gt: minSalary,
+        gt: minSalary - 1,
       },
     })
   }
@@ -69,7 +69,7 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
     // @ts-ignore
     whereClause.AND.push({
       salary: {
-        lt: maxSalary,
+        lt: maxSalary + 1,
       },
     })
   }

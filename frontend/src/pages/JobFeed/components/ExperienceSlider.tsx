@@ -1,12 +1,12 @@
 import { Slider } from '@mui/material'
 
-interface SalarySliderProps {
+interface ExperienceSliderProps {
   value: [number, number]
   onChange: (salaryRange: [number, number]) => any
 }
 
-export default function SalarySlider(props: SalarySliderProps) {
-  // TODO fetch actual max and min salaries
+export default function ExperienceSlider(props: ExperienceSliderProps) {
+  // TODO fetch actual max and min years of experience
   const { value, onChange } = props
 
   const handleChange = (e, value) => {
@@ -28,12 +28,12 @@ export default function SalarySlider(props: SalarySliderProps) {
           }
         }
       }}
-      valueLabelFormat={v => '$' + v.toLocaleString()}
+      valueLabelFormat={v => v.toString() + ' yrs'}
       onChange={handleChange}
       valueLabelDisplay='on'
       min={0}
-      max={100000}
-      step={10000}
+      max={10}
+      step={1}
       value={value}
     />
   )
