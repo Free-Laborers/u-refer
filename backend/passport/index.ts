@@ -24,7 +24,7 @@ const passportVerify = async (
 
     //check if there is a user with the userId param
     if (!user) {
-      done(null, false, { reason: "no such user" });
+      done(null, false, { reason: "email or password is incorrect" });
       return;
     }
 
@@ -36,7 +36,7 @@ const passportVerify = async (
     }
     // console.log("user login unsuccessful");
     //password is wrong
-    done(null, false, { reason: "wrong password" });
+    done(null, false, { reason: "email or password is incorrect" });
   } catch (error) {
     console.error(error);
     done(error);
