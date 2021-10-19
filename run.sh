@@ -1,6 +1,7 @@
 cd frontend
 npm install
 cd ../backend
+rm -rf prisma/migrations
 npm install
 cd ..
 
