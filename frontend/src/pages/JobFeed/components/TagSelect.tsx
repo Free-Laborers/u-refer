@@ -1,5 +1,5 @@
 import { Chip, MenuItem, OutlinedInput, Select, SelectChangeEvent, SelectProps, Theme } from '@mui/material'
-import { Cancel } from '@mui/icons-material';
+import { Cancel } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import { Box } from '@mui/system'
 import useAxios from 'axios-hooks'
@@ -10,10 +10,10 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   return {
     fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
   }
-};
+}
 
 type TagSelectProps = {
-  value: string[],
+  value: string[]
   onChange: (val: string[]) => any
 }
 
@@ -47,17 +47,21 @@ export default function TagSelect(props: TagSelectProps) {
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
           {selected.map(value => (
             // TODO Figure out why handleDelete is not triggered when button is clicked
-            <Chip deleteIcon={
-              <Cancel
-                onMouseDown={(event) => event.stopPropagation()}
-              />
-            } size='small' key={value} label={value} onDelete={() => handleDelete(value)} />
+            <Chip
+              deleteIcon={<Cancel onMouseDown={event => event.stopPropagation()} />}
+              size='small'
+              key={value}
+              label={value}
+              onDelete={() => handleDelete(value)}
+            />
           ))}
         </Box>
-      )}
-    >
+      )}>
+      <MenuItem disabled value={[]}>
+        <em>Placeholder</em>
+      </MenuItem>
       {/* Remove duplicates and map name to select items */}
-      {Array.from(new Set<string>(tags.map(t => t.name))).map((x) => (
+      {Array.from(new Set<string>(tags.map(t => t.name))).map(x => (
         <MenuItem key={x} value={x} style={getStyles(x, value, theme)}>
           {x}
         </MenuItem>
