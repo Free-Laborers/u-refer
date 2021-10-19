@@ -60,7 +60,7 @@ export const createJobPost = async (jobPostData: RequireFields<JobPost, 'hiringM
   const position = faker.name.jobTitle() // Idk what we're expecting this field to be
   const description = faker.lorem.paragraphs(2)
   const minYearsExperience = faker.datatype.number(10)
-  const salary = faker.datatype.number(150000)
+  const salary = (faker.datatype.number(19) + 1) * 5000
   const openings = faker.datatype.number(3) + 1
 
   const defaultData = {

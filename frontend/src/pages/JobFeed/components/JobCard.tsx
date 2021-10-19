@@ -1,4 +1,4 @@
-import { Button, Paper, Typography } from '@mui/material'
+import { Button, Chip, Paper, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 // @ts-ignore
 import { JobPost } from '../../../../../backend/node_modules/prisma/prisma-client'
@@ -10,6 +10,7 @@ interface JobCardProps {
 
 export default function JobCard(props: JobCardProps) {
   const { job } = props
+  console.log(job)
   const JobCardContent = job ? (
     <Box height='100%' display='flex' flexDirection='column'>
       <Box flexGrow={1}>
@@ -18,6 +19,14 @@ export default function JobCard(props: JobCardProps) {
             {job?.title}
           </Typography>
           <Typography>{new Date(job?.createdDate).toLocaleDateString()}</Typography>
+        </Box>
+        <Box mb={5} display='flex'>
+          {
+            // @ts-ignore
+            job.PostToTag.map(ptt => (
+              <Chip sx={{ mr: 1 }} size='small' label={<b>{ptt.tag.name}</b>} color='primary' />
+            ))
+          }
         </Box>
         <ValueWithLabel label='Description' value={job?.description} />
         <ValueWithLabel label='Salary' value={'$' + job?.salary.toLocaleString()} />
