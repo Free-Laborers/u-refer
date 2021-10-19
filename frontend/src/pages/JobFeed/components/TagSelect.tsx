@@ -1,4 +1,5 @@
-import { Chip, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme } from '@mui/material'
+import { Chip, MenuItem, OutlinedInput, Select, SelectChangeEvent, SelectProps, Theme } from '@mui/material'
+import { Cancel } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import { Box } from '@mui/system'
 import useAxios from 'axios-hooks'
@@ -11,47 +12,58 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   }
 }
 
-export default function TagSelect() {
+type TagSelectProps = {
+  value: string[]
+  onChange: (val: string[]) => any
+}
+
+export default function TagSelect(props: TagSelectProps) {
+  const { onChange, value } = props
   const theme = useTheme()
   const [{ data }] = useAxios('http://localhost:5000/tags')
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
   const tags = data?.tags || []
 
   const handleDelete = (valToDelete: string) => {
-    const newTags = [...selectedTags].filter(t => t !== valToDelete)
-    console.log(newTags)
-    setSelectedTags(newTags)
+    const newTags = [...value].filter(t => t !== valToDelete)
+    onChange(newTags)
   }
 
-  const handleChange = (event: SelectChangeEvent<typeof selectedTags>) => {
+  const handleChange = (event: SelectChangeEvent<string[]>) => {
     const {
       target: { value },
     } = event
-    setSelectedTags(
-      // On autofill we get a the stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    )
+    onChange(value as string[])
   }
 
   return (
     <Select
+      // {...selectProps}
       size='small'
       multiple
-      value={selectedTags}
+      value={value}
       onChange={handleChange}
       input={<OutlinedInput fullWidth placeholder='Tags' />}
       renderValue={selected => (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
           {selected.map(value => (
             // TODO Figure out why handleDelete is not triggered when button is clicked
-            <Chip size='small' key={value} label={value} onDelete={() => handleDelete(value)} />
+            <Chip
+              deleteIcon={<Cancel onMouseDown={event => event.stopPropagation()} />}
+              size='small'
+              key={value}
+              label={value}
+              onDelete={() => handleDelete(value)}
+            />
           ))}
         </Box>
-      )}
-    >
-      {tags.map(({ name, id }) => (
-        <MenuItem key={name} value={name} style={getStyles(name, selectedTags, theme)}>
-          {name}
+      )}>
+      <MenuItem disabled value={[]}>
+        <em>Placeholder</em>
+      </MenuItem>
+      {/* Remove duplicates and map name to select items */}
+      {Array.from(new Set<string>(tags.map(t => t.name))).map(x => (
+        <MenuItem key={x} value={x} style={getStyles(x, value, theme)}>
+          {x}
         </MenuItem>
       ))}
     </Select>
