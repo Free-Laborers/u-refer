@@ -1,4 +1,5 @@
 import { Box } from '@mui/material'
+import axios from 'axios'
 import useAxios from 'axios-hooks'
 import { useState } from 'react'
 import FilterDrawer from './components/FilterDrawer'
@@ -7,7 +8,14 @@ import JobPreviewCard from './components/JobPreviewCard'
 // import { JobPost } from '../../../../backend/node_modules/prisma/prisma-client'
 
 export default function JobFeed() {
-  const [{ data, loading, error }, refetch] = useAxios('http://localhost:5000/jobPost')
+  const [{ data, loading, error }, refetch] = useAxios({
+    url: 'http://localhost:5000/jobPost',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem("authorization")
+    }
+  })
   const [selectedJob, setselectedJob] = useState<any>(null)
   const drawerWidth = 270
   

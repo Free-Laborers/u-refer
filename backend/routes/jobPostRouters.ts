@@ -23,7 +23,10 @@ const checkUserIsManager = (
   }
 };
 
-const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
+const insertClauseBuilder = async (
+  body: any,
+  managerId: string
+): Promise<JobPostInsert> => {
   //will recieve raw data, so no parsing necessary.
   const insertClause: JobPostInsert = {
     id: body.id,
@@ -35,7 +38,7 @@ const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
     openings: body.openings,
     createdDate: body.createdDate,
     deletedDate: body.deletedDate,
-    hiringManagerId: body.hiringManagerId,
+    hiringManagerId: managerId,
   };
 
   if (body.tags) {
@@ -59,12 +62,14 @@ const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
 //Todo: activate "checkUserIsManager" middleware to the post request once login is merged into main branch.
 jobPostRouter.post(
   "/",
-  // checkUserIsManager,
+  checkUserIsManager,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await jobPostController.createOneJobPost(
-        await insertClauseBuilder(req.body)
-      );
+      if (req.user) {
+        await jobPostController.createOneJobPost(
+          await insertClauseBuilder(req.body, req.user.id)
+        );
+      }
       res.status(200).json({
         message: `job post with title: "${req.body.title}" has been saved`,
       });

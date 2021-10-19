@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, { NextFunction, Request, response, Response } from "express";
 import path from "path";
 const cors = require("cors");
 const multer = require("multer");
@@ -17,15 +17,21 @@ import { createOneEmployee } from "./controllers/employeeControllers";
 import { EmployeeInsert } from "./interfaces/employeeInterface";
 
 // -------------------firing express app
-const app = express();
+const bodyChecker = (req: Request, res: Response, next: NextFunction) => {
+  console.log("req.body");
+  console.log(req.body);
+  next();
+};
 
+const app = express();
+app.use(express.json());
+app.use(bodyChecker);
 //body paramter enable
 app.use(upload.array());
-
 passportConfig();
 
 app.use(passport.initialize());
-app.use(express.json());
+
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "client/build")));
@@ -37,7 +43,6 @@ declare global {
     }
   }
 }
-// -------------------routes
 // -------------------unprotected routes
 app.get("/unprotected", (request: Request, response: Response) => {
   response.json({ msg: "unprotected" });
@@ -115,7 +120,6 @@ app.use(passport.authenticate("jwt", { session: false }));
 app.get("/", (request: Request, response: Response) => {
   response.json({ message: `Welcome to backend!!` });
 });
-
 app.use("/employee", employeeRouter);
 app.use("/jobPost", jobPostRouter);
 app.use("/tags", tagRouter);
