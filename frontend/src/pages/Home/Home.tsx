@@ -3,7 +3,12 @@ import { Typography } from '@mui/material'
 import { Redirect } from 'react-router';
 // import axios from 'axios'
 
+function setBoolean(boolean){
+  if (boolean) return "true" 
+  return "false"
+};
 export default function Home() {
+  
   const [redirect, setRedirect] = useState<boolean>(false); // we could also do useState<boolean>(auth)...??? check how it looks
   const [userData, setUserData] = useState({
     email: "",
@@ -43,6 +48,7 @@ export default function Home() {
     return <Redirect to="/login" />
   }
 
+  
   return (
     <>
       <Typography variant='h1'>Welcome home!</Typography>
@@ -52,7 +58,7 @@ export default function Home() {
         First name: {userData.firstName} <br/>
         Last name: {userData.lastName} <br/>
         Position: {userData.position} <br/>
-        Is manager: {userData.isManager}
+        Is manager: {setBoolean(userData.isManager)}
       </Typography>
     </>
   )
