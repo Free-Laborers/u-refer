@@ -29,7 +29,7 @@ export default function JobFeed() {
       <Box p={3} display='flex' flexDirection='column' height='100%'>
         <Box height='100%' display='grid' gridTemplateColumns='1fr 1fr'>
           <Box overflow='auto'>
-            {data && data.map(job => <JobPreviewCard onClick={() => setselectedJob(job)} job={job} />)}
+            {data && data.map(job => <JobPreviewCard key={job.id} onClick={() => setselectedJob(job)} job={job} />)}
           </Box>
           <JobCard job={selectedJob} />
         </Box>

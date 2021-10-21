@@ -10,11 +10,10 @@ interface JobCardProps {
 
 export default function JobCard(props: JobCardProps) {
   const { job } = props
-  console.log(job)
   const JobCardContent = job ? (
     <Box height='100%' display='flex' flexDirection='column'>
       <Box flexGrow={1}>
-        <Box mb={3} display='flex'>
+        <Box mb={1} display='flex'>
           <Typography flexGrow={1} variant='h6'>
             {job?.title}
           </Typography>
