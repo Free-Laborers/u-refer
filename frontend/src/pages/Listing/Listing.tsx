@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Autocomplete, AutocompleteRenderInputParams, Chip, Grid } from '@mui/material';
+import { Redirect } from 'react-router-dom';
 
 const theme = createTheme();
 const axios = require('axios');
@@ -22,7 +23,7 @@ const tags: string[] = [
 const Listing = () => {
     const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
     const [selectedTagsSet, setSelectedTagsSet]  = React.useState<Set<string>>(new Set());
-    const [errMessage, setErrMessage] = React.useState<string>("");
+    const [redirectToJobFeed, setRedirectToJobFeed] = React.useState<Boolean>(false)
     const TagChipsJSX = selectedTags.map(tag => {
         return (
             <Grid item key = {tag}>
@@ -46,7 +47,7 @@ const Listing = () => {
             !(data.get('salary')) &&
             !(data.get("openings"))
         ){
-            return setErrMessage("Please fill out the required fields");
+            return alert("Please fill out the required fields");
         }
         const jobListingData = {
             title: data.get('title'),
@@ -71,11 +72,21 @@ const Listing = () => {
                 data : JSON.stringify(jobListingData)
             };
             const response = await axios(config);
-            console.log(response.data)
+            console.log(response.data);
+            alert(response.data.message);
+            setRedirectToJobFeed(true);
         } catch (e){
-            console.error(e);
+            alert(e)
         }
     };
+
+    if (!(localStorage.getItem("authorization"))) {
+        return <Redirect to="/login" />
+    }  
+
+    if (redirectToJobFeed){
+        return <Redirect to = "/jobs"/>
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -83,7 +94,7 @@ const Listing = () => {
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 12,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',

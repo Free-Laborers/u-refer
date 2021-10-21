@@ -17,15 +17,9 @@ import { createOneEmployee } from "./controllers/employeeControllers";
 import { EmployeeInsert } from "./interfaces/employeeInterface";
 
 // -------------------firing express app
-const bodyChecker = (req: Request, res: Response, next: NextFunction) => {
-  console.log("req.body");
-  console.log(req.body);
-  next();
-};
 
 const app = express();
 app.use(express.json());
-app.use(bodyChecker);
 //body paramter enable
 app.use(upload.array());
 passportConfig();
