@@ -10,31 +10,33 @@ import Listing from './pages/Listing'
 
 const App = () => {
   return (
-    <Router>
-      <Navbar />
-      <Box sx={{marginTop: '64px'}}>
-        <Switch>
-          <Route exact path='/'>
-            <Home />
-          </Route>
-          <Route exact path='/login'>
-            <Login />
-          </Route>
-          <Route exact path='/refer'>
-            {/* TODO */}
-          </Route>
-          <Route exact path='/browse'>
-            {/* TODO */}
-          </Route>
-          <Route exact path='/jobs'>
-            <JobFeed />
-          </Route>
-          <Route exact path='/jobs/create'>
-            <Listing />
-          </Route>
-        </Switch>
-      </Box>
-    </Router>
+    <JobFeedFilterContextProvider>
+      <Router>
+        <Navbar />
+        <Box sx={{marginTop: '64px'}}>
+          <Switch>
+            <Route exact path='/'>
+              <Home />
+            </Route>
+            <Route exact path='/login'>
+              <Login />
+            </Route>
+            <Route exact path='/refer'>
+              {/* TODO */}
+            </Route>
+            <Route exact path='/browse'>
+              {/* TODO */}
+            </Route>
+            <Route exact path='/jobs'>
+              <JobFeed />
+            </Route>
+            <Route exact path='/jobs/create'>
+              <Listing />
+            </Route>
+          </Switch>
+        </Box>
+      </Router>
+    </JobFeedFilterContextProvider>
   )
 }
 

@@ -9,15 +9,6 @@ import JobCard from './components/JobCard'
 import JobPreviewCard from './components/JobPreviewCard'
 
 export default function JobFeed() {
-// <<<<<<< HEAD
-//   const [{ data, loading, error }, refetch] = useAxios({
-//     url: 'http://localhost:5000/jobPost',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     }
-//   })
-// =======
-// >>>>>>> c6730daea4feda0ce6a35d11042ae544538bfab5
   const [selectedJob, setselectedJob] = useState<any>(null)
   const { searchString, tags, minSalary, maxSalary, minExperience, maxExperience } = useJobFeedFilters()
   const [{ data, loading, error }, refetch] = useAxios({
@@ -34,17 +25,12 @@ export default function JobFeed() {
       'Content-Type': 'application/json',
       'Authorization': localStorage.getItem("authorization")
     }
-    
   })
   const drawerWidth = 270
 
   if (!(localStorage.getItem("authorization"))) {
     return <Redirect to="/login" />
-  }
-
-  console.log("data");
-  console.log(data);
-
+  }  
   return (
     // 64px offset is to account for the navbar
     <Box height={'calc(100vh - 64px)'} sx={{ ml: `${drawerWidth}px` }}>
