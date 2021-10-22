@@ -37,7 +37,6 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
       contains: searchString,
     };
   }
-
   // Tag ids
   if (tags && tags.length > 0) {
     whereClause.PostToTag = {
