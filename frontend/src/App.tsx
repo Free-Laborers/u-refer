@@ -1,10 +1,12 @@
 import { Box } from '@mui/system'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import { JobFeedFilterContextProvider } from './contexts/JobFeedFilterContext'
 import Home from './pages/Home'
 import JobFeed from './pages/JobFeed'
 import Login from './pages/Login'
 import Listing from './pages/Listing'
+
 
 const App = () => {
   return (

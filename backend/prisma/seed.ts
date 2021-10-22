@@ -10,14 +10,13 @@ import {
 const prisma = new PrismaClient();
 
 const clearAllTables = async () => {
-  await Promise.all([
-    await prisma.postToTag.deleteMany({}),
-    await prisma.tag.deleteMany({}),
-    await prisma.referral.deleteMany({}),
-    await prisma.jobPost.deleteMany({}),
-    await prisma.candidate.deleteMany({}),
-    await prisma.employee.deleteMany({}),
-  ]);
+  await prisma.postToTag
+    .deleteMany({})
+    .then((_) => prisma.tag.deleteMany({}))
+    .then((_) => prisma.referral.deleteMany({}))
+    .then((_) => prisma.jobPost.deleteMany({}))
+    .then((_) => prisma.candidate.deleteMany({}))
+    .then((_) => prisma.employee.deleteMany({}));
 };
 
 const main = async () => {
@@ -25,16 +24,22 @@ const main = async () => {
   const manager = await createEmployee({ isManager: true });
   const employee = await createEmployee({ isManager: false });
   const candidate = await createCandidate();
-  const jobPost = await createJobPost({ hiringManagerId: manager.id });
-  await createJobPost({ hiringManagerId: manager.id });
-  await createJobPost({ hiringManagerId: manager.id });
-  await createJobPost({ hiringManagerId: manager.id });
+  const jobPost = await createJobPost({
+    hiringManagerId: manager.id,
+    title: "1",
+  });
+  const jp2 = await createJobPost({ hiringManagerId: manager.id, title: "2" });
+  const jp3 = await createJobPost({ hiringManagerId: manager.id, title: "3" });
+  const jp4 = await createJobPost({ hiringManagerId: manager.id, title: "4" });
   const referral = await createReferral({
     employeeId: employee.id,
     jobPostId: jobPost.id,
     candidateId: candidate.id,
   });
   addTags(jobPost, ["React", "Prisma", "Angular", "Dev Ops", "PostgreSQL"]);
+  addTags(jp2, ["React", "Prisma", "Angular", "Dev Ops", "PostgreSQL"]);
+  addTags(jp3, ["React"]);
+  addTags(jp4, ["PostgreSQL"]);
 };
 
 main().catch((e) => {

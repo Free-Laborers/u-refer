@@ -5,6 +5,8 @@ import * as jobPostController from "../controllers/jobPostControllers";
 import * as tagController from "../controllers/tagControllers";
 import { JobPostInsert } from "../interfaces/jobPostInterface";
 const jobPostRouter = express.Router();
+import { JobListingFilterType } from "./../controllers/jobPostControllers";
+// import { getJobPostings } from './../controllers/jobPostControllers';
 
 //=============middleware for post request
 const checkUserIsManager = (
@@ -79,12 +81,37 @@ jobPostRouter.post(
   }
 );
 
+// <<<<<<< HEAD
+// jobPostRouter.get(
+//   "/",
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       const comployees = await jobPostController.getJobPostings();
+//       res.status(200).json(comployees);
+//     } catch (e: any) {
+//       next(new Error(e));
+//     }
+// =======
+
+const coerceToNumberOrNull = (x: any) => {
+  const res = parseInt(x);
+  return isNaN(res) ? null : res;
+};
+
 jobPostRouter.get(
   "/",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const comployees = await jobPostController.getJobPostings();
-      res.status(200).json(comployees);
+      const filters: Partial<JobListingFilterType> = {
+        searchString: req.query.searchString as string,
+        maxExperience: coerceToNumberOrNull(req.query.maxExperience as string),
+        minExperience: coerceToNumberOrNull(req.query.minExperience as string),
+        maxSalary: coerceToNumberOrNull(req.query.maxSalary as string),
+        minSalary: coerceToNumberOrNull(req.query.minSalary as string),
+        tags: req.query.tags as string[],
+      };
+      const jobs = await jobPostController.getJobPostings({ ...filters });
+      res.status(200).json(jobs);
     } catch (e: any) {
       next(new Error(e));
     }

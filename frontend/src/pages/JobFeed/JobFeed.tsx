@@ -3,20 +3,35 @@ import axios from 'axios'
 import useAxios from 'axios-hooks'
 import { useState } from 'react'
 import { Redirect } from 'react-router'
+import useJobFeedFilters from '../../contexts/JobFeedFilterContext'
 import FilterDrawer from './components/FilterDrawer'
 import JobCard from './components/JobCard'
 import JobPreviewCard from './components/JobPreviewCard'
-// import { JobPost } from '../../../../backend/node_modules/prisma/prisma-client'
 
 export default function JobFeed() {
+// <<<<<<< HEAD
+//   const [{ data, loading, error }, refetch] = useAxios({
+//     url: 'http://localhost:5000/jobPost',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': localStorage.getItem("authorization")
+//     }
+//   })
+// =======
+// >>>>>>> c6730daea4feda0ce6a35d11042ae544538bfab5
+  const [selectedJob, setselectedJob] = useState<any>(null)
+  const { searchString, tags, minSalary, maxSalary, minExperience, maxExperience } = useJobFeedFilters()
   const [{ data, loading, error }, refetch] = useAxios({
-    url: 'http://localhost:5000/jobPost',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem("authorization")
+    url: 'http://localhost:5000/jobs',
+    params: { 
+      searchString,
+      tags,
+      minSalary,
+      maxSalary,
+      minExperience,
+      maxExperience
     }
   })
-  const [selectedJob, setselectedJob] = useState<any>(null)
   const drawerWidth = 270
 
   if (!(localStorage.getItem("authorization"))) {
