@@ -14,7 +14,6 @@ export default function JobFeed() {
 //     url: 'http://localhost:5000/jobPost',
 //     headers: {
 //       'Content-Type': 'application/json',
-//       'Authorization': localStorage.getItem("authorization")
 //     }
 //   })
 // =======
@@ -22,7 +21,7 @@ export default function JobFeed() {
   const [selectedJob, setselectedJob] = useState<any>(null)
   const { searchString, tags, minSalary, maxSalary, minExperience, maxExperience } = useJobFeedFilters()
   const [{ data, loading, error }, refetch] = useAxios({
-    url: 'http://localhost:5000/jobs',
+    url: 'http://localhost:5000/jobPost',
     params: { 
       searchString,
       tags,
@@ -30,13 +29,21 @@ export default function JobFeed() {
       maxSalary,
       minExperience,
       maxExperience
+    },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem("authorization")
     }
+    
   })
   const drawerWidth = 270
 
   if (!(localStorage.getItem("authorization"))) {
     return <Redirect to="/login" />
   }
+
+  console.log("data");
+  console.log(data);
 
   return (
     // 64px offset is to account for the navbar
