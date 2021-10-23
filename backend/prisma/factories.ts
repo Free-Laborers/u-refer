@@ -99,11 +99,11 @@ export const createReferral = async (
     "employeeId" | "candidateId" | "jobPostId"
   >
 ) => {
-  const candidateDescription = faker.lorem.paragraphs();
+  const description = faker.lorem.paragraphs();
   const resumeFilePath = faker.internet.url();
 
   const defaultData = {
-    candidateDescription,
+    description,
     resumeFilePath,
   };
 

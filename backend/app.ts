@@ -15,6 +15,7 @@ import { StatusCodedError } from "./error/statusCodedError";
 import { tagRouter } from "./routes/tagRouters";
 import { createOneEmployee } from "./controllers/employeeControllers";
 import { EmployeeInsert } from "./interfaces/employeeInterface";
+import { referralRouter } from "./routes/referralRouters";
 
 // -------------------firing express app
 
@@ -108,7 +109,7 @@ app.post("/signup", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 // check jwt. Router Above this line is unprotected, below this line is protected
-// app.use(passport.authenticate("jwt", { session: false }));
+app.use(passport.authenticate("jwt", { session: false }));
 
 // -------------------protected routes
 app.get("/", (request: Request, response: Response) => {
@@ -117,6 +118,7 @@ app.get("/", (request: Request, response: Response) => {
 app.use("/employee", employeeRouter);
 app.use("/jobPost", jobPostRouter);
 app.use("/tags", tagRouter);
+app.use("/referral", referralRouter);
 
 // ------------ error handling. It only has 500 error, but later more errors will be handled.
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {

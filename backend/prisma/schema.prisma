@@ -41,7 +41,7 @@ model JobPost {
   minYearsExperience Int
   salary             Int
   openings           Int         @default(1)
-  createdDate        DateTime    @db.Date @default(now())
+  createdDate        DateTime    @db.Timestamp() @default(now())
   deletedDate        DateTime?
   Employee           Employee    @relation(fields: [hiringManagerId], references: [id])
   hiringManagerId    String
@@ -57,9 +57,9 @@ model Referral {
   employeeId           String
   candidateId          String
   jobPostId            String
-  candidateDescription String
+  description          String
   resumeFilePath       String?
-  createdDate          DateTime @db.Date @default(now())
+  createdDate          DateTime @db.Timestamp() @default(now())
   acceptedDate         DateTime?
   deletedDate          DateTime?
 }
