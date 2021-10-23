@@ -93,63 +93,29 @@ export const createReferral = async (referralData: RequireFields<Referral, 'empl
   return res
 }
 
-const createTag = async (tagData?: Partial<Tag>) => {
-  const tagOptions = [
-    'Java',
-    'JavaScript',
-    'React',
-    'Frontend',
-    'Backend',
-    'Fullstack',
-    'Dev Ops',
-    'Prisma',
-    'Docker',
-    'Junior',
-    'Senior',
-  ]
-  const name = tagOptions[Math.floor(Math.random() * tagOptions.length)]
-  const defaultData = { name }
-  const res = await prisma.tag.create({ data: Object.assign(defaultData, tagData)})
-  return res
-}
-
-export const createPostToTag = async (tagData: RequireFields<PostToTag, 'jobPostId' | 'tagId'>) => {
-  const res = await prisma.postToTag.create({ data: tagData })
-  return res
-}
-
 /**
  * 
  * @param jobPost Job post object that the tags should be created for
  * @param tags No value -> single random tag. Single string -> single specified tag. Array of strings -> multiple specified tags.
  * @returns PostToTag(s) of the created tag(s)
  */
-<<<<<<< Updated upstream
-export const addTags = async (jobPost: JobPost, tags?: string[] | string): Promise<PostToTag | PostToTag[]> => {
-  // Random tag
-  if(!tags){
-    const t = await createTag()
-    const ptt = await createPostToTag({ jobPostId: jobPost.id, tagId: t.id })
-    return ptt
-  }
-  // Specified tags
-  else if(Array.isArray(tags)){
-    const ts = await Promise.all(tags.map(async t => await createTag({ name: t })))
-    const ptts = await Promise.all(ts.map(t => createPostToTag({jobPostId: jobPost.id, tagId: t.id})))
-    return ptts
-  }
-  // Specified tag
-  const t = await createTag({ name: tags })
-  const ptt = await createPostToTag({ jobPostId: jobPost.id, tagId: t.id })
-  return ptt
-}
-=======
 export const addTags = async (jobPost: JobPost, tags?: string[] | string) => {
   // Random tag
   if (!tags) {
-    // const t = await createTag();
-    // const ptt = await createPostToTag({ jobPostId: jobPost.id, tagId: t.id });
-    // return ptt;
+    const tagOptions = [
+      "Java",
+      "JavaScript",
+      "React",
+      "Frontend",
+      "Backend",
+      "Fullstack",
+      "Dev Ops",
+      "Prisma",
+      "Docker",
+      "Junior",
+      "Senior",
+    ];
+    tags = tagOptions[Math.floor(Math.random() * tagOptions.length)];
   }
   // Specified tags
   else if (Array.isArray(tags)) {
@@ -157,20 +123,19 @@ export const addTags = async (jobPost: JobPost, tags?: string[] | string) => {
       tags.map(async (t) => {
         return (
           (await prisma.tag.findUnique({ where: { name: t } })) ??
-          (await createTag({ name: t }))
+          (await prisma.tag.create({ data: {name: t}}))
         );
       })
     );
 
     ts.map(
-      async (t) => await createPostToTag({ jobPostId: jobPost.id, tagId: t.id })
+      async (t) => await prisma.postToTag.create({data: { jobPostId: jobPost.id, tagId: t.id }})
     );
   } else {
     // Specified tag
     const t =
       (await prisma.tag.findUnique({ where: { name: tags } })) ??
-      (await createTag({ name: tags }));
-    await createPostToTag({ jobPostId: jobPost.id, tagId: t.id });
+      (await prisma.tag.create({ data: {name: tags}}))
+      await prisma.postToTag.create({data: { jobPostId: jobPost.id, tagId: t.id }})
   }
 };
->>>>>>> Stashed changes
