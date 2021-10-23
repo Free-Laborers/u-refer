@@ -14,6 +14,7 @@ const clearAllTables = async () => {
 }
 
 const main = async () => {
+<<<<<<< Updated upstream
   await clearAllTables()
   const manager = await createEmployee({ isManager: true })
   const employee = await createEmployee({ isManager: false })
@@ -28,6 +29,35 @@ const main = async () => {
   addTags(jp3, ['React'])
   addTags(jp4, ['PostgreSQL'])
 }
+=======
+  await clearAllTables();
+  const manager = await createEmployee({ isManager: true });
+  const employee = await createEmployee({ isManager: false });
+  const candidate = await createCandidate();
+  const jobPost = await createJobPost({
+    hiringManagerId: manager.id,
+    title: "1",
+  });
+  const jp2 = await createJobPost({ hiringManagerId: manager.id, title: "2" });
+  const jp3 = await createJobPost({ hiringManagerId: manager.id, title: "3" });
+  const jp4 = await createJobPost({ hiringManagerId: manager.id, title: "4" });
+  const referral = await createReferral({
+    employeeId: employee.id,
+    jobPostId: jobPost.id,
+    candidateId: candidate.id,
+  });
+  await addTags(jobPost, [
+    "React",
+    "Prisma",
+    "Angular",
+    "Dev Ops",
+    "PostgreSQL",
+  ]);
+  await addTags(jp2, ["React", "Prisma", "Angular", "Dev Ops", "PostgreSQL"]);
+  await addTags(jp3, ["React"]);
+  await addTags(jp4, ["PostgreSQL"]);
+};
+>>>>>>> Stashed changes
 
 main().catch(e => {
   console.error(e)
