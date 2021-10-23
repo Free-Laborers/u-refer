@@ -61,7 +61,6 @@ const insertClauseBuilder = async (
   return insertClause;
 };
 
-//Todo: activate "checkUserIsManager" middleware to the post request once login is merged into main branch.
 jobPostRouter.post(
   "/",
   checkUserIsManager,
@@ -80,18 +79,6 @@ jobPostRouter.post(
     }
   }
 );
-
-// <<<<<<< HEAD
-// jobPostRouter.get(
-//   "/",
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const comployees = await jobPostController.getJobPostings();
-//       res.status(200).json(comployees);
-//     } catch (e: any) {
-//       next(new Error(e));
-//     }
-// =======
 
 const coerceToNumberOrNull = (x: any) => {
   const res = parseInt(x);

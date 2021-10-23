@@ -28,7 +28,7 @@ model Candidate {
   firstName  String
   lastName   String
   pronoun    String?
-  phone      String
+  phone      String?
   employeeId String?    @unique 
   Referral   Referral[]
 }
@@ -58,7 +58,7 @@ model Referral {
   candidateId          String
   jobPostId            String
   candidateDescription String
-  resumeFilePath       String
+  resumeFilePath       String?
   createdDate          DateTime @db.Date @default(now())
   acceptedDate         DateTime?
   deletedDate          DateTime?

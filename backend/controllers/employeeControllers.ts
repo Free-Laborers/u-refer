@@ -13,6 +13,27 @@ export const getEmployees = (whereClause: Partial<EmployeeInsert>) => {
   });
 };
 
+export const getEmployeesWithNameTextSearch = (nameInput: string) => {
+  return prisma.employee.findMany({
+    where: {
+      OR: [
+        {
+          firstName: {
+            contains: nameInput,
+            mode: "insensitive",
+          },
+        },
+        {
+          lastName: {
+            contains: nameInput,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+  });
+};
+
 export const createOneEmployee = (dataClause: EmployeeInsert) => {
   return prisma.employee.create({
     data: dataClause,

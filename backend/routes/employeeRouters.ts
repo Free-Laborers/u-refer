@@ -69,6 +69,21 @@ employeeRouter.get(
   }
 );
 
+employeeRouter.get(
+  "/suggestion",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const name = req.query.name ? (req.query.name as string) : "";
+      const employees = await employeeController.getEmployeesWithNameTextSearch(
+        name
+      );
+      res.status(200).json({ employees });
+    } catch (e: any) {
+      next(new Error(e));
+    }
+  }
+);
+
 employeeRouter.post(
   "/create",
   async (req: Request, res: Response, next: NextFunction) => {

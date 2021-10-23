@@ -108,7 +108,7 @@ app.post("/signup", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 // check jwt. Router Above this line is unprotected, below this line is protected
-app.use(passport.authenticate("jwt", { session: false }));
+// app.use(passport.authenticate("jwt", { session: false }));
 
 // -------------------protected routes
 app.get("/", (request: Request, response: Response) => {
