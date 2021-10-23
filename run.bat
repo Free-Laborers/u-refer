@@ -1,10 +1,10 @@
 @echo off
 cd frontend
-CALL npm install
+CALL npm ci
 cd ..
 cd .\backend
 @RD /s /q prisma\migrations
-CALL npm install
+CALL npm ci
 cd ..
 CALL docker-compose up --build -d
 CALL docker exec -it urefer-backend npx prisma migrate dev --name init --skip-seed
