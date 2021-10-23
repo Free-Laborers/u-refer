@@ -2,8 +2,8 @@ import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 const multer = require("multer");
 const upload = multer();
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 import { employeeRouter } from "./routes/employeeRouters";
 import { DBAuthenticationError } from "./error/500s";
@@ -48,13 +48,13 @@ app.listen(PORT, () => {
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
-      title: 'Employee Api',
+      title: "Employee Api",
       description: "Employee Api Information",
-      servers: ["localhost:5000"]
-    }
+      servers: ["localhost:5000"],
+    },
   },
-  apis: ['routes/*.ts']
+  apis: ["routes/*.ts"],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
