@@ -1,8 +1,8 @@
 cd frontend
-npm install
+npm ci
 cd ../backend
 rm -rf prisma/migrations
-npm install
+npm ci
 cd ..
 
 docker-compose up --build -d
