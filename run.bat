@@ -3,7 +3,7 @@ cd frontend
 CALL npm ci
 cd ..
 cd .\backend
-@RD /s /q prisma\migrations
+@REM @RD /s /q prisma\migrations
 CALL npm ci
 cd ..
 CALL docker-compose up --build -d
