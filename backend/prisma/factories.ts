@@ -137,16 +137,10 @@ export const addTags = async (jobPost: JobPost, tags?: string[] | string) => {
       "Senior",
     ];
     tags = tagOptions[Math.floor(Math.random() * tagOptions.length)];
-    const t =
-      (await prisma.tag.findUnique({ where: { name: tags } })) ??
-      (await prisma.tag.create({ data: { name: tags } }));
-    await prisma.postToTag.create({
-      data: { jobPostId: jobPost.id, tagId: t.id },
-    });
   }
 
   // Specified tags
-  else if (Array.isArray(tags)) {
+  if (Array.isArray(tags)) {
     const ts = await Promise.all(
       tags.map(async (t) => {
         return (
