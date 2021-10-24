@@ -76,3 +76,8 @@ employeeRouter.post(
 );
 
 export { employeeRouter };
+
+export const employeeRouterFunctions = {
+  whereClauseBuilder,
+  insertClauseBuilder
+};
