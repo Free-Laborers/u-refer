@@ -5,7 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  // url      = "postgresql://postgres:docker@localhost:5432/urefer?schema=public"
+  //url      = "postgresql://postgres:docker@localhost:5432/urefer?schema=public"
 }
 
 model Employee {
@@ -57,7 +57,7 @@ model Referral {
   employeeId           String
   candidateId          String
   jobPostId            String
-  candidateDescription String
+  description          String
   resumeFilePath       String
   createdDate          DateTime  @default(now())
   acceptedDate         DateTime?
@@ -74,6 +74,6 @@ model PostToTag {
 
 model Tag {
   id        String      @id @default(uuid())
-  name      String
+  name      String      @unique
   PostToTag PostToTag[]
 }
