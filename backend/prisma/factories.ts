@@ -80,11 +80,11 @@ export const createJobPost = async (jobPostData: RequireFields<JobPost, 'hiringM
 }
 
 export const createReferral = async (referralData: RequireFields<Referral, 'employeeId' | 'candidateId' | 'jobPostId'>) => {
-  const candidateDescription = faker.lorem.paragraphs()
+  const description = faker.lorem.paragraphs()
   const resumeFilePath = faker.internet.url()
 
   const defaultData = {
-    candidateDescription,
+    description,
     resumeFilePath,
   }
 
