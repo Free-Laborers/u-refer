@@ -36,10 +36,16 @@ const main = async () => {
     jobPostId: jobPost.id,
     candidateId: candidate.id,
   });
-  addTags(jobPost, ["React", "Prisma", "Angular", "Dev Ops", "PostgreSQL"]);
-  addTags(jp2, ["React", "Prisma", "Angular", "Dev Ops", "PostgreSQL"]);
-  addTags(jp3, ["React"]);
-  addTags(jp4, ["PostgreSQL"]);
+  await addTags(jobPost, [
+    "React",
+    "Prisma",
+    "Angular",
+    "Dev Ops",
+    "PostgreSQL",
+  ]);
+  await addTags(jp2, ["React", "Prisma", "Angular", "Dev Ops", "PostgreSQL"]);
+  await addTags(jp3, ["React"]);
+  await addTags(jp4, ["PostgreSQL"]);
 };
 
 main().catch((e) => {
