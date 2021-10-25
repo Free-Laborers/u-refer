@@ -58,7 +58,7 @@ model Referral {
   candidateId          String
   jobPostId            String
   description          String
-  resumeFilePath       String
+  resumeFilePath       String?
   createdDate          DateTime  @default(now())
   acceptedDate         DateTime?
   deletedDate          DateTime?
