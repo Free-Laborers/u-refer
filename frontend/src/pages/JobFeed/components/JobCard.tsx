@@ -24,7 +24,7 @@ export default function JobCard(props: JobCardProps) {
         <ValueWithLabel label='Experience' value={job?.minYearsExperience} />
         <ValueWithLabel label='Openings' value={job?.openings} />
       </Box>
-      <Button variant='contained' color='primary'>
+      <Button href={`/jobs/${job?.id}/refer`} variant='contained' color='primary'>
         Refer
       </Button>
     </Box>
