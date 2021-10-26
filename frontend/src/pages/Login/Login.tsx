@@ -92,7 +92,6 @@ const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <img src={"./1200px-UKG_logo.png"} alt="UKG_logo" width="150" height="50"/>
       <style>{'body { background-color: #E5E5E5; }'}</style>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
