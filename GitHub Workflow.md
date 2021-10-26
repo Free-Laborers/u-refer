@@ -38,4 +38,8 @@ $ git checkout [your branch name]
 $ git merge main
 ```
 6. Commit and push your latest changes to your remote branch according to step 4.
-7. Open a pull request to merge your branch into the main branch.
+7. Open a pull request to merge your branch into the main branch with the following name format:
+```
+[Feature Name] - descriptive functionality name
+```
+Also, don't forget to include a detailed description of your changes!
