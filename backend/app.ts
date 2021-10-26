@@ -1,9 +1,9 @@
 import express, { NextFunction, Request, response, Response } from "express";
 import path from "path";
-const cors = require("cors");
+import cors from "cors";
 const multer = require("multer");
 const upload = multer();
-const passport = require("passport");
+import passport from "passport";
 const jwt = require("jsonwebtoken");
 
 const passportConfig = require("./passport");
@@ -31,19 +31,18 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "client/build")));
 
-declare global {
-  namespace Express {
-    export interface Request {
-      user?: Employee;
-    }
-  }
-}
 // -------------------unprotected routes
 app.get("/unprotected", (request: Request, response: Response) => {
   response.json({ msg: "unprotected" });
 });
 
-app.post("/login", async (req: any, res, next) => {
+declare global {
+  namespace Express {
+    interface User extends Employee {}
+  }
+}
+
+app.post("/login", async (req: Request, res, next) => {
   try {
     passport.authenticate(
       "local",

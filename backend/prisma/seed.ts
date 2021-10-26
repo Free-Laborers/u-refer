@@ -46,6 +46,18 @@ const main = async () => {
   await addTags(jp2, ["React", "Prisma", "Angular", "Dev Ops", "PostgreSQL"]);
   await addTags(jp3, ["React"]);
   await addTags(jp4, ["PostgreSQL"]);
+  await prisma.employee.create({
+    data: {
+      email: 'test@email.com',
+      password: 'password',
+      firstName: 'Test',
+      lastName: 'Testerson',
+      position: 'I Do Things',
+      isManager: false,
+    },
+  });
+
+
 };
 
 main().catch((e) => {
