@@ -105,4 +105,20 @@ jobPostRouter.get(
   }
 );
 
+jobPostRouter.get(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const employee = await jobPostController.getOneJobPost(
+        req.params.id
+      );
+      res.status(200).json(employee);
+    } catch (e: any) {
+      next(new Error(e));
+    }
+  }
+);
+
+
+
 export { jobPostRouter };

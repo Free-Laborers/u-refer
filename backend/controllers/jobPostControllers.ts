@@ -111,3 +111,7 @@ export const getJobPostings = (filters: Partial<JobListingFilterType>) => {
     },
   });
 };
+
+export function getOneJobPost(id: string) {
+  return prisma.jobPost.findUnique({ where: { id } })
+};
