@@ -23,20 +23,11 @@ const passportVerify = async (
     });
 
     //check if there is a user with the userId param
-    if (!user) {
-      done(null, false, { reason: "no such user" });
-      return;
-    }
-
-    //compare password (pwd not encrypted version)
-    if (user.password === password) {
-      // console.log("user login successful");
+    if (!user || user.password !== password) {
+      done(null, false, { reason: "Username and password do not match" });
+    } else {
       done(null, user);
-      return;
     }
-    // console.log("user login unsuccessful");
-    //password is wrong
-    done(null, false, { reason: "wrong password" });
   } catch (error) {
     console.error(error);
     done(error);

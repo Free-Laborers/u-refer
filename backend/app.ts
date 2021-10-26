@@ -17,14 +17,18 @@ const app = express();
 
 //body paramter enable
 app.use(upload.array());
-
 passportConfig();
-
 app.use(passport.initialize());
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "client/build")));
+
+declare global {
+  namespace Express {
+    interface User extends Employee {}
+  }
+}
 
 // -------------------unprotected routes
 app.get("/unprotected", (request: Request, response: Response) => {
