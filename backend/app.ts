@@ -38,27 +38,6 @@ app.get("/unprotected", (request: Request, response: Response) => {
   response.json({ msg: "unprotected" });
 });
 
-app.post("/authenticate", async (req, res) => {
-  const { token } = req.body;
-  try {
-    const payload = jwt.verify(token, "jwt-secret-key");
-    const user = await getEmployeeById((payload as JwtPayload).id);
-    if (user === null)
-      return res.status(500).json({
-        message: "JWT token was valid, but user was not found",
-      });
-    // Remove password so that it is not sent to the frontend
-    const { password, ...userDataToReturn } = user;
-    return res.json({
-      user: userDataToReturn,
-    });
-  } catch {
-    return res.status(401).json({
-      message: "JWT is not valid",
-    });
-  }
-});
-
 app.post("/login", async (req, res, next) => {
   try {
     passport.authenticate(

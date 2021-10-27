@@ -48,18 +48,16 @@ const useProvideAuth = (): AuthContextType => {
     setUser(null)
   }
   useEffect(() => {
-    console.log('here');
     const token = localStorage.getItem('authorization')
     if(!token) return
     axios({
-      url: 'http://localhost:5000/authenticate',
-      method: 'POST',
-      data: {
-        token 
+      url: 'http://localhost:5000/employee/profile',
+      method: 'GET',
+      headers: {
+        Authorization: token,
       }
     })
     .then(res => {
-      console.log('res :>> ', res);
       setUser(res.data.user)
     })
   }, [])
