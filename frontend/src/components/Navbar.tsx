@@ -3,12 +3,14 @@ import { AccountCircle } from '@mui/icons-material'
 import { AppBar, Toolbar, IconButton, Box, Menu, MenuItem, Divider } from '@mui/material'
 import Link, { LinkProps } from '@mui/material/Link'
 import Logo from './Logo'
+import { useAuth } from '../hooks/useAuth'
 
 const TextLink = (props: LinkProps) => {
   return <Link {...props} style={{ margin: '16px' }} underline='hover' color='inherit' />
 }
 
 export default function Navbar() {
+  const { user } = useAuth()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -18,14 +20,11 @@ export default function Navbar() {
   }
 
   const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      open={!!anchorEl}
-      onClose={handleMenuClose}>
+    <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleMenuClose}>
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My Jobs</MenuItem>
       <MenuItem onClick={handleMenuClose}>My Referrals</MenuItem>
-      <Divider/>
+      <Divider />
       <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
     </Menu>
   )
@@ -39,12 +38,14 @@ export default function Navbar() {
         <Box style={{ flex: 1 }}>
           <TextLink href='/'>Home</TextLink>
           <TextLink href='/browse'>Browse Jobs</TextLink>
-          <TextLink href='/login'>Log In</TextLink>
         </Box>
-
-        <IconButton style={{ float: 'right' }} size='large' edge='end' onClick={handleProfileMenuOpen} color='inherit'>
-          <AccountCircle />
-        </IconButton>
+        {user ? (
+          <IconButton style={{ float: 'right' }} size='large' edge='end' onClick={handleProfileMenuOpen} color='inherit'>
+            <AccountCircle />
+          </IconButton>
+        ) : (
+          <TextLink href='/login'>Log In</TextLink>
+        )}
         {renderMenu}
       </Toolbar>
     </AppBar>
