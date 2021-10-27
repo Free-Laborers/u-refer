@@ -44,11 +44,11 @@ app.post("/authenticate", async (req, res) => {
     const payload = jwt.verify(token, "jwt-secret-key");
     const user = await getEmployeeById((payload as JwtPayload).id);
     if (user === null)
-      res.status(500).json({
+      return res.status(500).json({
         message: "JWT token was valid, but user was not found",
       });
     // Remove password so that it is not sent to the frontend
-    const { password, ...userDataToReturn } = user as Employee;
+    const { password, ...userDataToReturn } = user;
     return res.json({
       user: userDataToReturn,
     });
