@@ -1,14 +1,20 @@
 // Hook (use-auth.js)
 import React, { useState, useEffect, useContext, createContext } from 'react'
-import axios from 'axios'
+import axios, { AxiosPromise } from 'axios'
 // @ts-ignore
 import { Employee } from '../../../backend/node_modules/prisma/prisma-client'
 
 type UserType = Omit<Employee, 'password'>
 
+type LoginDataType = {
+  email: string,
+  password: string,
+  rememberMe: boolean
+}
+
 interface AuthContextType {
   user: UserType | null
-  login: (email: string, password: string) => any
+  login: (loginData: LoginDataType) => AxiosPromise
   logout: () => any
 }
 
@@ -19,26 +25,23 @@ export const AuthProvider: React.FC = ({ children }) => {
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
 }
 
-export const useAuth = () => {
+const useAuth = () => {
   return useContext(AuthContext) as AuthContextType
 }
 
 const useProvideAuth = (): AuthContextType => {
   const [user, setUser] = useState<UserType | null>(null)
-  const login = async (email: string, password: string) => {
-    try{
-      axios({
-        url: 'http://localhost:5000/login',
-        method: 'POST',
-        data: {
-          email,
-          password,
-        },
-      }).then(res => setUser(res.data))
-    }
-    catch(err){
+  const login = (loginData: LoginDataType): AxiosPromise => {
+    return axios({
+      url: 'http://localhost:5000/login',
+      method: 'POST',
+      data: {...loginData},
+    }).then(res => {
+      localStorage.setItem('authorization', res.data.token)
+      setUser(res.data.user)
+    }).catch(err => {
       return err
-    }
+    })
   }
   const logout = () => {
     localStorage.removeItem('authorization')
@@ -66,3 +69,5 @@ const useProvideAuth = (): AuthContextType => {
     user,
   }
 }
+
+export default useAuth

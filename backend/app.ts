@@ -4,11 +4,14 @@ const cors = require("cors");
 const multer = require("multer");
 const upload = multer();
 const passport = require("passport");
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 const passportConfig = require("./passport");
 import { employeeRouter } from "./routes/employeeRouters";
-import { createOneEmployee, getEmployeeById } from "./controllers/employeeControllers";
+import {
+  createOneEmployee,
+  getEmployeeById,
+} from "./controllers/employeeControllers";
 import { Employee } from ".prisma/client";
 import { EmployeeInsert } from "./interfaces/employeeInterface";
 
@@ -36,29 +39,29 @@ app.get("/unprotected", (request: Request, response: Response) => {
 });
 
 app.post("/authenticate", async (req, res) => {
-  console.log('authenticating')
-  const { token } = req.body
-  try{
-    const payload = jwt.verify(token, "jwt-secret-key")
-    const user = await getEmployeeById((payload as JwtPayload).id)
-    if(user === null) res.status(500).json({
-      message: 'JWT token was valid, but user was not found'
-    })
+  console.log("authenticating");
+  const { token } = req.body;
+  try {
+    const payload = jwt.verify(token, "jwt-secret-key");
+    const user = await getEmployeeById((payload as JwtPayload).id);
+    if (user === null)
+      res.status(500).json({
+        message: "JWT token was valid, but user was not found",
+      });
     // Remove password so that it is not sent to the frontend
-    const {password, ...userDataToReturn} = user as Employee
+    const { password, ...userDataToReturn } = user as Employee;
     return res.json({
-      user: userDataToReturn
-    })
-  }
-  catch{
+      user: userDataToReturn,
+    });
+  } catch {
     return res.status(401).json({
-      message: "JWT is not valid"
-    })
+      message: "JWT is not valid",
+    });
   }
-})
+});
 
 app.post("/login", async (req, res, next) => {
-  console.log('logging in')
+  console.log("logging in");
   try {
     passport.authenticate(
       "local",
@@ -67,7 +70,7 @@ app.post("/login", async (req, res, next) => {
           res.status(400).json({ message: info.reason });
           return;
         }
-        console.log(`user`, user)
+        console.log(`user`, user);
         req.login(user, { session: false }, (loginError) => {
           if (loginError) {
             res.send(loginError);
@@ -83,7 +86,8 @@ app.post("/login", async (req, res, next) => {
             "jwt-secret-key",
             expiration
           );
-          res.json({ token });
+          const { password, ...userData } = user;
+          res.json({ token, user: userData });
         });
       }
     )(req, res);
