@@ -39,7 +39,6 @@ app.get("/unprotected", (request: Request, response: Response) => {
 });
 
 app.post("/authenticate", async (req, res) => {
-  console.log("authenticating");
   const { token } = req.body;
   try {
     const payload = jwt.verify(token, "jwt-secret-key");
@@ -61,7 +60,6 @@ app.post("/authenticate", async (req, res) => {
 });
 
 app.post("/login", async (req, res, next) => {
-  console.log("logging in");
   try {
     passport.authenticate(
       "local",
@@ -70,7 +68,6 @@ app.post("/login", async (req, res, next) => {
           res.status(400).json({ message: info.reason });
           return;
         }
-        console.log(`user`, user);
         req.login(user, { session: false }, (loginError) => {
           if (loginError) {
             res.send(loginError);
