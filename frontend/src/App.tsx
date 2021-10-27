@@ -8,18 +8,20 @@ const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <Navbar />
         <Switch>
           <Route exact path="/">
+          <Navbar />
             <Home />
           </Route>
           <Route exact path="/login">
             <Login />
           </Route>
           <Route exact path="/browse">
+          <Navbar />
             {/* TODO */}
           </Route>
           <Route exact path="/refer">
+          <Navbar />
             {/* TODO */}
           </Route>
         </Switch>

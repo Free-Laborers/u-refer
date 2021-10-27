@@ -61,7 +61,7 @@ export default function Navbar() {
           <TextLink href="/">Home</TextLink>
           <TextLink href="/browse">Browse Jobs</TextLink>
         </Box>
-        {user ? (
+        
           <IconButton
             style={{ float: "right" }}
             size="large"
@@ -71,9 +71,7 @@ export default function Navbar() {
           >
             <AccountCircle />
           </IconButton>
-        ) : (
-          <TextLink href="/login">Log In</TextLink>
-        )}
+        
         {renderMenu}
       </Toolbar>
     </AppBar>
