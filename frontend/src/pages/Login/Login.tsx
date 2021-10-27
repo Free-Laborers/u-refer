@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
-import { Redirect, useHistory } from "react-router";
+import { useHistory } from "react-router";
 import useAuth from "../../hooks/useAuth";
 
 // function Copyright(props: any) {
@@ -50,7 +50,6 @@ function validateEmail(email: any) {
 
 const Login = () => {
   const [errMessage, setErrMessage] = useState<string>("");
-  const [redirect, setRedirect] = useState<boolean>(false);
   const history = useHistory();
 
   const { login } = useAuth();
@@ -76,10 +75,6 @@ const Login = () => {
       .then((_) => history.push("/"))
       .catch((err) => setErrMessage(err.message));
   };
-
-  if (redirect) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <ThemeProvider theme={theme}>
