@@ -13,6 +13,14 @@ export const getEmployees = (whereClause: Partial<EmployeeInsert>) => {
   });
 };
 
+export const getEmployeeById = async (id: string) => {
+  return prisma.employee.findUnique({
+    where: {
+      id
+    }
+  })
+}
+
 export const createOneEmployee = (dataClause: EmployeeInsert) => {
   return prisma.employee.create({
     data: dataClause,

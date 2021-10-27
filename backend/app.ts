@@ -4,11 +4,11 @@ const cors = require("cors");
 const multer = require("multer");
 const upload = multer();
 const passport = require("passport");
-const jwt = require("jsonwebtoken");
+import jwt, { JwtPayload } from 'jsonwebtoken'
 
 const passportConfig = require("./passport");
 import { employeeRouter } from "./routes/employeeRouters";
-import { createOneEmployee } from "./controllers/employeeControllers";
+import { createOneEmployee, getEmployeeById } from "./controllers/employeeControllers";
 import { Employee } from ".prisma/client";
 import { EmployeeInsert } from "./interfaces/employeeInterface";
 
@@ -34,6 +34,25 @@ declare global {
 app.get("/unprotected", (request: Request, response: Response) => {
   response.json({ msg: "unprotected" });
 });
+
+app.post("/authenticate", async (req, res, next) => {
+  const { token } = req.body
+  try{
+    const payload = jwt.verify(token, "jwt-secret-key")
+    const user = await getEmployeeById((payload as JwtPayload).id)
+    if(user === null) res.json({
+      message: 'JWT token was valid, but user was not found'
+    })
+    // Remove password so that it is not sent to the frontend
+    const {password, ...userDataToReturn} = user as Employee
+    return res.json({
+      user: userDataToReturn
+    })
+  }
+  catch{
+    return res.json({message: "JWT is not valid"})
+  }
+})
 
 app.post("/login", async (req, res, next) => {
   try {
