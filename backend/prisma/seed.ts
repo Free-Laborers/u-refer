@@ -10,14 +10,13 @@ import {
 const prisma = new PrismaClient();
 
 const clearAllTables = async () => {
-  await Promise.all([
-    prisma.employee.deleteMany({}),
-    prisma.candidate.deleteMany({}),
-    prisma.tag.deleteMany({}),
-    prisma.postToTag.deleteMany({}),
-    prisma.referral.deleteMany({}),
-    prisma.jobPost.deleteMany({}),
-  ]);
+  await prisma.postToTag.deleteMany({})
+  .then(_ => prisma.tag.deleteMany({}))
+  .then(_ => prisma.referral.deleteMany({}))
+  .then(_ => prisma.jobPost.deleteMany({}))
+  .then(_ => prisma.candidate.deleteMany({}))
+  .then(_ => prisma.candidate.deleteMany({}))
+  .then(_ => prisma.employee.deleteMany({}))
 };
 
 const main = async () => {

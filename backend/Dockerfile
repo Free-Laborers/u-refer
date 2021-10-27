@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:16.13.0
 # Create app directory
 WORKDIR /app
 EXPOSE 5000
