@@ -8,7 +8,9 @@ import jwt from "jsonwebtoken";
 
 const passportConfig = require("./passport");
 import { employeeRouter } from "./routes/employeeRouters";
-import { createOneEmployee } from "./controllers/employeeControllers";
+import {
+  createOneEmployee,
+} from "./controllers/employeeControllers";
 import { Employee } from ".prisma/client";
 import { EmployeeInsert } from "./interfaces/employeeInterface";
 
@@ -59,8 +61,7 @@ app.post("/login", async (req, res, next) => {
             "jwt-secret-key",
             expiration
           );
-          const { password, ...userData } = user;
-          res.json({ token, user: userData });
+          res.json({ token });
         });
       }
     )(req, res);
