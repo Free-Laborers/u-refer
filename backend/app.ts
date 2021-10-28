@@ -5,12 +5,12 @@ const multer = require("multer");
 const upload = multer();
 const passport = require("passport");
 import jwt from "jsonwebtoken";
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
 const passportConfig = require("./passport");
 import { employeeRouter } from "./routes/employeeRouters";
-import {
-  createOneEmployee,
-} from "./controllers/employeeControllers";
+import { createOneEmployee } from "./controllers/employeeControllers";
 import { Employee } from ".prisma/client";
 import { EmployeeInsert } from "./interfaces/employeeInterface";
 
@@ -124,3 +124,19 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
 });
+
+//From https://swagger.io/specification/#infoObject
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: "Employee Api",
+      version: "0",
+      description: "Employee Api Information",
+      servers: ["localhost:5000"],
+    },
+  },
+  apis: ["routes/*.ts"],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
