@@ -16,7 +16,7 @@ urefer-backend      |   - Employee
 urefer-backend      |   - JobPost
 urefer-backend      |   - PostToTag
 urefer-backend      |   - Referral
-urefer-backend      |   - Tag
+urefer-backend      |   - Tags
 urefer-backend      | 
 urefer-backend      | [*] Changed the `Candidate` table
 urefer-backend      |   [+] Added unique index on columns (email)
