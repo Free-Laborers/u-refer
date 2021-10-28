@@ -10,7 +10,12 @@ import swaggerUi from "swagger-ui-express";
 
 const passportConfig = require("./passport");
 import { employeeRouter } from "./routes/employeeRouters";
-import { createOneEmployee } from "./controllers/employeeControllers";
+// import { statusCodedError } from "./error/statusCodedError";
+import { jobPostRouter } from "./routes/jobPostRouters";
+import { tagRouter } from "./routes/tagRouters";
+import {
+  createOneEmployee,
+} from "./controllers/employeeControllers";
 import { Employee } from ".prisma/client";
 import { EmployeeInsert } from "./interfaces/employeeInterface";
 
@@ -111,6 +116,8 @@ app.get("/", (request: Request, response: Response) => {
 });
 
 app.use("/employee", employeeRouter);
+app.use("/tags", tagRouter);
+app.use("/jobs", jobPostRouter);
 
 // ------------ error handling. It only has 500 error, but later more errors will be handled.
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {

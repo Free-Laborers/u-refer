@@ -52,13 +52,13 @@ export default function Navbar() {
   );
 
   return (
-    <AppBar position="static">
+    <AppBar sx={{ zIndex: theme => theme.zIndex.drawer + 1 }} position='fixed'>
       <Toolbar>
         <Logo color="white" style={{ marginRight: "100px" }} />
         {/* Main Links */}
         <Box style={{ flex: 1 }}>
+          <TextLink href='/jobs'>Browse Jobs</TextLink>
           <TextLink href="/">Home</TextLink>
-          <TextLink href="/browse">Browse Jobs</TextLink>
         </Box>
         <IconButton
           style={{ float: "right" }}
