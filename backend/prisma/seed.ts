@@ -30,7 +30,7 @@ const main = async () => {
     jobPostId: jobPost.id,
     candidateId: candidate.id,
   });
-  const user = await createEmployee({email: 'employee@test.com', password: 'test'})
+  //const user = await createEmployee({email: 'employee@test.com', password: 'test'})
   addTags(jobPost, ["React", "Prisma"]);
 };
 
