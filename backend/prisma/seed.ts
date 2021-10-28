@@ -15,6 +15,7 @@ const clearAllTables = async () => {
 
 const main = async () => {
   await clearAllTables();
+  await createEmployee({ email: 'admin@test.com', isManager: true, password: 'test' })
   const manager = await createEmployee({ isManager: true });
   const employee = await createEmployee({ isManager: false });
   const candidate = await createCandidate();

@@ -12,19 +12,21 @@ const App = () => {
     <AuthProvider>
       <JobFeedFilterContextProvider>
         <Router>
-          <Navbar />
           <Box sx={{ marginTop: '64px' }}>
             <Switch>
               <Route exact path='/'>
+                <Navbar />
                 <Home />
               </Route>
               <Route exact path='/login'>
                 <Login />
               </Route>
               <Route exact path='/refer'>
+                <Navbar />
                 {/* TODO */}
               </Route>
               <Route exact path='/jobs'>
+                <Navbar />
                 <JobFeed />
               </Route>
             </Switch>
