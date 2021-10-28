@@ -4,4 +4,4 @@
 # #!/bin/bash\r\n
 # Linux reads it like this: "interpret this file with /bin/bash^M"
 # This setting should prevent git from messing with our line feeds
-migrate_and_start.sh text eol=lf
+start.sh text eol=lf
