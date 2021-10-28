@@ -1,20 +1,21 @@
 // Copied from
 // https://github.com/mui-org/material-ui/blob/next/docs/src/pages/getting-started/templates/sign-in/SignIn.tsx
 
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
-import { Redirect } from 'react-router';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
+import { useHistory } from "react-router";
+import useAuth from "../../hooks/useAuth";
 
 // function Copyright(props: any) {
 //   return (
@@ -32,82 +33,72 @@ import { Redirect } from 'react-router';
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#1E5857"
+      main: "#1E5857",
     },
     secondary: {
-      main: "#E5E5E5"
-    }
-}});
+      main: "#E5E5E5",
+    },
+  },
+});
 
 // https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
 function validateEmail(email: any) {
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
 
 const Login = () => {
   const [errMessage, setErrMessage] = useState<string>("");
-  const [redirect, setRedirect] = useState<boolean>(false);
-  
+  const history = useHistory();
+
+  const { login } = useAuth();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (!(data.get('email') && data.get('password'))) {
+    if (!(data.get("email") && data.get("password"))) {
       return setErrMessage("Please fill out the email and password fields");
     }
 
-    const login_data = {
-      email: data.get('email'),
-      password: data.get('password'),
-      rememberMe: Boolean(data.get('rememberMe'))
-    }
+    const loginData = {
+      email: data.get("email") as string,
+      password: data.get("password") as string,
+      rememberMe: Boolean(data.get("rememberMe")),
+    };
 
-    if (!validateEmail(login_data.email)) {
+    if (!validateEmail(loginData.email)) {
       return setErrMessage("Please enter a valid email");
     }
 
-    fetch("http://127.0.0.1:5000/login", {
-      method: 'POST',
-      headers:{
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(login_data),
-    })
-      .then(response => {
-        if (!response.ok) {
-          return Promise.reject("Email or password is incorrect.");
-        }
-        return response.json();
-      })
-      .then(json => {
-        localStorage.setItem('authorization', json.token);
-        setRedirect(true);
-      })
-      .catch(err => setErrMessage(err));
+    login(loginData)
+      .then((_) => history.push("/"))
+      .catch((err) => setErrMessage(err.message));
   };
-
-  if (redirect) {
-    return <Redirect to='/' />
-  }
 
   return (
     <ThemeProvider theme={theme}>
-      <style>{'body { background-color: #E5E5E5; }'}</style>
+      <style>{"body { background-color: #E5E5E5; }"}</style>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
             marginTop: 6,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <img src={"./uRefer.png"} alt="UKG_logo" width="300" height="100"/>
+          <img src={"./uRefer.png"} alt="UKG_logo" width="300" height="100" />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -147,10 +138,11 @@ const Login = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               onClick={() => {
-                localStorage.setItem('authorization', "");
-                alert("successfully logged out!")
-              }}  >
-                Sign Out
+                localStorage.setItem("authorization", "");
+                alert("successfully logged out!");
+              }}
+            >
+              Sign Out
             </Button>
             <Grid container>
               <Grid item xs>
@@ -161,12 +153,12 @@ const Login = () => {
             </Grid>
           </Box>
         </Box>
-        <Typography variant='caption' color='red'>
+        <Typography variant="caption" color="red">
           {errMessage}
         </Typography>
       </Container>
     </ThemeProvider>
   );
-}
+};
 
-export default Login
+export default Login;

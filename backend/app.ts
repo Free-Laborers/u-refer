@@ -4,11 +4,13 @@ const cors = require("cors");
 const multer = require("multer");
 const upload = multer();
 const passport = require("passport");
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 const passportConfig = require("./passport");
 import { employeeRouter } from "./routes/employeeRouters";
-import { createOneEmployee } from "./controllers/employeeControllers";
+import {
+  createOneEmployee,
+} from "./controllers/employeeControllers";
 import { Employee } from ".prisma/client";
 import { EmployeeInsert } from "./interfaces/employeeInterface";
 
