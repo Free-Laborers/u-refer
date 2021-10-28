@@ -10,18 +10,18 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-          <Navbar />
+          <Navbar/>
             <Home />
           </Route>
           <Route exact path="/login">
             <Login />
           </Route>
           <Route exact path="/browse">
-          <Navbar />
+          <Navbar/>
             {/* TODO */}
           </Route>
           <Route exact path="/refer">
-          <Navbar />
+          <Navbar/>
             {/* TODO */}
           </Route>
         </Switch>

@@ -27,7 +27,7 @@ const TextLink = (props: LinkProps) => {
 
 export default function Navbar() {
   const history = useHistory();
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -55,23 +55,20 @@ export default function Navbar() {
     <AppBar position="static">
       <Toolbar>
         <Logo color="white" style={{ marginRight: "100px" }} />
-
         {/* Main Links */}
         <Box style={{ flex: 1 }}>
           <TextLink href="/">Home</TextLink>
           <TextLink href="/browse">Browse Jobs</TextLink>
         </Box>
-        
-          <IconButton
-            style={{ float: "right" }}
-            size="large"
-            edge="end"
-            onClick={handleProfileMenuOpen}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-        
+        <IconButton
+          style={{ float: "right" }}
+          size="large"
+          edge="end"
+          onClick={handleProfileMenuOpen}
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
         {renderMenu}
       </Toolbar>
     </AppBar>
