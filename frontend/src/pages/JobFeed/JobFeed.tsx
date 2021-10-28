@@ -11,6 +11,9 @@ export default function JobFeed() {
   const { searchString, tags, minSalary, maxSalary, minExperience, maxExperience } = useJobFeedFilters()
   const [{ data, loading, error }, refetch] = useAxios({
     url: 'http://localhost:5000/jobs',
+    headers: { 
+      'Authorization': localStorage.getItem('authorization')
+    },
     params: { 
       searchString,
       tags,
@@ -18,7 +21,7 @@ export default function JobFeed() {
       maxSalary,
       minExperience,
       maxExperience
-    }
+    },
   })
   const drawerWidth = 270
   

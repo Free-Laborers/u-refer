@@ -58,7 +58,6 @@ export default function Navbar() {
         {/* Main Links */}
         <Box style={{ flex: 1 }}>
           <TextLink href='/jobs'>Browse Jobs</TextLink>
-          <TextLink href='/login'>Log In</TextLink>
           <TextLink href="/">Home</TextLink>
         </Box>
         <IconButton
