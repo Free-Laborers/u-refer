@@ -61,6 +61,14 @@ employeeRouter.get(
   }
 );
 
+employeeRouter.get(
+  "/profile",
+  (request: Request, response: Response, next: NextFunction) => {
+    const user = { ...request.user, password: undefined };
+    response.status(200).json({ user });
+  }
+);
+
 employeeRouter.post(
   "/create",
   async (req: Request, res: Response, next: NextFunction) => {

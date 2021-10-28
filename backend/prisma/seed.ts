@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { createEmployee, createCandidate, createJobPost, createReferral, addTags } from './factories'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 const clearAllTables = async () => {
   await prisma.postToTag

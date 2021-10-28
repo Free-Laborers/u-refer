@@ -28,7 +28,7 @@
     "preset": "ts-jest",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://urefer-backend:5000",
   "eslintConfig": {
     "extends": [
       "react-app",
