@@ -130,6 +130,7 @@ const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: "Employee Api",
+      version: "0",
       description: "Employee Api Information",
       servers: ["localhost:5000"],
     },
