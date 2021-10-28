@@ -57,7 +57,7 @@ model Referral {
   employeeId           String
   candidateId          String
   jobPostId            String
-  description          String
+  candidateDescription String
   resumeFilePath       String
   createdDate          DateTime @db.Date @default(now())
   acceptedDate         DateTime?
@@ -74,6 +74,6 @@ model PostToTag {
 
 model Tag {
   id        String      @id @default(uuid())
-  name      String      @unique
+  name      String
   PostToTag PostToTag[]
 }

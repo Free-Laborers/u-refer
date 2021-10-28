@@ -103,7 +103,7 @@ export const createReferral = async (
   const resumeFilePath = faker.internet.url();
 
   const defaultData = {
-    description,
+    candidateDescription,
     resumeFilePath,
   };
 
