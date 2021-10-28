@@ -42,7 +42,7 @@ export default function FilterDrawer(props: FilterDrawerProps) {
         '& .MuiDrawer-paper': {
           width: width,
           boxSizing: 'border-box',
-          p: 4,
+          p: 5,
           pt: 12,
         },
       }}
@@ -73,9 +73,53 @@ export default function FilterDrawer(props: FilterDrawerProps) {
         <SalarySlider value={[minSalary, maxSalary]} onChange={handleSalaryChange} />
       </Box>
 
+      {/* SALARY TEXT BOXES */}
+      <Box>
+        <TextField
+        margin='dense'
+        fullWidth
+        size='small'
+        label='Minimum Salary'
+        value={minSalary}
+        onChange={e => setMinSalary((isNaN(parseInt(e.target.value))) ? 0 : parseInt(e.target.value))}
+        />
+      </Box>
+      <Box>
+        <TextField
+        margin='dense'
+        fullWidth
+        size='small'
+        label='Maximum Salary'
+        value={maxSalary}
+        onChange={e => setMaxSalary((isNaN(parseInt(e.target.value))) ? 0 : parseInt(e.target.value))}
+      />
+      </Box>
+
       {/* EXPERIENCE */}
       <Typography variant='body2'>Experience</Typography>
       <ExperienceSlider value={[minExperience, maxExperience]} onChange={handleExperienceChange} />
+
+      {/*EXPERIENCE TEXT BOXES */}
+      <Box>
+        <TextField
+        margin='dense'
+        fullWidth
+        size='small'
+        label='Minimum Experience'
+        value={minExperience}
+        onChange={e => setMinExperience((isNaN(parseInt(e.target.value))) ? 0 : parseInt(e.target.value))}
+        />
+      </Box>
+      <Box>
+        <TextField
+        margin='dense'
+        fullWidth
+        size='small'
+        label='Maximum Experience'
+        value={maxExperience}
+        onChange={e => setMaxExperience((isNaN(parseInt(e.target.value))) ? 0 : parseInt(e.target.value))}
+        />
+      </Box>
     </Drawer>
   )
 }
