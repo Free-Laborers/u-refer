@@ -10,14 +10,12 @@ import swaggerUi from "swagger-ui-express";
 
 const passportConfig = require("./passport");
 import { employeeRouter } from "./routes/employeeRouters";
-// import { statusCodedError } from "./error/statusCodedError";
 import { jobPostRouter } from "./routes/jobPostRouters";
 import { tagRouter } from "./routes/tagRouters";
-import {
-  createOneEmployee,
-} from "./controllers/employeeControllers";
+import { createOneEmployee } from "./controllers/employeeControllers";
 import { Employee } from ".prisma/client";
 import { EmployeeInsert } from "./interfaces/employeeInterface";
+import { StatusCodedError } from "./error/statusCodedError";
 
 // -------------------firing express app
 const app = express();
@@ -118,10 +116,15 @@ app.get("/", (request: Request, response: Response) => {
 app.use("/employee", employeeRouter);
 app.use("/tags", tagRouter);
 app.use("/jobs", jobPostRouter);
+app.use("/jobPost", jobPostRouter);
 
 // ------------ error handling. It only has 500 error, but later more errors will be handled.
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
-  res.status(500).send({ error: "internal server error" });
+  if (err instanceof StatusCodedError) {
+    res.status(err.getStatusCode()).send({ error: err.message });
+  } else {
+    res.status(500).send({ error: "internal server error" });
+  }
   console.error(err.stack);
   next();
 });

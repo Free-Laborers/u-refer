@@ -5,6 +5,7 @@ import { JobFeedFilterContextProvider } from './contexts/JobFeedFilterContext'
 import Home from './pages/Home'
 import JobFeed from './pages/JobFeed'
 import Login from './pages/Login'
+import Listing from './pages/Listing'
 import { AuthProvider } from './hooks/useAuth'
 
 const App = () => {
@@ -29,11 +30,16 @@ const App = () => {
                 <Navbar />
                 <JobFeed />
               </Route>
+              <Route exact path='/list/create'>
+                <Navbar />
+                <Listing />
+              </Route>              
             </Switch>
           </Box>
         </Router>
       </JobFeedFilterContextProvider>
     </AuthProvider>
+
   )
 }
 
