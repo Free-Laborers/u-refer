@@ -1,9 +1,8 @@
-import { Chip, MenuItem, OutlinedInput, Select, SelectChangeEvent, SelectProps, Theme } from '@mui/material'
+import { Chip, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme } from '@mui/material'
 import { Cancel } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import { Box } from '@mui/system'
 import useAxios from 'axios-hooks'
-import { useState } from 'react'
 
 // Styles dropdown items
 function getStyles(name: string, personName: readonly string[], theme: Theme) {

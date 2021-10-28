@@ -1,4 +1,4 @@
-import { Drawer, Slider, TextField, Typography, Box } from '@mui/material'
+import { Drawer, TextField, Typography, Box } from '@mui/material'
 import useJobFeedFilters from '../../../contexts/JobFeedFilterContext'
 import ExperienceSlider from './ExperienceSlider'
 import SalarySlider from './SalarySlider'

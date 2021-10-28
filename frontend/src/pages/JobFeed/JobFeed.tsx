@@ -9,7 +9,7 @@ import JobPreviewCard from './components/JobPreviewCard'
 export default function JobFeed() {
   const [selectedJob, setselectedJob] = useState<any>(null)
   const { searchString, tags, minSalary, maxSalary, minExperience, maxExperience } = useJobFeedFilters()
-  const [{ data, loading, error }, refetch] = useAxios({
+  const [{ data }] = useAxios({
     url: 'http://localhost:5000/jobs',
     headers: { 
       'Authorization': localStorage.getItem('authorization')
