@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:16.13.0
 # Create app directory
 WORKDIR /app
 
@@ -11,4 +11,4 @@ RUN npm install
 COPY . ./
 
 EXPOSE 3000
-CMD npm start
+CMD sh start.sh

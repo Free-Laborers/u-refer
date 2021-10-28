@@ -53,7 +53,7 @@ const insertClauseBuilder = (body: any): EmployeeInsert => {
  *  get:
  *    description: Use to get an employee
  *    responses:
- *      '200': 
+ *      '200':
  *         description: success
  */
 employeeRouter.get(
@@ -70,13 +70,21 @@ employeeRouter.get(
   }
 );
 
+employeeRouter.get(
+  "/profile",
+  (request: Request, response: Response, next: NextFunction) => {
+    const user = { ...request.user, password: undefined };
+    response.status(200).json({ user });
+  }
+);
+
 /**
  * @swagger
  * /employee:
  *  post:
  *    description: Use to post an employee
  *    responses:
- *      '200': 
+ *      '200':
  *         description: success
  */
 employeeRouter.post(

@@ -9,17 +9,17 @@ datasource db {
 }
 
 model Employee {
-  id          String     @id @default(uuid())
-  email       String     @unique
-  password    String
-  firstName   String
-  lastName    String
-  pronoun     String?
-  position    String
-  createdDate DateTime  @default(now())
-  isManager   Boolean @default(false)
-  jobPost     JobPost[]
-  Referral    Referral[]
+  id            String     @id @default(uuid())
+  email         String     @unique
+  firstName     String
+  lastName      String
+  pronoun       String?
+  position      String
+  createdDate   DateTime   @db.Date @default(now())
+  isManager     Boolean?
+  password      String
+  jobPost       JobPost[]
+  Referral      Referral[]
 }
 
 model Candidate {
@@ -29,7 +29,7 @@ model Candidate {
   lastName   String
   pronoun    String?
   phone      String
-  employeeId String?    @unique
+  employeeId String?    @unique 
   Referral   Referral[]
 }
 
@@ -41,7 +41,7 @@ model JobPost {
   minYearsExperience Int
   salary             Int
   openings           Int         @default(1)
-  createdDate        DateTime    @default(now())
+  createdDate        DateTime    @db.Date @default(now())
   deletedDate        DateTime?
   employee           Employee    @relation(fields: [hiringManagerId], references: [id])
   hiringManagerId    String
@@ -59,7 +59,7 @@ model Referral {
   jobPostId            String
   candidateDescription String
   resumeFilePath       String
-  createdDate          DateTime  @default(now())
+  createdDate          DateTime @db.Date @default(now())
   acceptedDate         DateTime?
   deletedDate          DateTime?
 }
