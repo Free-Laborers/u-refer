@@ -11,6 +11,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Autocomplete, AutocompleteRenderInputParams, Chip, Grid } from '@mui/material';
 import { Redirect } from 'react-router-dom';
 
+import useAuth from "../../hooks/useAuth"
+
+//axios has some weird type error stuff, so I used require here. Someone please figure it out later. 
+const axios = require("axios");
+
 const theme = createTheme();
 const axios = require('axios');
   
@@ -20,10 +25,11 @@ const tags: string[] = [
     "React", 
     "Prisma",
 ];
-const Listing = () => {
+const JobFeedCreation = () => {
     const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
     const [selectedTagsSet, setSelectedTagsSet]  = React.useState<Set<string>>(new Set());
     const [redirectToJobFeed, setRedirectToJobFeed] = React.useState<Boolean>(false)
+    const {user} = useAuth()
     const TagChipsJSX = selectedTags.map(tag => {
         return (
             <Grid item key = {tag}>
@@ -49,6 +55,10 @@ const Listing = () => {
         ){
             return alert("Please fill out the required fields");
         }
+        if (!user){
+            return alert("error: user is null");
+        }
+
         const jobListingData = {
             title: data.get('title'),
             position: data.get('position'),
@@ -57,8 +67,7 @@ const Listing = () => {
             salary: Number(data.get('salary')),
             openings: Number(data.get('openings')),
             tags: selectedTags,
-            //todo: change the line below once the login is implemented.
-            // hiringManagerId: "db774bb9-c768-4002-ae4e-f450c48f430a"
+            hiringManagerId: user.id
         }
 
         try {
@@ -79,10 +88,6 @@ const Listing = () => {
             alert(e)
         }
     };
-
-    if (!(localStorage.getItem("authorization"))) {
-        return <Redirect to="/login" />
-    }  
 
     if (redirectToJobFeed){
         return <Redirect to = "/jobs"/>
@@ -223,4 +228,4 @@ const Listing = () => {
     );
 }
 
-export default Listing
+export default JobFeedCreation

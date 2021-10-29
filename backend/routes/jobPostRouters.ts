@@ -1,12 +1,37 @@
-import { Employee } from ".prisma/client";
-import express, { NextFunction, Request, Response } from "express";
-import { StatusCodedError } from "../error/statusCodedError";
-import * as jobPostController from "../controllers/jobPostControllers";
-import * as tagController from "../controllers/tagControllers";
-import { JobPostInsert } from "../interfaces/jobPostInterface";
-const jobPostRouter = express.Router();
 import { JobListingFilterType } from "./../controllers/jobPostControllers";
+import express, { NextFunction, Request, Response } from "express";
+import * as jobPostController from "../controllers/jobPostControllers";
+import { StatusCodedError } from "../error/statusCodedError";
+import * as tagController from "../controllers/tagControllers";
+import { Prisma } from "@prisma/client";
+
+const jobPostRouter = express.Router();
 // import { getJobPostings } from './../controllers/jobPostControllers';
+
+const coerceToNumberOrNull = (x: any) => {
+  const res = parseInt(x);
+  return isNaN(res) ? null : res;
+};
+
+jobPostRouter.get(
+  "/",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const filters: Partial<JobListingFilterType> = {
+        searchString: req.query.searchString as string,
+        maxExperience: coerceToNumberOrNull(req.query.maxExperience as string),
+        minExperience: coerceToNumberOrNull(req.query.minExperience as string),
+        maxSalary: coerceToNumberOrNull(req.query.maxSalary as string),
+        minSalary: coerceToNumberOrNull(req.query.minSalary as string),
+        tags: req.query.tags as string[],
+      };
+      const jobs = await jobPostController.getJobPostings({ ...filters });
+      res.status(200).json(jobs);
+    } catch (e: any) {
+      next(new Error(e));
+    }
+  }
+);
 
 //=============middleware for post request
 const checkUserIsManager = (
@@ -26,11 +51,14 @@ const checkUserIsManager = (
 };
 
 const insertClauseBuilder = async (
-  body: any,
-  managerId: string
-): Promise<JobPostInsert> => {
-  //will recieve raw data, so no parsing necessary.
-  const insertClause: JobPostInsert = {
+  body: any
+): Promise<Prisma.JobPostCreateInput> => {
+  let openings = undefined;
+  if (body.openings) {
+    openings = Number(body.openings);
+  }
+
+  const insertClause: Prisma.JobPostCreateInput = {
     id: body.id,
     title: body.title,
     position: body.position,
@@ -40,10 +68,10 @@ const insertClauseBuilder = async (
     openings: body.openings,
     createdDate: body.createdDate,
     deletedDate: body.deletedDate,
-    hiringManagerId: managerId,
+    Employee: { connect: { id: body.hiringManagerId } },
   };
 
-  if (body.tags) {
+  if (body.tags && body.tags.length != 0) {
     const postToTagObjects = [];
     for (let i = 0; i < body.tags.length; i++) {
       const tag = await tagController.findOneTagWithName(body.tags[i]);
@@ -68,37 +96,12 @@ jobPostRouter.post(
     try {
       if (req.user) {
         await jobPostController.createOneJobPost(
-          await insertClauseBuilder(req.body, req.user.id)
+          await insertClauseBuilder(req.body)
         );
       }
       res.status(200).json({
         message: `job post with title: "${req.body.title}" has been saved`,
       });
-    } catch (e: any) {
-      next(new Error(e));
-    }
-  }
-);
-
-const coerceToNumberOrNull = (x: any) => {
-  const res = parseInt(x);
-  return isNaN(res) ? null : res;
-};
-
-jobPostRouter.get(
-  "/",
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const filters: Partial<JobListingFilterType> = {
-        searchString: req.query.searchString as string,
-        maxExperience: coerceToNumberOrNull(req.query.maxExperience as string),
-        minExperience: coerceToNumberOrNull(req.query.minExperience as string),
-        maxSalary: coerceToNumberOrNull(req.query.maxSalary as string),
-        minSalary: coerceToNumberOrNull(req.query.minSalary as string),
-        tags: req.query.tags as string[],
-      };
-      const jobs = await jobPostController.getJobPostings({ ...filters });
-      res.status(200).json(jobs);
     } catch (e: any) {
       next(new Error(e));
     }

@@ -1,4 +1,4 @@
-import { Button, Chip, Paper, Typography } from '@mui/material'
+import { Button, Paper, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 // @ts-ignore
 import { JobPost } from '../../../../../backend/node_modules/prisma/prisma-client'

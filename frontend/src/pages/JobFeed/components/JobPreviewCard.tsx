@@ -15,7 +15,16 @@ export default function JobPreviewCard(props: JobPreviewCardProps) {
       <Typography mb={2} variant='h6'>
         {job.title}
       </Typography>
-      <ValueWithLabel sx={{ lineClamp: 3 }} label='Description' value={job?.description} />
+      <ValueWithLabel 
+        sx={{
+          display: '-webkit-box',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'initial',
+          WebkitBoxOrient: 'vertical',
+          WebkitLineClamp: 3,
+        }} 
+        label='Description' value={job?.description} />
     </Paper>
   )
 }

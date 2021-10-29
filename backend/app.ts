@@ -4,46 +4,44 @@ const cors = require("cors");
 const multer = require("multer");
 const upload = multer();
 const passport = require("passport");
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import { Prisma } from "@prisma/client";
 
 const passportConfig = require("./passport");
 import { employeeRouter } from "./routes/employeeRouters";
 import { jobPostRouter } from "./routes/jobPostRouters";
-import { DBAuthenticationError } from "./error/500s";
-import { Employee } from "@prisma/client";
-import { StatusCodedError } from "./error/statusCodedError";
 import { tagRouter } from "./routes/tagRouters";
 import { createOneEmployee } from "./controllers/employeeControllers";
-import { EmployeeInsert } from "./interfaces/employeeInterface";
+import { Employee } from ".prisma/client";
+import { StatusCodedError } from "./error/statusCodedError";
 import { referralRouter } from "./routes/referralRouters";
 
 // -------------------firing express app
 
 const app = express();
-app.use(express.json());
 //body paramter enable
 app.use(upload.array());
 passportConfig();
-
 app.use(passport.initialize());
-
+app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "client/build")));
 
 declare global {
   namespace Express {
-    export interface Request {
-      user?: Employee;
-    }
+    interface User extends Employee {}
   }
 }
+
 // -------------------unprotected routes
 app.get("/unprotected", (request: Request, response: Response) => {
   response.json({ msg: "unprotected" });
 });
 
-app.post("/login", async (req: any, res, next) => {
+app.post("/login", async (req, res, next) => {
   try {
     passport.authenticate(
       "local",
@@ -52,7 +50,7 @@ app.post("/login", async (req: any, res, next) => {
           res.status(400).json({ message: info.reason });
           return;
         }
-        req.login(user, { session: false }, (loginError: any) => {
+        req.login(user, { session: false }, (loginError) => {
           if (loginError) {
             res.send(loginError);
             return;
@@ -78,8 +76,8 @@ app.post("/login", async (req: any, res, next) => {
 });
 
 app.post("/signup", async (req: Request, res: Response, next: NextFunction) => {
-  const insertClauseBuilder = (body: any): EmployeeInsert => {
-    const insertClause: EmployeeInsert = {
+  const insertClauseBuilder = (body: any): Prisma.EmployeeCreateInput => {
+    const insertClause: Prisma.EmployeeCreateInput = {
       id: body.id,
       email: body.email,
       password: body.password,
@@ -87,7 +85,7 @@ app.post("/signup", async (req: Request, res: Response, next: NextFunction) => {
       lastName: body.lastName,
       position: body.position,
       pronoun: body.pronoun,
-      createDate: body.date,
+      createdDate: body.date,
       isManager:
         // this part can only be boolean|undefined, or prisma will rasie type error.
         body.isManager === "true"
@@ -115,7 +113,10 @@ app.use(passport.authenticate("jwt", { session: false }));
 app.get("/", (request: Request, response: Response) => {
   response.json({ message: `Welcome to backend!!` });
 });
+
 app.use("/employee", employeeRouter);
+app.use("/tags", tagRouter);
+app.use("/jobs", jobPostRouter);
 app.use("/jobPost", jobPostRouter);
 app.use("/tags", tagRouter);
 app.use("/referral", referralRouter);
@@ -136,3 +137,19 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
 });
+
+//From https://swagger.io/specification/#infoObject
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: "Employee Api",
+      version: "0",
+      description: "Employee Api Information",
+      servers: ["localhost:5000"],
+    },
+  },
+  apis: ["routes/*.ts"],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));

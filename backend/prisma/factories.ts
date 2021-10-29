@@ -93,14 +93,9 @@ export const createJobPost = async (
   return res;
 };
 
-export const createReferral = async (
-  referralData: RequireFields<
-    Referral,
-    "employeeId" | "candidateId" | "jobPostId"
-  >
-) => {
-  const description = faker.lorem.paragraphs();
-  const resumeFilePath = faker.internet.url();
+export const createReferral = async (referralData: RequireFields<Referral, 'employeeId' | 'candidateId' | 'jobPostId'>) => {
+  const description = faker.lorem.paragraphs()
+  const resumeFilePath = faker.internet.url()
 
   const defaultData = {
     description,
@@ -144,24 +139,19 @@ export const addTags = async (jobPost: JobPost, tags?: string[] | string) => {
       tags.map(async (t) => {
         return (
           (await prisma.tag.findUnique({ where: { name: t } })) ??
-          (await prisma.tag.create({ data: { name: t } }))
+          (await prisma.tag.create({ data: {name: t}}))
         );
       })
     );
 
     ts.map(
-      async (t) =>
-        await prisma.postToTag.create({
-          data: { jobPostId: jobPost.id, tagId: t.id },
-        })
+      async (t) => await prisma.postToTag.create({data: { jobPostId: jobPost.id, tagId: t.id }})
     );
   } else {
     // Specified tag
     const t =
       (await prisma.tag.findUnique({ where: { name: tags } })) ??
-      (await prisma.tag.create({ data: { name: tags } }));
-    await prisma.postToTag.create({
-      data: { jobPostId: jobPost.id, tagId: t.id },
-    });
+      (await prisma.tag.create({ data: {name: tags}}))
+    await prisma.postToTag.create({data: { jobPostId: jobPost.id, tagId: t.id }})
   }
 };

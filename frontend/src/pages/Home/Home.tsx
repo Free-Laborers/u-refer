@@ -8,7 +8,6 @@ function setBoolean(boolean){
   return "false"
 };
 export default function Home() {
-  
   const [redirect, setRedirect] = useState<boolean>(false); // we could also do useState<boolean>(auth)...??? check how it looks
   const [userData, setUserData] = useState({
     email: "",
@@ -26,15 +25,14 @@ export default function Home() {
         const myHeaders = new Headers();
         myHeaders.append('authorization', auth);
 
-        try {
-          const response = await fetch("http://127.0.0.1:5000/employee/profile", {
-            method: 'GET',
-            headers: myHeaders
-          });
+        const response = await fetch("http://127.0.0.1:5000/employee/profile", {
+          method: 'GET',
+          headers: myHeaders
+        });
+
+        if (response.ok) {
           const json = await response.json();
           return setUserData(json.user);
-        } catch {
-          return setRedirect(true); // redirect to login
         }
       }
 
@@ -48,7 +46,6 @@ export default function Home() {
     return <Redirect to="/login" />
   }
 
-  
   return (
     <>
       <Typography variant='h1'>Welcome home!</Typography>
@@ -58,7 +55,7 @@ export default function Home() {
         First name: {userData.firstName} <br/>
         Last name: {userData.lastName} <br/>
         Position: {userData.position} <br/>
-        Is manager: {setBoolean(userData.isManager)}
+        Is manager: {userData.isManager}
       </Typography>
     </>
   )

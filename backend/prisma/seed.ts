@@ -1,26 +1,21 @@
-import { PrismaClient } from "@prisma/client";
-import {
-  createEmployee,
-  createCandidate,
-  createJobPost,
-  createReferral,
-  addTags,
-} from "./factories";
+import { PrismaClient } from '@prisma/client'
+import { createEmployee, createCandidate, createJobPost, createReferral, addTags } from './factories'
 
 const prisma = new PrismaClient();
 
 const clearAllTables = async () => {
   await prisma.postToTag
     .deleteMany({})
-    .then((_) => prisma.tag.deleteMany({}))
-    .then((_) => prisma.referral.deleteMany({}))
-    .then((_) => prisma.jobPost.deleteMany({}))
-    .then((_) => prisma.candidate.deleteMany({}))
-    .then((_) => prisma.employee.deleteMany({}));
-};
+    .then(_ => prisma.tag.deleteMany({}))
+    .then(_ => prisma.referral.deleteMany({}))
+    .then(_ => prisma.jobPost.deleteMany({}))
+    .then(_ => prisma.candidate.deleteMany({}))
+    .then(_ => prisma.employee.deleteMany({}))
+}
 
 const main = async () => {
   await clearAllTables();
+  await createEmployee({ email: 'admin@test.com', isManager: true, password: 'test' })
   const manager = await createEmployee({ isManager: true });
   const employee = await createEmployee({ isManager: false });
   const candidate = await createCandidate();
@@ -48,7 +43,7 @@ const main = async () => {
   await addTags(jp4, ["PostgreSQL"]);
 };
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+main().catch(e => {
+  console.error(e)
+  process.exit(1)
+})

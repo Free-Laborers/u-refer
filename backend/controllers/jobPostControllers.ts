@@ -1,16 +1,5 @@
-// <<<<<<< HEAD
 import { PrismaClient, Prisma } from "@prisma/client";
-import { JobPostInsert } from "../interfaces/jobPostInterface";
 import * as _ from "lodash";
-
-const prisma = new PrismaClient();
-export const createOneJobPost = (dataClause: JobPostInsert) => {
-  return prisma.jobPost.create({
-    data: dataClause,
-  });
-};
-// export const getJobPostings = () => {
-// =======
 
 export interface JobListingFilterType {
   tags: string[] | null;
@@ -37,6 +26,7 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
       contains: searchString,
     };
   }
+
   // Tag ids
   if (tags && tags.length > 0) {
     whereClause.PostToTag = {
@@ -98,6 +88,8 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
   return whereClause;
 };
 
+const prisma = new PrismaClient();
+
 export const getJobPostings = (filters: Partial<JobListingFilterType>) => {
   const whereClause = whereClauseBuilder(filters);
   return prisma.jobPost.findMany({
@@ -109,5 +101,11 @@ export const getJobPostings = (filters: Partial<JobListingFilterType>) => {
         },
       },
     },
+  });
+};
+
+export const createOneJobPost = (dataClause: Prisma.JobPostCreateInput) => {
+  return prisma.jobPost.create({
+    data: dataClause,
   });
 };
