@@ -1,11 +1,12 @@
 import express, { NextFunction, Request, response, Response } from "express";
 const employeeRouter = express.Router();
 
-import { EmployeeInsert } from "../interfaces/employeeInterface";
+import { Prisma } from "@prisma/client";
+
 import * as employeeController from "../controllers/employeeControllers";
 
-const whereClauseBuilder = (query: any): Partial<EmployeeInsert> => {
-  const whereClause: Partial<EmployeeInsert> = {
+const whereClauseBuilder = (query: any): Prisma.EmployeeWhereInput => {
+  const whereClause: Prisma.EmployeeWhereInput = {
     id: query.id,
     email: query.email,
     password: query.password,
@@ -13,7 +14,7 @@ const whereClauseBuilder = (query: any): Partial<EmployeeInsert> => {
     lastName: query.lastName,
     pronoun: query.pronoun,
     position: query.position,
-    createDate: query.date,
+    createdDate: query.date,
     isManager:
       query.isManager === "true"
         ? true
@@ -25,8 +26,8 @@ const whereClauseBuilder = (query: any): Partial<EmployeeInsert> => {
   return whereClause;
 };
 
-const insertClauseBuilder = (body: any): EmployeeInsert => {
-  const insertClause: EmployeeInsert = {
+const insertClauseBuilder = (body: any): Prisma.EmployeeCreateInput => {
+  const insertClause: Prisma.EmployeeCreateInput = {
     id: body.id,
     email: body.email,
     password: body.password,
@@ -34,7 +35,7 @@ const insertClauseBuilder = (body: any): EmployeeInsert => {
     lastName: body.lastName,
     pronoun: body.pronoun,
     position: body.position,
-    createDate: body.date,
+    createdDate: body.date,
     isManager:
       // this part can only be boolean|undefined, or prisma will rasie type error.
       body.isManager === "true"

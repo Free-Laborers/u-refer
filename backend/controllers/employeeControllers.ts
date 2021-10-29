@@ -1,19 +1,18 @@
-import { PrismaClient } from "@prisma/client";
-import { EmployeeInsert } from "../interfaces/employeeInterface";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
-export const getEmployees = (whereClause: Partial<EmployeeInsert>) => {
+export const getEmployees = (whereClause: Prisma.EmployeeWhereInput) => {
   // for the parameters that is not undefined, to sth.
   return prisma.employee.findMany({
     where: whereClause,
     include: {
-      jobPost: true,
+      JobPost: true,
       Referral: true,
     },
   });
 };
 
-export const createOneEmployee = (dataClause: EmployeeInsert) => {
+export const createOneEmployee = (dataClause: Prisma.EmployeeCreateInput) => {
   return prisma.employee.create({
     data: dataClause,
   });
