@@ -94,11 +94,9 @@ jobPostRouter.post(
   checkUserIsManager,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      if (req.user) {
-        await jobPostController.createOneJobPost(
-          await insertClauseBuilder(req.body)
-        );
-      }
+      await jobPostController.createOneJobPost(
+        await insertClauseBuilder(req.body)
+      );
       res.status(200).json({
         message: `job post with title: "${req.body.title}" has been saved`,
       });
