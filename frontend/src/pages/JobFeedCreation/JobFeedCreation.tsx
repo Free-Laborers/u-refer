@@ -16,7 +16,6 @@ import useAuth from "../../hooks/useAuth"
 //axios has some weird type error stuff, so I used require here. Someone please figure it out later. 
 const axios = require("axios");
 const theme = createTheme();
-  
 //I do not have an clear idea about where the frontend will store the list of Tags
 //todo: store the list of tags somewhere and use it for this component.
 const tags: string[] = [
@@ -97,7 +96,7 @@ const JobFeedCreation = () => {
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 12,
+                        marginTop: 8,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
