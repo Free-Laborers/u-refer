@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, response, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 const cors = require("cors");
 const multer = require("multer");
