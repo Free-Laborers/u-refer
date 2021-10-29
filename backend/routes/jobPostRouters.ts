@@ -6,7 +6,6 @@ import * as tagController from "../controllers/tagControllers";
 import { Prisma } from "@prisma/client";
 
 const jobPostRouter = express.Router();
-// import { getJobPostings } from './../controllers/jobPostControllers';
 
 const coerceToNumberOrNull = (x: any) => {
   const res = parseInt(x);
