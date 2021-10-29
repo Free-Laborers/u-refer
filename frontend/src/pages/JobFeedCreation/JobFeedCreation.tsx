@@ -24,7 +24,7 @@ const tags: string[] = [
     "React", 
     "Prisma",
 ];
-const Listing = () => {
+const JobFeedCreation = () => {
     const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
     const [selectedTagsSet, setSelectedTagsSet]  = React.useState<Set<string>>(new Set());
     const [redirectToJobFeed, setRedirectToJobFeed] = React.useState<Boolean>(false)
@@ -227,4 +227,4 @@ const Listing = () => {
     );
 }
 
-export default Listing
+export default JobFeedCreation

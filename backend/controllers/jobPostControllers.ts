@@ -1,6 +1,5 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import * as _ from "lodash";
-import { JobPostInsert } from "../interfaces/jobPostInterface";
 
 export interface JobListingFilterType {
   tags: string[] | null;

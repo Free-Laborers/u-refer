@@ -7,6 +7,7 @@ const passport = require("passport");
 import jwt from "jsonwebtoken";
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import { Prisma } from "@prisma/client";
 
 const passportConfig = require("./passport");
 import { employeeRouter } from "./routes/employeeRouters";
@@ -14,7 +15,6 @@ import { jobPostRouter } from "./routes/jobPostRouters";
 import { tagRouter } from "./routes/tagRouters";
 import { createOneEmployee } from "./controllers/employeeControllers";
 import { Employee } from ".prisma/client";
-import { EmployeeInsert } from "./interfaces/employeeInterface";
 import { StatusCodedError } from "./error/statusCodedError";
 
 // -------------------firing express app
@@ -75,8 +75,8 @@ app.post("/login", async (req, res, next) => {
 });
 
 app.post("/signup", async (req: Request, res: Response, next: NextFunction) => {
-  const insertClauseBuilder = (body: any): EmployeeInsert => {
-    const insertClause: EmployeeInsert = {
+  const insertClauseBuilder = (body: any): Prisma.EmployeeCreateInput => {
+    const insertClause: Prisma.EmployeeCreateInput = {
       id: body.id,
       email: body.email,
       password: body.password,
@@ -84,7 +84,7 @@ app.post("/signup", async (req: Request, res: Response, next: NextFunction) => {
       lastName: body.lastName,
       position: body.position,
       pronoun: body.pronoun,
-      createDate: body.date,
+      createdDate: body.date,
       isManager:
         // this part can only be boolean|undefined, or prisma will rasie type error.
         body.isManager === "true"
