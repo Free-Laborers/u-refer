@@ -8,7 +8,6 @@ import Login from './pages/Login'
 import Listing from './pages/JobFeedCreation'
 import { AuthProvider } from './hooks/useAuth'
 
-
 const App = () => {
   return (
     <AuthProvider>
