@@ -30,10 +30,10 @@ const App = () => {
                 <Navbar />
                 <JobFeed />
               </Route>
-              <Route exact path='/list/create'>
+              <Route exact path='/jobs/create'>
                 <Navbar />
                 <Listing />
-              </Route>              
+              </Route>
             </Switch>
           </Box>
         </Router>

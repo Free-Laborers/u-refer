@@ -32,7 +32,7 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
   if (tags && tags.length > 0) {
     whereClause.PostToTag = {
       some: {
-        tag: {
+        Tag: {
           name: {
             in: tags,
           },
@@ -98,14 +98,14 @@ export const getJobPostings = (filters: Partial<JobListingFilterType>) => {
     include: {
       PostToTag: {
         include: {
-          tag: true,
+          Tag: true,
         },
       },
     },
   });
 };
 
-export const createOneJobPost = (dataClause: JobPostInsert) => {
+export const createOneJobPost = (dataClause: Prisma.JobPostCreateInput) => {
   return prisma.jobPost.create({
     data: dataClause,
   });

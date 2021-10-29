@@ -1,11 +1,9 @@
 import { JobListingFilterType } from "./../controllers/jobPostControllers";
 import express, { NextFunction, Request, Response } from "express";
-import { EmployeeInsert } from "../interfaces/employeeInterface";
 import * as jobPostController from "../controllers/jobPostControllers";
-import { Employee } from ".prisma/client";
 import { StatusCodedError } from "../error/statusCodedError";
 import * as tagController from "../controllers/tagControllers";
-import { JobPostInsert } from "../interfaces/jobPostInterface";
+import { Prisma } from "@prisma/client";
 
 const jobPostRouter = express.Router();
 
@@ -51,13 +49,15 @@ const checkUserIsManager = (
   }
 };
 
-const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
+const insertClauseBuilder = async (
+  body: any
+): Promise<Prisma.JobPostCreateInput> => {
   let openings = undefined;
   if (body.openings) {
     openings = Number(body.openings);
   }
 
-  const insertClause: JobPostInsert = {
+  const insertClause: Prisma.JobPostCreateInput = {
     id: body.id,
     title: body.title,
     position: body.position,
@@ -67,11 +67,10 @@ const insertClauseBuilder = async (body: any): Promise<JobPostInsert> => {
     openings: openings,
     createdDate: body.createdDate,
     deletedDate: body.deletedDate,
-    hiringManagerId: body.hiringManagerId,
+    Employee: { connect: { id: body.hiringManagerId } },
   };
 
   if (body.tags && body.tags.length != 0) {
-    console.log(body.tags);
     const postToTagObjects = [];
     for (let i = 0; i < body.tags.length; i++) {
       const tag = await tagController.findOneTagWithName(body.tags[i]);

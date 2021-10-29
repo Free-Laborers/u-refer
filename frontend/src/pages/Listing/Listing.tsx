@@ -9,6 +9,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Autocomplete, AutocompleteRenderInputParams, Chip, Grid } from '@mui/material';
+import { Redirect } from 'react-router-dom';
+
+import useAuth from "../../hooks/useAuth"
+
+//axios has some weird type error stuff, so I used require here. Someone please figure it out later. 
+const axios = require("axios");
 
 const theme = createTheme();
 
@@ -21,6 +27,8 @@ const tags: string[] = [
 const Listing = () => {
     const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
     const [selectedTagsSet, setSelectedTagsSet]  = React.useState<Set<string>>(new Set());
+    const [redirectToJobFeed, setRedirectToJobFeed] = React.useState<Boolean>(false)
+    const {user} = useAuth()
     const TagChipsJSX = selectedTags.map(tag => {
         return (
             <Grid item key = {tag}>
@@ -33,19 +41,56 @@ const Listing = () => {
         )
     }) 
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
+        if (
+            !(data.get('title')) &&
+            !(data.get('position')) &&
+            !(data.get('description')) &&
+            !(data.get('minYears')) &&
+            !(data.get('salary')) &&
+            !(data.get("openings"))
+        ){
+            return alert("Please fill out the required fields");
+        }
+        if (!user){
+            return alert("error: user is null");
+        }
+
+        const jobListingData = {
             title: data.get('title'),
             position: data.get('position'),
             description: data.get('description'),
-            minYearsExperience: data.get('minYears'),
-            salary: data.get('salary'),
-            openings: data.get('openings')
-        });
+            minYearsExperience: Number(data.get('minYears')),
+            salary: Number(data.get('salary')),
+            openings: Number(data.get('openings')),
+            tags: selectedTags,
+            hiringManagerId: user.id
+        }
+
+        try {
+            const config = {
+                method: 'post',
+                url: 'http://127.0.0.1:5000/jobPost',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem("authorization"),
+                },
+                data : JSON.stringify(jobListingData)
+            };
+            const response = await axios(config);
+            console.log(response.data);
+            alert(response.data.message);
+            setRedirectToJobFeed(true);
+        } catch (e){
+            alert(e)
+        }
     };
+
+    if (redirectToJobFeed){
+        return <Redirect to = "/jobs"/>
+    }
 
     return (
         <ThemeProvider theme={theme}>
