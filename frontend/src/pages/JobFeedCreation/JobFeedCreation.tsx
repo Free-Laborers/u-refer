@@ -15,9 +15,7 @@ import useAuth from "../../hooks/useAuth"
 
 //axios has some weird type error stuff, so I used require here. Someone please figure it out later. 
 const axios = require("axios");
-
 const theme = createTheme();
-const axios = require('axios');
   
 //I do not have an clear idea about where the frontend will store the list of Tags
 //todo: store the list of tags somewhere and use it for this component.
