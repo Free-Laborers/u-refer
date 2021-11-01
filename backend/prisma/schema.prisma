@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-  // url      = "postgresql://postgres:docker@localhost:5432/urefer?schema=public"
+   url      = env("DATABASE_URL")
+  //url      = "postgresql://postgres:docker@localhost:5432/urefer?schema=public"
 }
 
 model Employee {
@@ -28,7 +28,7 @@ model Candidate {
   firstName  String
   lastName   String
   pronoun    String?
-  phone      String
+  phone      String?
   employeeId String?    @unique 
   Referral   Referral[]
 }
@@ -41,7 +41,7 @@ model JobPost {
   minYearsExperience Int
   salary             Int
   openings           Int         @default(1)
-  createdDate        DateTime    @db.Date @default(now())
+  createdDate        DateTime    @db.Timestamp() @default(now())
   deletedDate        DateTime?
   Employee           Employee    @relation(fields: [hiringManagerId], references: [id])
   hiringManagerId    String
