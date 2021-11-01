@@ -16,10 +16,11 @@ import { tagRouter } from "./routes/tagRouters";
 import { createOneEmployee } from "./controllers/employeeControllers";
 import { Employee } from ".prisma/client";
 import { StatusCodedError } from "./error/statusCodedError";
+import { referralRouter } from "./routes/referralRouters";
 
 // -------------------firing express app
-const app = express();
 
+const app = express();
 //body paramter enable
 app.use(upload.array());
 passportConfig();
@@ -117,6 +118,8 @@ app.use("/employee", employeeRouter);
 app.use("/tags", tagRouter);
 app.use("/jobs", jobPostRouter);
 app.use("/jobPost", jobPostRouter);
+app.use("/tags", tagRouter);
+app.use("/referral", referralRouter);
 
 // ------------ error handling. It only has 500 error, but later more errors will be handled.
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {

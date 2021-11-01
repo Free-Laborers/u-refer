@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material'
 import { Redirect } from 'react-router';
-// import axios from 'axios'
 
 export default function Home() {
   const [redirect, setRedirect] = useState<boolean>(false); // we could also do useState<boolean>(auth)...??? check how it looks
