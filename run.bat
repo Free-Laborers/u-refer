@@ -8,4 +8,4 @@ cd .\backend
 CALL npx prisma migrate dev --name init --skip-seed
 CALL npx prisma db seed
 cd ..
-CALL docker-compose up --build
+CALL docker-compose up --build -d
