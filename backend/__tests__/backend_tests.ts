@@ -1,10 +1,32 @@
+//imports
 import {employeeRouterFunctions} from "../routes/employeeRouters";
+import { createMock } from 'ts-auto-mock';
+import { mockDeep, mockReset, MockProxy } from 'jest-mock-extended'
+import { PrismaClient } from '@prisma/client'
+import prisma from '../clientForTesting'
 
 ///seperate functions from their export
 const { whereClauseBuilder } = employeeRouterFunctions;
 const { insertClauseBuilder } = employeeRouterFunctions;
 //const { getEmployees } = employeeControllersFunctions;
 //const {createOneEmployee} = employeeControllersFunctions;
+
+
+//mocking the database
+//reference: https://www.prisma.io/docs/guides/testing/unit-testing
+jest.mock('../clientForTesting', () => ({
+    __esModule: true,
+    default: mockDeep<PrismaClient>(),
+  }));
+
+const prismaMock = ( prisma as unknown) as MockProxy<PrismaClient>
+
+test('testing the database mock', () => {
+
+    const spyEmployeeExists = jest.spyOn(prismaMock.employee, 'findUnique');
+  
+    console.log({spyEmployeeExists})
+  });
 
 //mock the functions here
 const whereClauseBuilderMock = jest.fn(whereClauseBuilder);

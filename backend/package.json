@@ -26,6 +26,8 @@
     "env": "^0.0.2",
     "express": "^4.17.1",
     "http-proxy-middleware": "^2.0.1",
+    "jest-mock-extended": "^2.0.4",
+    "jest-ts-auto-mock": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "lodash.memoize": "^4.1.2",
@@ -38,6 +40,7 @@
     "reflect-metadata": "^0.1.13",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6",
+    "ts-auto-mock": "^3.5.0",
     "ts-node": "^10.2.1"
   },
   "prisma": {
