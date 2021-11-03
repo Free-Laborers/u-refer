@@ -1,4 +1,5 @@
-@REM @echo off
+@echo off
+
 @REM migrate beforehand - spin up database and then migrate and then spin up the rest.
 
 CALL docker-compose up -d db
@@ -7,4 +8,4 @@ cd .\backend
 CALL npx prisma migrate dev --name init --skip-seed
 CALL npx prisma db seed
 cd ..
-CALL docker-compose up --build -d
+CALL docker-compose up --build
