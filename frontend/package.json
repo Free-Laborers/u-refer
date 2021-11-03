@@ -14,6 +14,7 @@
     "@types/react-dom": "^17.0.0",
     "axios": "^0.21.4",
     "axios-hooks": "^2.7.0",
+    "enzyme": "^3.11.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.0",
@@ -24,8 +25,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "jest --coverage",
     "preset": "ts-jest",
+    "test:watch": "jest --watch",
     "eject": "react-scripts eject"
   },
   "proxy": "http://urefer-backend:5000",
@@ -50,6 +52,8 @@
   "devDependencies": {
     "@types/node": "^12.20.29",
     "@types/react-router-dom": "^5.3.0",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
+    "react-test-renderer": "^17.0.2",
     "ts-jest": "^26.5.6",
     "ts-node": "^10.3.0"
   },
