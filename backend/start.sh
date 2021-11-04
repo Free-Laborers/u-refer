@@ -1,5 +1,7 @@
 #!/bin/bash
 
+npx prisma generate
+
 case $UREFER_ENV in
     "PROD")
         export NODE_ENV='production'
