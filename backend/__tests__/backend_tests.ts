@@ -24,8 +24,6 @@ const prismaMock = ( prisma as unknown) as MockProxy<PrismaClient>
 test('testing the database mock', () => {
 
     const spyEmployeeExists = jest.spyOn(prismaMock.employee, 'findUnique');
-  
-    console.log({spyEmployeeExists})
   });
 
 //mock the functions here
@@ -101,21 +99,23 @@ describe("Employee Router Tests", ()=> {
         }); 
     });
 
-    describe("InsertClauseBuilder", ()=>{
-        const query ={id: 1, email: "test@test.com", 
-        password: "Welcome1", firstName:"John", lastName: "Doe",
-        pronoun: "He/Him", position:"Software Engineer", date:"10/01/2021",
-        isManager: "false"};
-        let result = insertClauseBuilderMock(query);
-        expect(insertClauseBuilderMock.mock.calls.length).toBe(1);
-        expect(result.id).toBe(query.id);
-        expect(result.email).toBe(query.email);
-        expect(result.password).toBe(query.password);
-        expect(result.firstName).toBe(query.firstName);
-        expect(result.lastName).toBe(query.lastName);
-        expect(result.pronoun).toBe(query.pronoun);
-        expect(result.position).toBe(query.position);
-        expect(result.createdDate).toBe(query.date);
-        expect(result.isManager).toBe(false);
+    describe("InsertWhereClauseBuilder", ()=>{
+        test("Testing the insertwhereclausebuilder", ()=>{
+            const query ={id: 1, email: "test@test.com", 
+            password: "Welcome1", firstName:"John", lastName: "Doe",
+            pronoun: "He/Him", position:"Software Engineer", date:"10/01/2021",
+            isManager: "false"};
+            let result = insertClauseBuilderMock(query);
+            expect(insertClauseBuilderMock.mock.calls.length).toBe(1);
+            expect(result.id).toBe(query.id);
+            expect(result.email).toBe(query.email);
+            expect(result.password).toBe(query.password);
+            expect(result.firstName).toBe(query.firstName);
+            expect(result.lastName).toBe(query.lastName);
+            expect(result.pronoun).toBe(query.pronoun);
+            expect(result.position).toBe(query.position);
+            expect(result.createdDate).toBe(query.date);
+            expect(result.isManager).toBe(false);
+        });
     });
 });
