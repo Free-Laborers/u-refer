@@ -1,11 +1,11 @@
 @echo off
-cd frontend
-CALL npm ci
-cd ..
+
+@REM migrate beforehand - spin up database and then migrate and then spin up the rest.
+
+CALL docker-compose up -d db
+set DATABASE_URL=postgresql://postgres:docker@localhost:5432/urefer?schema=public
 cd .\backend
-CALL npm ci
+CALL npx prisma migrate dev --name init --skip-seed
+CALL npx prisma db seed
 cd ..
 CALL docker-compose up --build -d
-CALL docker exec -it urefer-backend npx prisma migrate dev --name init --skip-seed
-CALL docker exec -it urefer-backend npx prisma db seed
-@REM CALL docker cp urefer-backend:/app/prisma/migrations ./backend/prisma
