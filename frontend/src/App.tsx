@@ -36,7 +36,6 @@ const App = () => {
                 <Listing />
               </Route>
               <Route exact path='/Profile'>
-                <Navbar />
                 <Profile />
               </Route>
             </Switch>
