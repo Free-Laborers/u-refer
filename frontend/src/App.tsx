@@ -6,7 +6,6 @@ import Home from './pages/Home'
 import JobFeed from './pages/JobFeed'
 import Login from './pages/Login'
 import Listing from './pages/JobFeedCreation'
-import Profile from './pages/Profile'
 import { AuthProvider } from './hooks/useAuth'
 
 const App = () => {
@@ -34,10 +33,6 @@ const App = () => {
               <Route exact path='/jobs/create'>
                 <Navbar />
                 <Listing />
-              </Route>
-              <Route exact path='/Profile'>
-                <Navbar />
-                <Profile />
               </Route>
             </Switch>
           </Box>
