@@ -21,7 +21,7 @@ function SvgLogo(props: LogoProps) {
           }}
           fill={color}
           fontSize={100}
-          fontFamily='ArialRoundedMTBold,Arial Rounded MT Bold'>
+          fontFamily='Arial Rounded MT'>
           <tspan letterSpacing='-.02em'>{'R'}</tspan>
           <tspan x={69.43} y={0}>
             {'e'}
