@@ -2,8 +2,6 @@
 import {employeeRouterFunctions} from "../routes/employeeRouters";
 import { createMock } from 'ts-auto-mock';
 import { mockDeep, mockReset, MockProxy } from 'jest-mock-extended';
-import { PrismaClient } from '@prisma/client';
-import prisma from "../clientForTesting";
 
 ///seperate functions from their export
 const { whereClauseBuilder } = employeeRouterFunctions;
