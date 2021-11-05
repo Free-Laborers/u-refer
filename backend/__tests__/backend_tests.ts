@@ -14,6 +14,8 @@ const { insertClauseBuilder } = employeeRouterFunctions;
 
 //mocking the database
 //reference: https://www.prisma.io/docs/guides/testing/unit-testing
+
+/*
 jest.mock('../clientForTesting', () => ({
     __esModule: true,
     default: mockDeep<PrismaClient>(),
@@ -26,6 +28,7 @@ test('testing the database mock', () => {
     const spyEmployeeExists = jest.spyOn(prismaMock.employee, 'findUnique');
   });
 
+*/
 //mock the functions here
 const whereClauseBuilderMock = jest.fn(whereClauseBuilder);
 const insertClauseBuilderMock = jest.fn(insertClauseBuilder);
