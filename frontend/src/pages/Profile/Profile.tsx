@@ -1,7 +1,4 @@
 import { Typography } from '@mui/material'
-import { createTheme} from '@mui/material/styles';
-
-const theme = createTheme();
 
 const Profile = () => {
     return (
