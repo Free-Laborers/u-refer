@@ -22,16 +22,7 @@ function SvgLogo(props: LogoProps) {
           fill={color}
           fontSize={100}
           fontFamily='Arial Rounded MT'>
-          <tspan letterSpacing='-.02em'>{'R'}</tspan>
-          <tspan x={69.43} y={0}>
-            {'e'}
-          </tspan>
-          <tspan x={128.86} y={0} letterSpacing='-.01em'>
-            {'f'}
-          </tspan>
-          <tspan x={160.84} y={0}>
-            {'er'}
-          </tspan>
+          <tspan letterSpacing='-.01em'>{'Refer'}</tspan>
         </text>
         <path
           d='M68.32 51.49C68.21 69.12 57 83 40.39 86A34 34 0 01.48 53.52c0-2.28-.08-4.57 0-6.85A7.93 7.93 0 018 38.83a7.84 7.84 0 018.19 6.85c.36 2.82.24 5.69.41 8.54.65 10.49 8.33 17.1 18.88 16.27C45.85 69.67 52 63 52.34 52.29c.06-2-.06-3.92.08-5.87a7.94 7.94 0 0115.87-.06c.14 1.7.03 3.42.03 5.13z'
