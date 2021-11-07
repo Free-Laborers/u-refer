@@ -13,6 +13,7 @@ enum Referral_Status {
   CONTACTED
   REJECTED
   HIRED
+  DELETED
 }
 
 model Employee {
