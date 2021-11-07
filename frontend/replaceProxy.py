@@ -10,7 +10,9 @@ if __name__ == "__main__":
         f = open('package.json', 'r')
         data = json.load(f)
         data['proxy'] = sys.argv[1]     # set proxy to arg1
+        f.close()
 
         f = open('package.json', 'w')
         json.dump(data, f, indent=2)    # write the json
         f.write('\n')
+        f.close()
