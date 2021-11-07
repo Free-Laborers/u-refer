@@ -13,3 +13,4 @@ if __name__ == "__main__":
 
         f = open('package.json', 'w')
         json.dump(data, f, indent=2)    # write the json
+        f.write('\n')
