@@ -5,7 +5,7 @@ if __name__ == "__main__":
     # replace value of "proxy" in package.json with arg1
 
     if len(sys.argv) != 2:
-        print('usage: python3 replaceProxy PROXY_HOST_IP')
+        print('usage: python3 replaceProxy PROXY_HOST_URL')
     else:
         f = open('package.json', 'r')
         data = json.load(f)
