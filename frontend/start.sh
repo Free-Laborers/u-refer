@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -n "${UREFER_BACKEND_IP}" ]; then
+if [[ ${UREFER_BACKEND_IP} ]]; then
     python3 replaceProxy.py $UREFER_BACKEND_IP
 fi
 
