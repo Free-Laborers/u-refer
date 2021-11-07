@@ -67,7 +67,8 @@ model Referral {
   description    String
   resumeFilePath String?
   createdDate    DateTime        @default(now())
-  acceptedDate   DateTime?
+  contactedDate  DateTime?
+  finishedDate   DateTime?
   status         Referral_Status @default(OPEN)
   deletedDate    DateTime?
 }
