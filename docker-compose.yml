@@ -13,6 +13,7 @@ services:
     environment:
       CHOKIDAR_USEPOLLING: "true"
       UREFER_ENV: ${UREFER_ENV:-DEV}
+      UREFER_BACKEND_IP: http://urefer-backend:5000
   backend:
     container_name: urefer-backend
     networks:

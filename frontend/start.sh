@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -z "${UREFER_BACKEND_IP}" ]]; then
+    python3 replaceProxy.py $UREFER_BACKEND_IP
+fi
+
 case $UREFER_ENV in
     "PROD")
         npm run build
