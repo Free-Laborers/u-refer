@@ -6,6 +6,7 @@ import ReviewPage from './pages/ReviewPage'
 
 interface ReferralCreationModalProps {
   jobPost: JobPost,
+  closeModal: () => void
 }
 
 const style = {
@@ -18,7 +19,7 @@ const style = {
 }
 
 export default function ReferralCreationModal(props: ReferralCreationModalProps & Omit<ModalProps, 'children'>) {
-  const { jobPost, onClose, ...modalProps } = props
+  const { jobPost, closeModal, ...modalProps } = props
   const [ activeStep, setActiveStep ] = useState(0)
 
   // Array of [label, component] pairs
@@ -45,14 +46,12 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
 
   const handleSubmit = () => {
     // TODO: Send post request to backend
-
-    // The arguments passed to onClose are arbitrary – only passed to satisty requirements
-    onClose && onClose({}, 'escapeKeyDown')
+    closeModal()
   }
 
 
   return (
-    <Modal {...modalProps}>
+    <Modal onClose={closeModal} {...modalProps}>
       <Paper sx={style}>
         <Typography variant='h5'>Referral for {jobPost?.title}</Typography>
         <Box sx={{ height: '500px' }}>
