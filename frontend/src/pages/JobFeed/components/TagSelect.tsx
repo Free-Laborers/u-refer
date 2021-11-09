@@ -25,7 +25,6 @@ export default function TagSelect(props: TagSelectProps) {
       'Authorization': localStorage.getItem('authorization')
     },
   })
-  console.log(data)
   const tags = data?.tags || []
 
   const handleDelete = (valToDelete: string) => {
