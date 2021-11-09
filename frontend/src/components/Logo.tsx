@@ -3,6 +3,7 @@ import * as React from 'react'
 type LogoColorType = 'primary' | 'white'
 type LogoProps = React.SVGProps<SVGSVGElement> & { color?: LogoColorType }
 
+// Much of this file was generated with https://react-svgr.com/docs/cli/
 function SvgLogo(props: LogoProps) {
 
   // Default color is dark green
