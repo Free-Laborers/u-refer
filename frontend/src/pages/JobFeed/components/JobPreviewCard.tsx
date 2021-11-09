@@ -11,7 +11,7 @@ interface JobPreviewCardProps {
 export default function JobPreviewCard(props: JobPreviewCardProps) {
   const { job, onClick } = props
   return (
-    <Paper onClick={onClick} sx={{ m: 2, mt: 0, p: 2, cursor: 'pointer' }}>
+    <Paper onClick={onClick} sx={{ mb: 2, p: 2, cursor: 'pointer' }}>
       <Typography mb={2} variant='h6'>
         {job.title}
       </Typography>

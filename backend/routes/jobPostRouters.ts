@@ -16,13 +16,14 @@ jobPostRouter.get(
   "/",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const filters: Partial<JobListingFilterType> = {
+      const filters: Partial<JobListingFilterType> & { page: number } = {
         searchString: req.query.searchString as string,
         maxExperience: coerceToNumberOrNull(req.query.maxExperience as string),
         minExperience: coerceToNumberOrNull(req.query.minExperience as string),
         maxSalary: coerceToNumberOrNull(req.query.maxSalary as string),
         minSalary: coerceToNumberOrNull(req.query.minSalary as string),
         tags: req.query.tags as string[],
+        page: coerceToNumberOrNull(req.query.page as string) || 0,
       };
       const jobs = await jobPostController.getJobPostings({ ...filters });
       res.status(200).json(jobs);

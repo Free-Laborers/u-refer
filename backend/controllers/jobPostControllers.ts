@@ -1,30 +1,24 @@
-import { PrismaClient, Prisma } from "@prisma/client";
-import * as _ from "lodash";
+import { PrismaClient, Prisma } from '@prisma/client'
+import * as _ from 'lodash'
 
 export interface JobListingFilterType {
-  tags: string[] | null;
-  minSalary: number | null;
-  maxSalary: number | null;
-  minExperience: number | null;
-  maxExperience: number | null;
-  searchString?: string | null;
+  tags: string[] | null
+  minSalary: number | null
+  maxSalary: number | null
+  minExperience: number | null
+  maxExperience: number | null
+  searchString?: string | null
 }
 
 const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
-  const {
-    tags,
-    minSalary,
-    maxSalary,
-    minExperience,
-    maxExperience,
-    searchString,
-  } = args;
-  let whereClause: Prisma.JobPostWhereInput = {};
+  const { tags, minSalary, maxSalary, minExperience, maxExperience, searchString } = args
+
+  let whereClause: Prisma.JobPostWhereInput = {}
 
   if (searchString) {
     whereClause.title = {
       contains: searchString,
-    };
+    }
   }
 
   // Tag ids
@@ -37,17 +31,12 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
           },
         },
       },
-    };
+    }
   }
 
   // Add and clause if any of these fields exist
-  if (
-    !_.isNil(minExperience) ||
-    !_.isNil(maxExperience) ||
-    !_.isNil(minSalary) ||
-    !_.isNil(maxSalary)
-  ) {
-    whereClause.AND = [];
+  if (!_.isNil(minExperience) || !_.isNil(maxExperience) || !_.isNil(minSalary) || !_.isNil(maxSalary)) {
+    whereClause.AND = []
   }
   // Add min experience to AND clause
   if (!_.isNil(minExperience)) {
@@ -56,7 +45,7 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
       minYearsExperience: {
         gt: minExperience - 1,
       },
-    });
+    })
   }
   // Add max experience to AND clause
   if (!_.isNil(maxExperience)) {
@@ -65,7 +54,7 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
       minYearsExperience: {
         lt: maxExperience + 1,
       },
-    });
+    })
   }
   // Add min salary to AND clause
   if (!_.isNil(minSalary)) {
@@ -74,7 +63,7 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
       salary: {
         gt: minSalary - 1,
       },
-    });
+    })
   }
   // Add max salary to AND clause
   if (!_.isNil(maxSalary)) {
@@ -83,17 +72,22 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
       salary: {
         lt: maxSalary + 1,
       },
-    });
+    })
   }
-  return whereClause;
-};
+  return whereClause
+}
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
-export const getJobPostings = (filters: Partial<JobListingFilterType>) => {
-  const whereClause = whereClauseBuilder(filters);
-  return prisma.jobPost.findMany({
+export const getJobPostings = async (filters: Partial<JobListingFilterType> & { page: number }) => {
+  const PAGE_SIZE = 10
+  const { page, ...whereClauseFilters } = filters
+  const whereClause = whereClauseBuilder(whereClauseFilters)
+
+  const data = await prisma.jobPost.findMany({
     where: whereClause,
+    skip: page * PAGE_SIZE,
+    take: PAGE_SIZE,
     include: {
       PostToTag: {
         include: {
@@ -101,11 +95,15 @@ export const getJobPostings = (filters: Partial<JobListingFilterType>) => {
         },
       },
     },
-  });
-};
+  })
+
+  const numResults = await prisma.jobPost.count({where: whereClause})
+
+  return { numResults, data }
+}
 
 export const createOneJobPost = (dataClause: Prisma.JobPostCreateInput) => {
   return prisma.jobPost.create({
     data: dataClause,
-  });
-};
+  })
+}
