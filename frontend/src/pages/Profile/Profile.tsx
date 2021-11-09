@@ -1,24 +1,8 @@
-//import { Typography } from '@mui/material'
-import React, {useEffect, useState} from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-//import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-//import ToggleButton from '@mui/material/ToggleButton'
+import {useEffect, useState} from 'react';
 import Tab from '@mui/material/Tab'
 import {Tabs} from '@mui/material'
 
-const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#1E5857",
-      },
-      secondary: {
-        main: "#E5E5E5",
-      },
-    },
-  });
-
-
-  //https://stackoverflow.com/questions/66012476/how-to-show-hide-mui-tabs-based-on-a-condition-and-maintain-the-right-tab-index
+//https://stackoverflow.com/questions/66012476/how-to-show-hide-mui-tabs-based-on-a-condition-and-maintain-the-right-tab-index
 
 const Profile = () => {
 
@@ -39,7 +23,7 @@ const Profile = () => {
         const myHeaders = new Headers();
         myHeaders.append('authorization', auth);
 
-        const response = await fetch("http://127.0.0.1:5000/employee/profile", {
+        const response = await fetch("/employee/profile", {
           method: 'GET',
           headers: myHeaders
         });
@@ -61,15 +45,14 @@ const Profile = () => {
     }
     const isAManager = userData.isManager;
     return (
-        <ThemeProvider theme={theme}>
+        <>
            <Tabs value={value} onChange={handleTab}>
             <Tab label="My Referrals" value={0} />
             { isAManager && <Tab label="My Positions" value={1} />}
            </Tabs>
            <TabPanel value={value} index={0}>This this where {userData.firstName} {userData.lastName} referrals will show</TabPanel>
            <TabPanel value={value} index={1}>This is where {userData.firstName} {userData.lastName} positions will show</TabPanel>
-        </ThemeProvider>
-         // <Typography variant='h1'>Profile Page</Typography>
+        </>
     )
 }
 
