@@ -19,7 +19,13 @@ type TagSelectProps = {
 export default function TagSelect(props: TagSelectProps) {
   const { onChange, value } = props
   const theme = useTheme()
-  const [{ data }] = useAxios('http://localhost:5000/tags')
+  const [{ data }] = useAxios({
+    url: 'http://localhost:5000/tag',
+    headers: { 
+      'Authorization': localStorage.getItem('authorization')
+    },
+  })
+  console.log(data)
   const tags = data?.tags || []
 
   const handleDelete = (valToDelete: string) => {
