@@ -11,4 +11,4 @@ RUN npm ci
 COPY . ./
 
 EXPOSE 3000
-CMD ./start.sh
+CMD chmod +x start.sh && ./start.sh
