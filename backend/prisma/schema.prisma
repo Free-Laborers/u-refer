@@ -14,6 +14,7 @@ enum Referral_Status {
   REJECTED
   HIRED
   DELETED
+  CLOSED
 }
 
 model Employee {
@@ -71,7 +72,6 @@ model Referral {
   contactedDate  DateTime?
   finishedDate   DateTime?
   status         Referral_Status @default(OPEN)
-  deletedDate    DateTime?
 }
 
 model PostToTag {
