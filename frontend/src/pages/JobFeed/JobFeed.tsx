@@ -8,9 +8,13 @@ import JobPreviewCard from './components/JobPreviewCard'
 import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material'
 
 export default function JobFeed() {
+  enum sortStatus{
+    ASC = 'asc',
+    DEC = 'dec'
+  }
   const [selectedJob, setselectedJob] = useState<any>(null)
   const { searchString, tags, minSalary, maxSalary, minExperience, maxExperience } = useJobFeedFilters()
-  const [selectedSort, setselectedSort] = useState("") 
+  const [selectedSort, setselectedSort] = useState<sortStatus>(sortStatus.DEC) 
   const [{ data }] = useAxios({
     url: 'http://localhost:5000/jobs',
     headers: { 
@@ -29,18 +33,18 @@ export default function JobFeed() {
 
   //sorts data ascending or descending by createdDate 
   function handleChange(){
-    if (selectedSort === "asc"){
-      setselectedSort("des")
+    if (selectedSort === sortStatus.ASC){
+      setselectedSort(sortStatus.DEC)
       data.sort((a,b) => a.createdDate.localeCompare(b.createdDate))
     } 
     else{
-      setselectedSort("asc")
+      setselectedSort(sortStatus.ASC)
       data.sort((a,b) => b.createdDate.localeCompare(a.createdDate))
     } 
   }
   //returns up or down button depending on selected sort
   function getIcon(order){
-      if (order === "asc") return <ArrowDropUp/>
+      if (order === sortStatus.ASC) return <ArrowDropUp/>
       return <ArrowDropDown/>
   }
   
