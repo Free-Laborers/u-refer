@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import Listing from './pages/JobFeedCreation'
 import Profile from './pages/Profile'
 import { AuthProvider } from './hooks/useAuth'
+import PrivateRoute from './components/PrivateRoute'
 
 const App = () => {
   return (
@@ -16,21 +17,21 @@ const App = () => {
         <Router>
           <Box sx={{ marginTop: '64px' }}>
             <Switch>
-              <Route exact path='/'>
-                <Navbar />
-                <Home />
-              </Route>
               <Route exact path='/login'>
                 <Login />
               </Route>
-              <Route exact path='/refer'>
+              <PrivateRoute exact path='/'>
+                <Navbar />
+                <Home />
+              </PrivateRoute>
+              <PrivateRoute component={Navbar} exact path='/refer'>
                 <Navbar />
                 {/* TODO */}
-              </Route>
-              <Route exact path='/jobs'>
+              </PrivateRoute>
+              <PrivateRoute exact path='/jobs'>
                 <Navbar />
                 <JobFeed />
-              </Route>
+              </PrivateRoute>
               <Route exact path='/jobs/create'>
                 <Navbar />
                 <Listing />
