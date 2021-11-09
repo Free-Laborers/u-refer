@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel, Box } from '@mui/material'
 // @ts-ignore
 import { JobPost } from '../../../../backend/node_modules/@prisma/client'
+import ReviewPage from './pages/ReviewPage'
 
 interface ReferralCreationModalProps {
-  jobPost: JobPost
+  jobPost: JobPost,
+  closeModal: () => void
 }
 
 const style = {
@@ -17,8 +19,20 @@ const style = {
 }
 
 export default function ReferralCreationModal(props: ReferralCreationModalProps & Omit<ModalProps, 'children'>) {
-  const { jobPost, ...modalProps } = props
-  const [activeStep, setActiveStep] = useState(0)
+  const { jobPost, closeModal, ...modalProps } = props
+  const [ activeStep, setActiveStep ] = useState(0)
+
+  // Array of [label, component] pairs
+  const steps: [string, ReactElement][] = [
+    // TODO
+    ['Personal', <div/>],
+    // TODO
+    ['Recommendation', <div/>],
+    // TODO
+    ['Documents', <div/>],
+    // TODO
+    ['Review', <ReviewPage/>],
+  ]
 
   const handleBack = () => {
     if (activeStep === 0) return
@@ -26,25 +40,25 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   }
 
   const handleNext = () => {
-    if (activeStep === steps.length) return handleSubmit()
+    if (activeStep === steps.length - 1) return handleSubmit()
     setActiveStep(activeStep + 1)
   }
 
   const handleSubmit = () => {
-    // TODO
+    // TODO: Send post request to backend
+    closeModal()
   }
 
-  const steps = ['Personal', 'Reccomendation', 'Documents', 'Review']
 
   return (
-    <Modal {...modalProps}>
+    <Modal onClose={closeModal} {...modalProps}>
       <Paper sx={style}>
         <Typography variant='h5'>Referral for {jobPost?.title}</Typography>
-        <Box sx={{height: '500px'}}>
-
+        <Box sx={{ height: '500px' }}>
+          {steps[activeStep][1]}
         </Box>
         <Stepper activeStep={activeStep}>
-          {steps.map((label, i) => {
+          {steps.map(([label, _], i) => {
             return (
               <Step key={i}>
                 <StepLabel>{label}</StepLabel>
@@ -53,10 +67,10 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
           })}
         </Stepper>
         <Box display='flex' justifyContent='space-evenly' mt={2}>
-          <Button size='small' onClick={() => handleBack()}>
+          <Button size='small' onClick={handleBack}>
             Back
           </Button>
-          <Button size='small' variant='contained' onClick={() => handleNext()}>
+          <Button size='small' variant='contained' onClick={handleNext}>
             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
           </Button>
         </Box>
