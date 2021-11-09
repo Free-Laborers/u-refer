@@ -50,7 +50,7 @@ model JobPost {
   minYearsExperience Int
   salary             Int
   openings           Int         @default(1)
-  createdDate        DateTime    @default(now()) @db.Timestamp
+  createdDate        DateTime    @default(now()) //@db.Timestamp
   deletedDate        DateTime?
   Employee           Employee    @relation(fields: [hiringManagerId], references: [id])
   hiringManagerId    String
