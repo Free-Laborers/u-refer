@@ -15,7 +15,6 @@ const Profile = () => {
     isManager: "",
   });
 
-
   useEffect(() => {
     async function getData() {
       const auth = localStorage.getItem('authorization');
