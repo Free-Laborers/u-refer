@@ -82,29 +82,33 @@ export default function JobFeed() {
         height="100%"
         gridTemplateRows="auto 1fr auto"
         gridTemplateColumns="1fr 1fr"
+        gridTemplateAreas={`"sort         .       "
+                            "postList     postCard"
+                            "pagination   .       "`}
         columnGap={2}
       >
-        <Box my={1}>
+        <Box sx={{ gridArea: "sort" }} my={1}>
           <Typography variant="button">{"Sort by Date: "}</Typography>
           <IconButton onClick={() => handleChange()}>
             {getIcon(selectedSort)}
           </IconButton>
           <Typography>{data?.numResults || 0} results</Typography>
         </Box>
-        <Box />
-        <Box overflow="auto">
+        <Box sx={{ gridArea: "postList" }} overflow="auto">
           {data?.data?.map((job) => (
             <JobPreviewCard onClick={() => setselectedJob(job)} job={job} />
           ))}
         </Box>
-        <JobCard job={selectedJob} />
-        <Pagination
-          count={Math.floor(numPages)}
-          page={page + 1}
-          onChange={(e, page) => setPage(page - 1)}
-          sx={{ mx: "auto", my: 2 }}
-        />
-        <Box />
+        <Box sx={{ gridArea: "postCard" }}>
+          <JobCard job={selectedJob} />
+        </Box>
+        <Box mx="auto" my={2} sx={{ gridArea: "pagination" }}>
+          <Pagination
+            count={Math.floor(numPages)}
+            page={page + 1}
+            onChange={(e, page) => setPage(page - 1)}
+          />
+        </Box>
       </Box>
       <FilterDrawer width={drawerWidth} />
     </Box>
