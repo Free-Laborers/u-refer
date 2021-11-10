@@ -35,7 +35,6 @@ export default function JobFeed() {
     url: "/jobs",
     headers: {
       Authorization: localStorage.getItem("authorization"),
-
     },
     params: {
       searchString,
