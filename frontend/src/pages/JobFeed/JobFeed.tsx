@@ -32,7 +32,7 @@ export default function JobFeed() {
   const [selectedSort, setselectedSort] = useState<sortStatus>(sortStatus.DEC);
   const [page, setPage] = useState(0);
   const [{ data }] = useAxios<JobFeedResponseType>({
-    url: "/jobs",
+    url: "/jobPost",
     headers: {
       Authorization: localStorage.getItem("authorization"),
     },
