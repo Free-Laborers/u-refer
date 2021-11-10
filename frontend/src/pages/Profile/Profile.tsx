@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import Tab from '@mui/material/Tab'
 import {Tabs} from '@mui/material'
+import axios from 'axios';
 
 //https://stackoverflow.com/questions/66012476/how-to-show-hide-mui-tabs-based-on-a-condition-and-maintain-the-right-tab-index
 
@@ -20,17 +21,17 @@ const Profile = () => {
       const auth = localStorage.getItem('authorization');
 
       if (auth) {
-        const myHeaders = new Headers();
-        myHeaders.append('authorization', auth);
-
-        const response = await fetch("/employee/profile", {
-          method: 'GET',
-          headers: myHeaders
-        });
-
-        if (response.ok) {
-          const json = await response.json();
+        try {
+          const response = await axios("/employee/profile", {
+            method: 'GET',
+            headers: { 
+              'Authorization': localStorage.getItem('authorization')
+            },
+          })
+          const json = await response.data;
           return setUserData(json.user);
+        } catch(err){
+          console.error(err)
         }
       }
     }
