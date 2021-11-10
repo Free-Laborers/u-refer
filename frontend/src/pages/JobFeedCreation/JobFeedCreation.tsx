@@ -70,7 +70,7 @@ const JobFeedCreation = () => {
         try {
             const config = {
                 method: 'post',
-                url: 'http://127.0.0.1:5000/jobPost',
+                url: '/jobPost',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': localStorage.getItem("authorization"),

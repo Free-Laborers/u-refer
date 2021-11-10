@@ -20,7 +20,6 @@ export default function JobFeed() {
     DEC = "dec",
   }
   const PAGE_SIZE = 10;
-
   const [selectedJob, setselectedJob] = useState<any>(null);
   const {
     searchString,
@@ -36,6 +35,7 @@ export default function JobFeed() {
     url: "/jobs",
     headers: {
       Authorization: localStorage.getItem("authorization"),
+
     },
     params: {
       searchString,
