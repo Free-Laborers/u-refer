@@ -33,7 +33,7 @@ const useProvideAuth = (): AuthContextType => {
   const [user, setUser] = useState<UserType | null>(null)
   const login = (loginData: LoginDataType): AxiosPromise => {
     return axios({
-      url: 'http://localhost:5000/login',
+      url: '/login',
       method: 'POST',
       data: {...loginData},
     }).then(res => {
@@ -51,7 +51,7 @@ const useProvideAuth = (): AuthContextType => {
     const token = localStorage.getItem('authorization')
     if(!token) return
     axios({
-      url: 'http://localhost:5000/employee/profile',
+      url: '/employee/profile',
       method: 'GET',
       headers: {
         Authorization: token,

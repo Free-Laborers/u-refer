@@ -20,7 +20,7 @@ export default function TagSelect(props: TagSelectProps) {
   const { onChange, value } = props
   const theme = useTheme()
   const [{ data }] = useAxios({
-    url: 'http://localhost:5000/tag',
+    url: '/tag',
     headers: { 
       'Authorization': localStorage.getItem('authorization')
     },
