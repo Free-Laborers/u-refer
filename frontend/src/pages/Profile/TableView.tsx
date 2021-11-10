@@ -1,5 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import {Referral} from "../../interfaces/Referral"
 
 interface GridRow {
     status: string,
@@ -10,6 +11,7 @@ interface GridRow {
 
 interface TableViewProps {
     jobPostID: string
+    referrals: Referral[]
 }
 
 const columns: GridColDef[] = [
@@ -44,6 +46,7 @@ export default function TableView(props: TableViewProps) {
             .then(data => data.json())
             .then(json => setRows(json))
     }, [props.jobPostID]);
+    console.log(props.jobPostID);
 
     return (
         <div style={{ height: 400, width: '100%' }}>
