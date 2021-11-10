@@ -1,7 +1,7 @@
 import { ReactElement, useState } from 'react'
 import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel, Box } from '@mui/material'
 // @ts-ignore
-import { JobPost } from '../../../../backend/node_modules/@prisma/client'
+import { JobPost } from "../../interfaces/JobPost"
 import ReviewPage from './pages/ReviewPage'
 
 interface ReferralCreationModalProps {

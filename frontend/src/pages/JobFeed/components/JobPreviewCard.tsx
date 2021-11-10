@@ -1,6 +1,6 @@
 import { Paper, Typography } from "@mui/material";
 // @ts-ignore
-import { JobPost } from "../../../../../backend/node_modules/prisma/prisma-client";
+import { JobPost } from "../../../interfaces/JobPost";
 import ValueWithLabel from "../../../components/ValueWithLabel";
 
 interface JobPreviewCardProps {

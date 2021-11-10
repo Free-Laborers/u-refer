@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 // @ts-ignore
-import { JobPost } from "../../../../../backend/node_modules/prisma/prisma-client";
+import { JobPost } from "../../../interfaces/JobPost";
 import ValueWithLabel from "../../../components/ValueWithLabel";
 import ReferralCreationModal from "../../../components/ReferralCreationModal";
 

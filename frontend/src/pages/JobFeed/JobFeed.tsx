@@ -6,8 +6,7 @@ import FilterDrawer from "./components/FilterDrawer";
 import JobCard from "./components/JobCard";
 import JobPreviewCard from "./components/JobPreviewCard";
 import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
-// @ts-ignore
-import { JobPost } from "../../../../../backend/node_modules/prisma/prisma-client";
+import {JobPost} from "../../interfaces/JobPost"
 
 interface JobFeedResponseType {
   data: JobPost[];
@@ -55,10 +54,10 @@ export default function JobFeed() {
   function handleChange() {
     if (selectedSort === sortStatus.ASC) {
       setselectedSort(sortStatus.DEC);
-      data?.data?.sort((a, b) => a.createdDate.localeCompare(b.createdDate));
+      data?.data?.sort((a, b) => a.createdDate.toLocaleString().localeCompare(b.createdDate.toLocaleString()));
     } else {
       setselectedSort(sortStatus.ASC);
-      data?.data?.sort((a, b) => b.createdDate.localeCompare(a.createdDate));
+      data?.data?.sort((a, b) => b.createdDate.toLocaleString().localeCompare(a.createdDate.toLocaleString()));
     }
   }
   //returns up or down button depending on selected sort
