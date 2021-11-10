@@ -10,11 +10,12 @@ interface JobCardProps {
   job: JobPost;
 }
 
-export default function JobCard(props: JobCardProps) {
+export default function JobCard (props: JobCardProps) {
   const { job } = props;
   const [referralCreationModalOpen, setReferralCreationModalOpen] =
     useState(false);
-  const JobCardContent = job ? (
+  const JobCardContent = job
+    ? (
     <Box height="100%" display="flex" flexDirection="column">
       <Box flexGrow={1}>
         <Box mb={3} display="flex">
@@ -41,9 +42,10 @@ export default function JobCard(props: JobCardProps) {
         Refer
       </Button>
     </Box>
-  ) : (
+      )
+    : (
     <Typography>Click on a job to learn more!</Typography>
-  );
+      );
   return (
     <Paper sx={{ p: 2, height: "100%" }}>
       {JobCardContent}

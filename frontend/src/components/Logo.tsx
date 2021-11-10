@@ -1,13 +1,12 @@
-import * as React from 'react'
+import { SVGProps } from "react";
 
-type LogoColorType = 'primary' | 'white'
-type LogoProps = React.SVGProps<SVGSVGElement> & { color?: LogoColorType }
+type LogoColorType = "primary" | "white"
+type LogoProps = SVGProps<SVGSVGElement> & { color?: LogoColorType }
 
 // Much of this file was generated with https://react-svgr.com/docs/cli/
-function SvgLogo(props: LogoProps) {
-
+function SvgLogo (props: LogoProps) {
   // Default color is dark green
-  const color = props.color === 'white' ? '#ffffff' : '#025856'
+  const color = props.color === "white" ? "#ffffff" : "#025856";
 
   return (
     <svg
@@ -35,7 +34,7 @@ function SvgLogo(props: LogoProps) {
         d="M63.7 4.1c4.5 0 8.6 4.2 8.5 8.7-.1 4.8-3.6 8.4-8.6 8.5-4.5.1-8.6-4.1-8.6-8.6.2-4.5 4.3-8.6 8.7-8.6z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgLogo
+export default SvgLogo;

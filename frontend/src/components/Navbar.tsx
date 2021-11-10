@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import { AccountCircle } from "@mui/icons-material";
 import {
   AppBar,
@@ -7,7 +7,7 @@ import {
   Box,
   Menu,
   MenuItem,
-  Divider,
+  Divider
 } from "@mui/material";
 import Link, { LinkProps } from "@mui/material/Link";
 import Logo from "./Logo";
@@ -25,11 +25,11 @@ const TextLink = (props: LinkProps) => {
   );
 };
 
-export default function Navbar() {
+export default function Navbar () {
   const history = useHistory();
   const { logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleProfileMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleMenuClose = () => {

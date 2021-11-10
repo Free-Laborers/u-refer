@@ -22,9 +22,12 @@ module.exports = {
   rules: {
     quotes: ["error", "double"],
     // Keeping no-unused-vars on had some weird behavior with enums
+    semi: ["error", "always"],
     "no-unused-vars": "off",
+    // note you must disable the base rule as it can report incorrect errors
+    "no-use-before-define": "off",
     "react/react-in-jsx-scope": "off",
     // allow jsx syntax in js files (for next.js project)
     "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx", ".ts", ".tsx"] }] // should add ".ts" if typescript project
   }
-}
+};

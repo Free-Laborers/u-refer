@@ -1,8 +1,8 @@
-import { ReactElement, useState } from 'react'
-import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel, Box } from '@mui/material'
+import { ReactElement, useState } from "react";
+import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel, Box } from "@mui/material";
 // @ts-ignore
-import { JobPost } from '../../../../backend/node_modules/@prisma/client'
-import ReviewPage from './pages/ReviewPage'
+import { JobPost } from "../../../../backend/node_modules/@prisma/client";
+import ReviewPage from "./pages/ReviewPage";
 
 interface ReferralCreationModalProps {
   jobPost: JobPost,
@@ -10,51 +10,50 @@ interface ReferralCreationModalProps {
 }
 
 const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 600,
-  p: 4,
-}
+  p: 4
+};
 
-export default function ReferralCreationModal(props: ReferralCreationModalProps & Omit<ModalProps, 'children'>) {
-  const { jobPost, closeModal, ...modalProps } = props
-  const [ activeStep, setActiveStep ] = useState(0)
+export default function ReferralCreationModal (props: ReferralCreationModalProps & Omit<ModalProps, "children">) {
+  const { jobPost, closeModal, ...modalProps } = props;
+  const [activeStep, setActiveStep] = useState(0);
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
     // TODO
-    ['Personal', <div/>],
+    ["Personal", <div key='personal'/>],
     // TODO
-    ['Recommendation', <div/>],
+    ["Recommendation", <div key='recommendations'/>],
     // TODO
-    ['Documents', <div/>],
+    ["Documents", <div key='documents'/>],
     // TODO
-    ['Review', <ReviewPage/>],
-  ]
+    ["Review", <ReviewPage key='review'/>]
+  ];
 
   const handleBack = () => {
-    if (activeStep === 0) return
-    setActiveStep(activeStep - 1)
-  }
+    if (activeStep === 0) return;
+    setActiveStep(activeStep - 1);
+  };
 
   const handleNext = () => {
-    if (activeStep === steps.length - 1) return handleSubmit()
-    setActiveStep(activeStep + 1)
-  }
+    if (activeStep === steps.length - 1) return handleSubmit();
+    setActiveStep(activeStep + 1);
+  };
 
   const handleSubmit = () => {
     // TODO: Send post request to backend
-    closeModal()
-  }
-
+    closeModal();
+  };
 
   return (
     <Modal onClose={closeModal} {...modalProps}>
       <Paper sx={style}>
         <Typography variant='h5'>Referral for {jobPost?.title}</Typography>
-        <Box sx={{ height: '500px' }}>
+        <Box sx={{ height: "500px" }}>
           {steps[activeStep][1]}
         </Box>
         <Stepper activeStep={activeStep}>
@@ -63,7 +62,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
               <Step key={i}>
                 <StepLabel>{label}</StepLabel>
               </Step>
-            )
+            );
           })}
         </Stepper>
         <Box display='flex' justifyContent='space-evenly' mt={2}>
@@ -71,10 +70,10 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
             Back
           </Button>
           <Button size='small' variant='contained' onClick={handleNext}>
-            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+            {activeStep === steps.length - 1 ? "Finish" : "Next"}
           </Button>
         </Box>
       </Paper>
     </Modal>
-  )
+  );
 }

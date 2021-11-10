@@ -1,7 +1,7 @@
 // Copied from
 // https://github.com/mui-org/material-ui/blob/next/docs/src/pages/getting-started/templates/sign-in/SignIn.tsx
 
-import * as React from "react";
+import { FormEvent, useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -13,7 +13,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
 import { useHistory } from "react-router";
 import useAuth from "../../hooks/useAuth";
 
@@ -33,16 +32,16 @@ import useAuth from "../../hooks/useAuth";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#1E5857",
+      main: "#1E5857"
     },
     secondary: {
-      main: "#E5E5E5",
-    },
-  },
+      main: "#E5E5E5"
+    }
+  }
 });
 
 // https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
-function validateEmail(email: any) {
+function validateEmail (email: any) {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
@@ -54,7 +53,7 @@ const Login = () => {
 
   const { login } = useAuth();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     if (!(data.get("email") && data.get("password"))) {
@@ -64,7 +63,7 @@ const Login = () => {
     const loginData = {
       email: data.get("email") as string,
       password: data.get("password") as string,
-      rememberMe: Boolean(data.get("rememberMe")),
+      rememberMe: Boolean(data.get("rememberMe"))
     };
 
     if (!validateEmail(loginData.email)) {
@@ -86,7 +85,7 @@ const Login = () => {
             marginTop: 6,
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+            alignItems: "center"
           }}
         >
           <img src={"./uRefer.png"} alt="UKG_logo" width="300" height="100" />

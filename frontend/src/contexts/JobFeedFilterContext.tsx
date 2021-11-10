@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, FC } from "react";
 
 interface JobFeedFilterContextType {
   searchString: string,
   minSalary: number,
-  maxSalary: number, 
+  maxSalary: number,
   minExperience: number,
   maxExperience: number,
   tags: string[],
@@ -16,9 +16,9 @@ interface JobFeedFilterContextType {
 }
 
 const JobFeedFilterContext = createContext<JobFeedFilterContextType>({
-  searchString: '',
+  searchString: "",
   minSalary: 0,
-  maxSalary: 0, 
+  maxSalary: 0,
   minExperience: 0,
   maxExperience: 0,
   tags: [],
@@ -27,17 +27,17 @@ const JobFeedFilterContext = createContext<JobFeedFilterContextType>({
   setMaxSalary: () => {},
   setMinExperience: () => {},
   setMaxExperience: () => {},
-  setTags: () => {},
-})
+  setTags: () => {}
+});
 
-export const JobFeedFilterContextProvider = ({children}) => {
+export const JobFeedFilterContextProvider: FC = ({ children }) => {
   // TODO fetch initial values from backend
-  const [searchString, setSearchString] = useState('')
-  const [minSalary, setMinSalary] = useState(0)
-  const [maxSalary, setMaxSalary] = useState(100000)
-  const [minExperience, setMinExperience] = useState(0)
-  const [maxExperience, setMaxExperience] = useState(10)
-  const [tags, setTags] = useState<string[]>([])
+  const [searchString, setSearchString] = useState("");
+  const [minSalary, setMinSalary] = useState(0);
+  const [maxSalary, setMaxSalary] = useState(100000);
+  const [minExperience, setMinExperience] = useState(0);
+  const [maxExperience, setMaxExperience] = useState(10);
+  const [tags, setTags] = useState<string[]>([]);
 
   const initialValue = {
     searchString,
@@ -52,12 +52,12 @@ export const JobFeedFilterContextProvider = ({children}) => {
     setMinExperience,
     setMaxExperience,
     setTags
-  }
-  return <JobFeedFilterContext.Provider value={initialValue}>{children}</JobFeedFilterContext.Provider>
-}
+  };
+  return <JobFeedFilterContext.Provider value={initialValue}>{children}</JobFeedFilterContext.Provider>;
+};
 
 const useJobFeedFilters = () => {
-  return useContext(JobFeedFilterContext)
-}
+  return useContext(JobFeedFilterContext);
+};
 
-export default useJobFeedFilters
+export default useJobFeedFilters;

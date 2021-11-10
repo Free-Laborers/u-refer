@@ -1,34 +1,34 @@
-import { Slider } from '@mui/material'
+import { Slider } from "@mui/material";
 
 interface SalarySliderProps {
   value: [number, number]
   onChange: (salaryRange: [number, number]) => any
 }
 
-export default function SalarySlider(props: SalarySliderProps) {
+export default function SalarySlider (props: SalarySliderProps) {
   // TODO fetch actual max and min salaries
-  const { value, onChange } = props
+  const { value, onChange } = props;
 
   const handleChange = (e, value) => {
-    onChange(value as [number, number])
-  }
+    onChange(value as [number, number]);
+  };
 
   return (
     <Slider
       sx={{
         mb: 3,
-        '& .MuiSlider-valueLabel': {
+        "& .MuiSlider-valueLabel": {
           fontSize: 12,
-          fontWeight: 'normal',
-          top: '48px',
-          backgroundColor: 'unset',
+          fontWeight: "normal",
+          top: "48px",
+          backgroundColor: "unset",
           color: (theme) => theme.palette.text.primary,
-          '&:before': {
-            display: 'none',
+          "&:before": {
+            display: "none"
           }
         }
       }}
-      valueLabelFormat={v => '$' + v.toLocaleString()}
+      valueLabelFormat={v => "$" + v.toLocaleString()}
       onChange={handleChange}
       valueLabelDisplay='on'
       min={0}
@@ -36,5 +36,5 @@ export default function SalarySlider(props: SalarySliderProps) {
       step={10000}
       value={value}
     />
-  )
+  );
 }

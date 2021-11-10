@@ -8,7 +8,7 @@ interface JobPreviewCardProps {
   onClick;
 }
 
-export default function JobPreviewCard(props: JobPreviewCardProps) {
+export default function JobPreviewCard (props: JobPreviewCardProps) {
   const { job, onClick } = props;
   return (
     <Paper onClick={onClick} sx={{ mb: 2, p: 2, cursor: "pointer" }}>
@@ -22,7 +22,7 @@ export default function JobPreviewCard(props: JobPreviewCardProps) {
           textOverflow: "ellipsis",
           whiteSpace: "initial",
           WebkitBoxOrient: "vertical",
-          WebkitLineClamp: 3,
+          WebkitLineClamp: 3
         }}
         label="Description"
         value={job?.description}

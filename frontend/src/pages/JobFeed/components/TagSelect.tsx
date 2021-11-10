@@ -1,14 +1,14 @@
-import { Chip, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme } from '@mui/material'
-import { Cancel } from '@mui/icons-material'
-import { useTheme } from '@mui/material/styles'
-import { Box } from '@mui/system'
-import useAxios from 'axios-hooks'
+import { Chip, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme } from "@mui/material";
+import { Cancel } from "@mui/icons-material";
+import { useTheme } from "@mui/material/styles";
+import { Box } from "@mui/system";
+import useAxios from "axios-hooks";
 
 // Styles dropdown items
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
+function getStyles (name: string, personName: readonly string[], theme: Theme) {
   return {
-    fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
-  }
+    fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
+  };
 }
 
 type TagSelectProps = {
@@ -16,29 +16,29 @@ type TagSelectProps = {
   onChange: (val: string[]) => any
 }
 
-export default function TagSelect(props: TagSelectProps) {
-  const { onChange, value } = props
-  const theme = useTheme()
+export default function TagSelect (props: TagSelectProps) {
+  const { onChange, value } = props;
+  const theme = useTheme();
   const [{ data }] = useAxios({
-    url: '/tag',
-    headers: { 
-      'Authorization': localStorage.getItem('authorization')
-    },
-  })
-  
-  const tags = data?.tags || []
+    url: "/tag",
+    headers: {
+      Authorization: localStorage.getItem("authorization")
+    }
+  });
+
+  const tags = data?.tags || [];
 
   const handleDelete = (valToDelete: string) => {
-    const newTags = [...value].filter(t => t !== valToDelete)
-    onChange(newTags)
-  }
+    const newTags = [...value].filter(t => t !== valToDelete);
+    onChange(newTags);
+  };
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     const {
-      target: { value },
-    } = event
-    onChange(value as string[])
-  }
+      target: { value }
+    } = event;
+    onChange(value as string[]);
+  };
 
   return (
     <Select
@@ -49,7 +49,7 @@ export default function TagSelect(props: TagSelectProps) {
       onChange={handleChange}
       input={<OutlinedInput fullWidth placeholder='Tags' />}
       renderValue={selected => (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
           {selected.map(value => (
             // TODO Figure out why handleDelete is not triggered when button is clicked
             <Chip
@@ -72,5 +72,5 @@ export default function TagSelect(props: TagSelectProps) {
         </MenuItem>
       ))}
     </Select>
-  )
+  );
 }

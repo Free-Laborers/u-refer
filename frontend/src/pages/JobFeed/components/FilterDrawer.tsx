@@ -1,15 +1,15 @@
-import { Drawer, TextField, Typography, Box } from '@mui/material'
-import useJobFeedFilters from '../../../contexts/JobFeedFilterContext'
-import ExperienceSlider from './ExperienceSlider'
-import SalarySlider from './SalarySlider'
-import TagSelect from './TagSelect'
+import { Drawer, TextField, Typography, Box } from "@mui/material";
+import useJobFeedFilters from "../../../contexts/JobFeedFilterContext";
+import ExperienceSlider from "./ExperienceSlider";
+import SalarySlider from "./SalarySlider";
+import TagSelect from "./TagSelect";
 
 interface FilterDrawerProps {
   width?: number
 }
 
-export default function FilterDrawer(props: FilterDrawerProps) {
-  const width = props?.width || 270
+export default function FilterDrawer (props: FilterDrawerProps) {
+  const width = props?.width || 270;
 
   const {
     setSearchString,
@@ -23,28 +23,28 @@ export default function FilterDrawer(props: FilterDrawerProps) {
     setMinExperience,
     setMaxExperience,
     maxExperience,
-    minExperience,
-  } = useJobFeedFilters()
+    minExperience
+  } = useJobFeedFilters();
 
   const handleSalaryChange = (salaryRange: [number, number]) => {
-    setMinSalary(salaryRange[0])
-    setMaxSalary(salaryRange[1])
-  }
+    setMinSalary(salaryRange[0]);
+    setMaxSalary(salaryRange[1]);
+  };
 
   const handleExperienceChange = (experienceRange: [number, number]) => {
-    setMinExperience(experienceRange[0])
-    setMaxExperience(experienceRange[1])
-  }
-  
+    setMinExperience(experienceRange[0]);
+    setMaxExperience(experienceRange[1]);
+  };
+
   return (
     <Drawer
       sx={{
-        '& .MuiDrawer-paper': {
+        "& .MuiDrawer-paper": {
           width: width,
-          boxSizing: 'border-box',
+          boxSizing: "border-box",
           p: 5,
-          pt: 12,
-        },
+          pt: 12
+        }
       }}
       anchor='left'
       variant='permanent'>
@@ -99,7 +99,7 @@ export default function FilterDrawer(props: FilterDrawerProps) {
       <Typography variant='body2'>Experience</Typography>
       <ExperienceSlider value={[minExperience, maxExperience]} onChange={handleExperienceChange} />
 
-      {/*EXPERIENCE TEXT BOXES */}
+      {/* EXPERIENCE TEXT BOXES */}
       <Box>
         <TextField
         margin='dense'
@@ -121,5 +121,5 @@ export default function FilterDrawer(props: FilterDrawerProps) {
         />
       </Box>
     </Drawer>
-  )
+  );
 }

@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react';
-import { Typography } from '@mui/material'
-import { Redirect } from 'react-router';
+import { useEffect, useState } from "react";
+import { Typography } from "@mui/material";
+import { Redirect } from "react-router";
 
-export default function Home() {
+export default function Home () {
   const [redirect, setRedirect] = useState<boolean>(false); // we could also do useState<boolean>(auth)...??? check how it looks
   const [userData, setUserData] = useState({
     email: "",
     firstName: "",
     lastName: "",
     position: "",
-    isManager: "",
+    isManager: ""
   });
 
   useEffect(() => {
-    async function getData() {
-      const auth = localStorage.getItem('authorization');
+    async function getData () {
+      const auth = localStorage.getItem("authorization");
 
       if (auth) {
         const myHeaders = new Headers();
-        myHeaders.append('authorization', auth);
+        myHeaders.append("authorization", auth);
 
         const response = await fetch("/employee/profile", {
-          method: 'GET',
+          method: "GET",
           headers: myHeaders
         });
 
@@ -38,7 +38,7 @@ export default function Home() {
   }, []);
 
   if (redirect) {
-    return <Redirect to="/login" />
+    return <Redirect to="/login" />;
   }
 
   return (
@@ -53,5 +53,5 @@ export default function Home() {
         Is manager: {userData.isManager}
       </Typography>
     </>
-  )
+  );
 }

@@ -1,36 +1,35 @@
-import {useEffect, useState} from 'react';
-import Tab from '@mui/material/Tab'
-import {Tabs} from '@mui/material'
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import Tab from "@mui/material/Tab";
+import { Tabs } from "@mui/material";
+import axios from "axios";
 
-//https://stackoverflow.com/questions/66012476/how-to-show-hide-mui-tabs-based-on-a-condition-and-maintain-the-right-tab-index
+// https://stackoverflow.com/questions/66012476/how-to-show-hide-mui-tabs-based-on-a-condition-and-maintain-the-right-tab-index
 
 const Profile = () => {
-
   const [userData, setUserData] = useState({
     email: "",
     firstName: "",
     lastName: "",
     position: "",
-    isManager: "",
+    isManager: ""
   });
 
   useEffect(() => {
-    async function getData() {
-      const auth = localStorage.getItem('authorization');
+    async function getData () {
+      const auth = localStorage.getItem("authorization");
 
       if (auth) {
         try {
           const response = await axios("/employee/profile", {
-            method: 'GET',
-            headers: { 
-              'Authorization': localStorage.getItem('authorization')
-            },
-          })
+            method: "GET",
+            headers: {
+              Authorization: localStorage.getItem("authorization")
+            }
+          });
           const json = await response.data;
           return setUserData(json.user);
-        } catch(err){
-          console.error(err)
+        } catch (err) {
+          console.error(err);
         }
       }
     }
@@ -38,13 +37,12 @@ const Profile = () => {
     getData();
   }, []);
 
-
-    const [value, setValue] = useState(-1);
-    const handleTab = (event, val) => {
-        setValue(val);
-    }
-    const isAManager = userData.isManager;
-    return (
+  const [value, setValue] = useState(-1);
+  const handleTab = (event, val) => {
+    setValue(val);
+  };
+  const isAManager = userData.isManager;
+  return (
         <>
            <Tabs value={value} onChange={handleTab}>
             <Tab label="My Referrals" value={0} />
@@ -53,19 +51,20 @@ const Profile = () => {
            <TabPanel value={value} index={0}>This this where {userData.firstName} {userData.lastName} referrals will show</TabPanel>
            <TabPanel value={value} index={1}>This is where {userData.firstName} {userData.lastName} positions will show</TabPanel>
         </>
-    )
-}
+  );
+};
 
-//https://www.youtube.com/watch?v=_i49HTOacvI && https://www.youtube.com/watch?v=nF9q_fRV-1A
-function TabPanel(props){
-    const {children, value, index}=props;
-    return(
+// https://www.youtube.com/watch?v=_i49HTOacvI && https://www.youtube.com/watch?v=nF9q_fRV-1A
+function TabPanel (props) {
+  // eslint-disable-next-line react/prop-types
+  const { children, value, index } = props;
+  return (
         <div>
         {
-            value===index && (<h1>{children}</h1>)
+            value === index && (<h1>{children}</h1>)
         }
         </div>
-    )
+  );
 }
 
-export default Profile
+export default Profile;
