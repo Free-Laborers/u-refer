@@ -16,7 +16,7 @@ export default function JobFeed() {
   const { searchString, tags, minSalary, maxSalary, minExperience, maxExperience } = useJobFeedFilters()
   const [selectedSort, setselectedSort] = useState<sortStatus>(sortStatus.DEC) 
   const [{ data }] = useAxios({
-    url: '/jobs',
+    url: '/jobPost',
     headers: { 
       'Authorization': localStorage.getItem('authorization')
     },
