@@ -115,10 +115,8 @@ app.get("/", (request: Request, response: Response) => {
 });
 
 app.use("/employee", employeeRouter);
-app.use("/tags", tagRouter);
-app.use("/jobs", jobPostRouter);
+app.use("/tag", tagRouter);
 app.use("/jobPost", jobPostRouter);
-app.use("/tags", tagRouter);
 app.use("/referral", referralRouter);
 
 // ------------ error handling. It only has 500 error, but later more errors will be handled.
