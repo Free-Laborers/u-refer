@@ -20,7 +20,7 @@ export default function Home() {
         const myHeaders = new Headers();
         myHeaders.append('authorization', auth);
 
-        const response = await fetch("http://127.0.0.1:5000/employee/profile", {
+        const response = await fetch("/employee/profile", {
           method: 'GET',
           headers: myHeaders
         });

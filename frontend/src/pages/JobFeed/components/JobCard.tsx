@@ -37,7 +37,7 @@ export default function JobCard(props: JobCardProps) {
   return (
     <Paper sx={{ mx: 2, p: 2, height: '100%' }}>
       {JobCardContent}
-      <ReferralCreationModal open={referralCreationModalOpen} onClose={() => setReferralCreationModalOpen(false)} jobPost={job} />
+      <ReferralCreationModal open={referralCreationModalOpen} closeModal={() => setReferralCreationModalOpen(false)} jobPost={job} />
     </Paper>
   )
 }

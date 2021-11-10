@@ -40,10 +40,14 @@ export default function Navbar() {
     handleMenuClose();
     history.push("/login");
   };
+  const handleProfile = () => {
+    handleMenuClose();
+    history.push("/profile");
+  };
 
   const renderMenu = (
     <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleMenuClose}>
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleProfile}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My Jobs</MenuItem>
       <MenuItem onClick={handleMenuClose}>My Referrals</MenuItem>
       <Divider />
