@@ -20,18 +20,24 @@ const App = () => {
               <Route exact path='/login'>
                 <Login />
               </Route>
-              <PrivateRoute exact path='/'>
-                <Navbar />
-                <Home />
-              </PrivateRoute>
-              <PrivateRoute component={Navbar} exact path='/refer'>
-                <Navbar />
-                {/* TODO */}
-              </PrivateRoute>
-              <PrivateRoute exact path='/jobs'>
-                <Navbar />
-                <JobFeed />
-              </PrivateRoute>
+              <Route exact path='/'>
+                <PrivateRoute>
+                  <Navbar />
+                  <Home />
+                </PrivateRoute>
+              </Route>
+              <Route exact path='/refer'>
+                <PrivateRoute>
+                  <Navbar />
+                  {/* TODO */}
+                </PrivateRoute>
+              </Route>
+              <Route exact path='/jobs'>
+                <PrivateRoute>
+                  <Navbar />
+                  <JobFeed />
+                </PrivateRoute>
+              </Route>
               <Route exact path='/jobs/create'>
                 <Navbar />
                 <Listing />

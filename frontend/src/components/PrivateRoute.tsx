@@ -1,13 +1,11 @@
-import { ReactNode } from 'react';
-import { Route, Redirect } from 'react-router';
+import { Redirect } from 'react-router';
 import useAuth from '../hooks/useAuth'
 
-function PrivateRoute({children: ReactNode, ...rest}) {
+function PrivateRoute({ children }) {
     const auth = useAuth();
-    return <Route {...rest} render={props => {
-        console.log(auth);
-        return (auth.user ? children : <Redirect to='/login'/>)
-    }} />
+    if (auth.user) return children;
+    
+    return <Redirect to={{ pathname: '/login', state: { logout: true } }} />;
 }
 
 export default PrivateRoute

@@ -1,7 +1,7 @@
 // Copied from
 // https://github.com/mui-org/material-ui/blob/next/docs/src/pages/getting-started/templates/sign-in/SignIn.tsx
 
-import * as React from "react";
+import { useEffect, FormEvent } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
-import { Redirect } from "react-router";
+import { Redirect, useLocation } from "react-router";
 import useAuth from "../../hooks/useAuth";
 
 // function Copyright(props: any) {
@@ -48,13 +48,24 @@ function validateEmail(email: any) {
   return re.test(String(email).toLowerCase());
 }
 
-const Login = () => {
-  const [ redirect, setRedirect ] = useState<Boolean>(false);
+const Login = (props) => {
+  const [ redirect, setRedirect ] = useState<Boolean>(localStorage.getItem('Authorization') === null);
   const [errMessage, setErrMessage] = useState<string>("");
-  const { login } = useAuth();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const location: { state: {logout: Boolean} } = useLocation();
+  const { login, logout } = useAuth();
+
+  useEffect(() => {
+    if (location.state.logout) {
+      logout();
+    }
+  }, [location.state.logout, logout]);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
+    location.state.logout = false;
+
     const data = new FormData(event.currentTarget);
     if (!(data.get("email") && data.get("password"))) {
       return setErrMessage("Please fill out the email and password fields");
