@@ -7,12 +7,57 @@ import {
 } from "../controllers/candidateControllers";
 import { getOneEmployeeWithEmail } from "../controllers/employeeControllers";
 import { createOneReferral } from "../controllers/referralControllers";
+import * as referralControllers from '../controllers/referralControllers';
 import { StatusCodedError } from "../error/statusCodedError";
 const referralRouter = express.Router();
 
 referralRouter.get(
   "/",
   async (req: Request, res: Response, next: NextFunction) => {}
+);
+
+referralRouter.get(
+  "/user",
+  async (req: Request, res:Response, next: NextFunction) => {
+    try{
+      const userId = req.query.userId ? (req.query.userId as string) : "";
+      const referrals = await referralControllers.getReferralsFromUserId(userId);
+      res.status(200).json({referrals});
+    }catch(e:any){
+      next(new Error(e));
+    }
+  }
+);
+
+//=============middleware for getting referrals from a job post
+const checkUserIsManager = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.user && req.user.isManager) {
+    next();
+  } else {
+    try {
+      throw new StatusCodedError("unauthroized request: not a manager", 401);
+    } catch (err) {
+      next(err);
+    }
+  }
+};
+
+referralRouter.get(
+  "/jobs",
+  checkUserIsManager,
+  async (req: Request, res:Response, next: NextFunction) => {
+    try{
+      const jobId = req.query.jobId ? (req.query.jobId as string) : "";
+      const referrals = await referralControllers.getReferralsFromJobPostId(jobId);
+      res.status(200).json({referrals});
+    }catch(e:any){
+      next(new Error(e));
+    }
+  }
 );
 
 const checkRequiredBodyParamForReferralPost = (

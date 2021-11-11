@@ -104,6 +104,16 @@ export const getJobPostings = (filters: Partial<JobListingFilterType>) => {
   });
 };
 
+export const getJobPostingsWithManagerId = (managerId: string) =>{
+  return prisma.jobPost.findMany({
+    where:{
+      hiringManagerId:{
+        equals: managerId
+      }
+    }
+  });
+};
+
 export const createOneJobPost = (dataClause: Prisma.JobPostCreateInput) => {
   return prisma.jobPost.create({
     data: dataClause,
