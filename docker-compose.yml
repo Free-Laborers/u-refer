@@ -42,11 +42,12 @@ services:
     container_name: urefer-db
     restart: always
     ports:
-      - 5432:5432
+      - ${UREFER_DB_PORT:-5433}:5432
     volumes:
      - database-data:/var/lib/postgresql/data/
 volumes:
   database-data:
+      name: u-refer_database-data-${UREFER_DB_PORT:-5433}
   node_modules:
 networks:
   backend:
