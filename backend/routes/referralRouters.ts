@@ -21,6 +21,9 @@ referralRouter.get(
   async (req: Request, res:Response, next: NextFunction) => {
     try{
       const userId = req.query.userId ? (req.query.userId as string) : "";
+      if(req.user?.id!==userId){ //we should only get referrals if the user logged is the user passed into get request
+        throw new StatusCodedError("unauthorized request: userId does not match", 401);
+      }
       const referrals = await referralControllers.getReferralsFromUserId(userId);
       res.status(200).json({referrals});
     }catch(e:any){
@@ -46,7 +49,7 @@ const checkUserIsManager = (
   }
 };
 
-referralRouter.get(
+referralRouter.get( //I feel like we should restrict this to only the specific job creator and no one else
   "/jobs",
   checkUserIsManager,
   async (req: Request, res:Response, next: NextFunction) => {
