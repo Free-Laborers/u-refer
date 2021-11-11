@@ -19,6 +19,7 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
     maxExperience,
     searchString,
   } = args;
+
   let whereClause: Prisma.JobPostWhereInput = {};
 
   if (searchString) {
@@ -90,10 +91,17 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
 
 const prisma = new PrismaClient();
 
-export const getJobPostings = (filters: Partial<JobListingFilterType>) => {
-  const whereClause = whereClauseBuilder(filters);
-  return prisma.jobPost.findMany({
+export const getJobPostings = async (
+  filters: Partial<JobListingFilterType> & { page: number }
+) => {
+  const PAGE_SIZE = 10;
+  const { page, ...whereClauseFilters } = filters;
+  const whereClause = whereClauseBuilder(whereClauseFilters);
+
+  const data = await prisma.jobPost.findMany({
     where: whereClause,
+    skip: page * PAGE_SIZE,
+    take: PAGE_SIZE,
     include: {
       PostToTag: {
         include: {
@@ -102,6 +110,10 @@ export const getJobPostings = (filters: Partial<JobListingFilterType>) => {
       },
     },
   });
+
+  const numResults = await prisma.jobPost.count({ where: whereClause });
+
+  return { numResults, data };
 };
 
 export const getJobPostingsWithManagerId = (managerId: string) =>{

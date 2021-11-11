@@ -26,6 +26,9 @@ const main = async () => {
   const jp2 = await createJobPost({ hiringManagerId: manager.id, title: "2" });
   const jp3 = await createJobPost({ hiringManagerId: manager.id, title: "3" });
   const jp4 = await createJobPost({ hiringManagerId: manager.id, title: "4" });
+  for(let i = 0; i < 50; ++i){
+    await createJobPost({hiringManagerId: manager.id})
+  }
   const referral = await createReferral({
     employeeId: employee.id,
     jobPostId: jobPost.id,
