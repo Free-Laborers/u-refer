@@ -5,7 +5,7 @@ export const createOneReferral = (dataClause: Prisma.ReferralCreateInput) => {
   return prisma.referral.create({ data: dataClause });
 };
 
-export const getReferralsFromUserId = (userId: string) =>{
+export const getReferralsFromEmployeeId = (userId: string) =>{
   return prisma.referral.findMany({
     where:{
       employeeId:{
