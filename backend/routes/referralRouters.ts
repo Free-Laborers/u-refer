@@ -7,7 +7,7 @@ import {
 } from "../controllers/candidateControllers";
 import { getOneEmployeeWithEmail } from "../controllers/employeeControllers";
 import { createOneReferral } from "../controllers/referralControllers";
-import * as referralControllers from '../controllers/referralControllers';
+import * as referralControllers from "../controllers/referralControllers";
 import { StatusCodedError } from "../error/statusCodedError";
 const referralRouter = express.Router();
 
@@ -18,15 +18,17 @@ referralRouter.get(
 
 referralRouter.get(
   "/user",
-  async (req: Request, res:Response, next: NextFunction) => {
-    try{
-      const userId = req.query.userId ? (req.query.userId as string) : "";
-      if(req.user?.id!==userId){ //we should only get referrals if the user logged is the user passed into get request
-        throw new StatusCodedError("unauthorized request: userId does not match", 401);
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (!req.user) {
+        throw new StatusCodedError("not logged in", 401);
       }
-      const referrals = await referralControllers.getReferralsFromEmployeeId(userId);
-      res.status(200).json({referrals});
-    }catch(e:any){
+
+      const referrals = await referralControllers.getReferralsFromEmployeeId(
+        req.user.id
+      );
+      res.status(200).json({ referrals });
+    } catch (e: any) {
       next(new Error(e));
     }
   }
@@ -49,15 +51,18 @@ const checkUserIsManager = (
   }
 };
 
-referralRouter.get( //I feel like we should restrict this to only the specific job creator and no one else
+referralRouter.get(
+  //I feel like we should restrict this to only the specific job creator and no one else
   "/jobs",
   checkUserIsManager,
-  async (req: Request, res:Response, next: NextFunction) => {
-    try{
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
       const jobId = req.query.jobId ? (req.query.jobId as string) : "";
-      const referrals = await referralControllers.getReferralsFromJobPostId(jobId);
-      res.status(200).json({referrals});
-    }catch(e:any){
+      const referrals = await referralControllers.getReferralsFromJobPostId(
+        jobId
+      );
+      res.status(200).json({ referrals });
+    } catch (e: any) {
       next(new Error(e));
     }
   }
