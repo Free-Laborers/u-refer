@@ -1,4 +1,4 @@
-import { Employee, Prisma } from "@prisma/client";
+import { Employee, JobPost, Prisma } from "@prisma/client";
 import express, { NextFunction, Request, response, Response } from "express";
 import {
   createOneCandidate,
@@ -8,6 +8,7 @@ import {
 import { getOneEmployeeWithEmail } from "../controllers/employeeControllers";
 import { createOneReferral } from "../controllers/referralControllers";
 import * as referralControllers from "../controllers/referralControllers";
+import * as jobPostControllers from "../controllers/jobPostControllers";
 import { StatusCodedError } from "../error/statusCodedError";
 const referralRouter = express.Router();
 
@@ -44,20 +45,59 @@ const checkUserIsManager = (
     next();
   } else {
     try {
-      throw new StatusCodedError("unauthroized request: not a manager", 401);
+      throw new StatusCodedError("forbidden request: not a manager", 403);
     } catch (err) {
       next(err);
     }
   }
 };
 
+const checkIfQueryHasValidJobId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.query.jobId) {
+    next(new StatusCodedError("bad request: no jobId in query", 400));
+  } else if (
+    !(await jobPostControllers.getOneJobPostWithId(req.query.jobId as string))
+  ) {
+    next(
+      new StatusCodedError("bad request: no such jobFeed with input jobId", 400)
+    );
+  } else {
+    next();
+  }
+};
+
+const checkOneJobPostIsCreatedByUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const jobPostId = req.query.jobId as string; //checkIfQueryHasValidJobId checks that it does exist.
+  const jobPostCreatorId = (
+    (await jobPostControllers.getOneJobPostWithId(jobPostId)) as JobPost
+  ).hiringManagerId; //checkIfQueryHasValidJobId checks that the jobPostId is the valid one.
+  if (req.user?.id === jobPostCreatorId) {
+    next(new StatusCodedError("forbidden, not the jobpost creater", 403));
+  } else {
+    next();
+  }
+};
+
+const middlewaresForReferralJobPost = [
+  checkUserIsManager, //check if the user is manager
+  checkIfQueryHasValidJobId, //check if the req.query has valid jobId
+  checkOneJobPostIsCreatedByUser, //restrict to only the specific job creator and no one else
+];
+
 referralRouter.get(
-  //I feel like we should restrict this to only the specific job creator and no one else
-  "/jobs",
-  checkUserIsManager,
+  "/jobPost",
+  middlewaresForReferralJobPost,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const jobId = req.query.jobId ? (req.query.jobId as string) : "";
+      const jobId = req.query.jobId as string;
       const referrals = await referralControllers.getReferralsFromJobPostId(
         jobId
       );
