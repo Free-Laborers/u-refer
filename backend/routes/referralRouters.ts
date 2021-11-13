@@ -20,10 +20,7 @@ referralRouter.get(
   "/user",
   async (req: Request, res:Response, next: NextFunction) => {
     try{
-      const userId = req.query.userId ? (req.query.userId as string) : "";
-      if(req.user?.id!==userId){ //we should only get referrals if the user logged is the user passed into get request
-        throw new StatusCodedError("unauthorized request: userId does not match", 401);
-      }
+      const userId = req.user?.id ? (req.user.id as string) : "";
       const referrals = await referralControllers.getReferralsFromEmployeeId(userId);
       res.status(200).json({referrals});
     }catch(e:any){
