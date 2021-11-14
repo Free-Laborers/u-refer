@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from "@prisma/client";
+import { equal } from "assert";
 import * as _ from "lodash";
 
 export interface JobListingFilterType {
@@ -116,13 +117,19 @@ export const getJobPostings = async (
   return { numResults, data };
 };
 
-export const getJobPostingsWithManagerId = (managerId: string) =>{
+export const getJobPostingsWithManagerId = (managerId: string) => {
   return prisma.jobPost.findMany({
-    where:{
-      hiringManagerId:{
-        equals: managerId
-      }
-    }
+    where: {
+      hiringManagerId: managerId,
+    },
+  });
+};
+
+export const getOneJobPostWithId = (id: string) => {
+  return prisma.jobPost.findUnique({
+    where: {
+      id,
+    },
   });
 };
 
