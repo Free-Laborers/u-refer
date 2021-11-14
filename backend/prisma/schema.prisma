@@ -9,15 +9,14 @@ datasource db {
 }
 
 enum Referral_Status {
-  SUBMITTED
-  REVIEWED  // the hiring manager looked at the referral and decided not to contact
-  CONTACTED // the referree was contacted, but has not been rejected or hired yet
-  REJECTED  // the referree was contacted, went through the hiring process, and was rejected
-  HIRED     // the referree was contacted, went through the hiring process, and was hired
-  WITHDRAWN // the referrer decided to withdraw the referral while it was SUBMITTED
-  CLOSED    // the job post was closed while the referral was on SUBMITTED
+  SUBMITTED // the referee info has been submitted, but not reviewed by managers yet
+  REVIEWED  // the referee info has been reviewed, and the managers are deciding if they want to contact to the candidate or not
+  CONTACTED // the referee has been contacted, but has not been rejected or hired yet
+  REJECTED  // the referee has been rejected after being reviewed or contacted
+  HIRED     // the referee has been hired, after being reviewed and contacted
+  WITHDRAWN // the referee has been withdrawn by the referrer while it was SUBMITTED
+  IGNORED   // the referee has been ignored without any review with any hiring managers (due to job close for example)
 }
-
 model Employee {
   id          String     @id @default(uuid())
   email       String     @unique
