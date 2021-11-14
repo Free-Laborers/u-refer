@@ -79,7 +79,7 @@ const checkOneJobPostIsCreatedByUser = async (
   const jobPostCreatorId = (
     (await jobPostControllers.getOneJobPostWithId(jobPostId)) as JobPost
   ).hiringManagerId; //checkIfQueryHasValidJobId checks that the jobPostId is the valid one.
-  if (req.user?.id === jobPostCreatorId) {
+  if (req.user?.id !== jobPostCreatorId) {
     next(new StatusCodedError("forbidden, not the jobpost creater", 403));
   } else {
     next();
