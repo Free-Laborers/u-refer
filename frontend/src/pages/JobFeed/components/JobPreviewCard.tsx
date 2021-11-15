@@ -1,4 +1,4 @@
-import { Box, Chip, Paper, Stack, Typography } from "@mui/material";
+import { Chip, Paper, Stack, Typography } from "@mui/material";
 // @ts-ignore
 import { JobPost } from "../../../../../backend/node_modules/prisma/prisma-client";
 import ValueWithLabel from "../../../components/ValueWithLabel";
