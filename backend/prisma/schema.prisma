@@ -4,10 +4,19 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-   url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
   //url      = "postgresql://postgres:docker@localhost:5432/urefer?schema=public"
 }
 
+enum Referral_Status {
+  SUBMITTED // the referee info has been submitted, but not reviewed by managers yet
+  REVIEWED  // the referee info has been reviewed, and the managers are deciding if they want to contact to the candidate or not
+  CONTACTED // the referee has been contacted, but has not been rejected or hired yet
+  REJECTED  // the referee has been rejected after being reviewed or contacted
+  HIRED     // the referee has been hired, after being reviewed and contacted
+  WITHDRAWN // the referee has been withdrawn by the referrer while it was SUBMITTED
+  IGNORED   // the referee has been ignored without any review with any hiring managers (due to job close for example)
+}
 model Employee {
   id          String     @id @default(uuid())
   email       String     @unique
@@ -16,8 +25,8 @@ model Employee {
   lastName    String
   pronoun     String?
   position    String
-  createdDate DateTime  @default(now())
-  isManager   Boolean @default(false)
+  createdDate DateTime   @default(now())
+  isManager   Boolean    @default(false)
   JobPost     JobPost[]
   Referral    Referral[]
 }
@@ -29,7 +38,7 @@ model Candidate {
   lastName   String
   pronoun    String?
   phone      String?
-  employeeId String?    @unique 
+  employeeId String?    @unique
   Referral   Referral[]
 }
 
@@ -41,7 +50,7 @@ model JobPost {
   minYearsExperience Int
   salary             Int
   openings           Int         @default(1)
-  createdDate        DateTime    @db.Timestamp() @default(now())
+  createdDate        DateTime    @default(now()) //@db.Timestamp
   deletedDate        DateTime?
   Employee           Employee    @relation(fields: [hiringManagerId], references: [id])
   hiringManagerId    String
@@ -50,18 +59,19 @@ model JobPost {
 }
 
 model Referral {
-  id                   String    @id @default(uuid())
-  Employee             Employee  @relation(fields: [employeeId], references: [id])
-  Candidate            Candidate @relation(fields: [candidateId], references: [id])
-  JobPost              JobPost   @relation(fields: [jobPostId], references: [id])
-  employeeId           String
-  candidateId          String
-  jobPostId            String
-  description          String
-  resumeFilePath       String?
-  createdDate          DateTime  @default(now())
-  acceptedDate         DateTime?
-  deletedDate          DateTime?
+  id             String          @id @default(uuid())
+  Employee       Employee        @relation(fields: [employeeId], references: [id])
+  Candidate      Candidate       @relation(fields: [candidateId], references: [id])
+  JobPost        JobPost         @relation(fields: [jobPostId], references: [id])
+  employeeId     String
+  candidateId    String
+  jobPostId      String
+  description    String
+  resumeFilePath String?
+  createdDate    DateTime        @default(now())
+  contactedDate  DateTime?
+  finishedDate   DateTime?
+  status         Referral_Status @default(SUBMITTED)
 }
 
 model PostToTag {
