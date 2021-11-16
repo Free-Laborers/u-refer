@@ -133,17 +133,6 @@ const Login = () => {
             >
               Sign In
             </Button>
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={() => {
-                localStorage.setItem("authorization", "");
-                alert("successfully logged out!");
-              }}
-            >
-              Sign Out
-            </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
