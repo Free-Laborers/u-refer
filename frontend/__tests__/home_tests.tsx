@@ -1,5 +1,5 @@
 import Home from '../src/pages/Home/Home';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 //Home Page
 jest.mock('../src/hooks/useAuth', () => {
@@ -19,22 +19,17 @@ jest.mock('../src/hooks/useAuth', () => {
         }
     });
 });
-
-
     
 describe('Home Page', () => {
-    let container;
-    beforeAll(() => {
-        container = render(<Home />)
-    })
-
     test("Check for welcome home", () => {
-        const header = container.getByRole('heading');
+        render(<Home />);
+        const header = screen.getByRole('heading');
         expect(header.innerHTML).toEqual("Welcome home!");
     });
 
     test('Checks it has a paragraph and breaks between statements', () => {
-        const paragraph = container.getByTestId('paragraph');
+        render(<Home />);
+        const paragraph = screen.getByTestId('paragraph');
         expect(paragraph.getElementsByTagName('br')).toHaveLength(5);
     });
 });
