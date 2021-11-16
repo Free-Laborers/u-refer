@@ -72,7 +72,7 @@ const Login = () => {
     }
 
     login(loginData)
-      .then((_) => history.push("/"))
+      .then((_) => history.push("/jobs"))
       .catch((err) => setErrMessage(err.message));
   };
 
