@@ -1,7 +1,7 @@
 // Copied from
 // https://github.com/mui-org/material-ui/blob/next/docs/src/pages/getting-started/templates/sign-in/SignIn.tsx
 
-import { useEffect, FormEvent } from "react";
+import { FormEvent } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -49,17 +49,11 @@ function validateEmail(email: any) {
 }
 
 const Login = (props) => {
-  const [ redirect, setRedirect ] = useState<Boolean>(localStorage.getItem('Authorization') === null);
+  const [ redirect, setRedirect ] = useState<Boolean>(false);
   const [errMessage, setErrMessage] = useState<string>("");
 
   const location: { state: {logout: Boolean} } = useLocation();
-  const { login, logout } = useAuth();
-
-  useEffect(() => {
-    if (location.state.logout) {
-      logout();
-    }
-  }, [location.state.logout, logout]);
+  const { login } = useAuth();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -87,7 +81,7 @@ const Login = (props) => {
   };
 
   if (redirect) {
-    return <Redirect to="/" />;
+    return <Redirect to="/jobs" />;
   }
 
   return (
