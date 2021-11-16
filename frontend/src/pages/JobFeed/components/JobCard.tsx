@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Paper, Typography } from "@mui/material";
+import { Button, Chip, Paper, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 // @ts-ignore
 import { JobPost } from "../../../../../backend/node_modules/prisma/prisma-client";
@@ -25,6 +25,18 @@ export default function JobCard(props: JobCardProps) {
             {new Date(job?.createdDate).toLocaleDateString()}
           </Typography>
         </Box>
+        <Stack direction="row" spacing={0.5} mb = {2}>
+          {
+            // @ts-ignore
+            job.PostToTag.map(ptt => (
+              <Chip
+              label = {ptt.Tag.name}
+              variant ="filled"
+              color='default' 
+              />
+            ))
+          }
+      </Stack>
         <ValueWithLabel label="Description" value={job?.description} />
         <ValueWithLabel
           label="Salary"
