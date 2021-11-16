@@ -37,9 +37,13 @@ jobPostRouter.get(
   "/manager",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const managerId = req.query.managerId ? (req.query.managerId as string) : "";
-      const jobs = await jobPostController.getJobPostingsWithManagerId( managerId );
-      res.status(200).json({jobs});
+      if (!req.user) {
+        throw new StatusCodedError("not logged in", 401);
+      }
+      const jobs = await jobPostController.getJobPostingsByManagerId(
+        req.user.id
+      );
+      res.status(200).json({ jobs });
     } catch (e: any) {
       next(new Error(e));
     }
