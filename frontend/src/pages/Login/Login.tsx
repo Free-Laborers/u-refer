@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
-import { Redirect, useLocation } from "react-router";
+import { Redirect } from "react-router";
 import useAuth from "../../hooks/useAuth";
 
 // function Copyright(props: any) {
@@ -52,13 +52,10 @@ const Login = (props) => {
   const [ redirect, setRedirect ] = useState<Boolean>(false);
   const [errMessage, setErrMessage] = useState<string>("");
 
-  const location: { state: {logout: Boolean} } = useLocation();
   const { login } = useAuth();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-    location.state.logout = false;
 
     const data = new FormData(event.currentTarget);
     if (!(data.get("email") && data.get("password"))) {

@@ -1,6 +1,4 @@
 import { Route, Redirect, RouteProps } from 'react-router'
-import useAuth from '../../hooks/useAuth'
-import Navbar from '../Navbar';
 
 interface RestrictedRouteProps {
     component: any
@@ -12,8 +10,8 @@ interface RestrictedRouteProps {
 function RestrictedRoute({component: Component, ...routeProps}: RestrictedRouteProps & RouteProps) {
     return (
         <Route {...routeProps} render={props => {
-            if (useAuth().user) {
-                // logged in, not allowed on this page so redirect to job feed
+            if (localStorage.getItem('authorization')) {
+                // *probably* logged in, not allowed on this page so redirect to job feed
                 return <Redirect to='/jobs' />;
             } else {
                 // render the component.

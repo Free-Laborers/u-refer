@@ -1,6 +1,5 @@
 import { Route, Redirect, RouteProps } from 'react-router'
-import useAuth from '../../hooks/useAuth'
-import Navbar from '../Navbar';
+import Navbar from '../Navbar'
 
 interface PrivateRouteProps {
     component: any,
@@ -13,8 +12,8 @@ interface PrivateRouteProps {
 function PrivateRoute({component: Component, nonavbar, ...routeProps}: PrivateRouteProps & RouteProps) {
     return (
         <Route {...routeProps} render={props => {
-            if (useAuth().user) {
-                // logged in, return the component (with navbar if not nonavbar)
+            if (localStorage.getItem('authorization')) {
+                // probably logged in, return the component (with navbar if not nonavbar)
                 return (
                     <>
                         {nonavbar ? null : <Navbar />}
