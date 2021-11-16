@@ -1,15 +1,6 @@
-//import statments
-import * as React from 'react';
-import ReactDOM from 'react-dom';
-import App from '../src/App';
-import Login from '../src/pages/Login/Login';
 import Home from '../src/pages/Home/Home';
-import useAuth from '../src/hooks/useAuth';
-import {BrowserRouter} from 'react-router-dom';
-//import { Home } from '@mui/icons-material';
-//import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
-//import { render, screen } from '@testing-library/react';
-//configure({ adapter: new Adapter() });
+import { render } from '@testing-library/react';
+import { BreakfastDiningTwoTone } from '@mui/icons-material';
 
 
 //tests
@@ -24,32 +15,35 @@ describe("Simple test", ()=>{
 });
 
 //Home Page
-describe("Home Page", ()=>{
-  let container: HTMLDivElement;
-  beforeEach(()=>{
-    container = document.createElement('div');
-    document.body.appendChild(container);
-    ReactDOM.render(<BrowserRouter>
-                     <Home />
-                    </BrowserRouter>, container);
+jest.mock('../src/hooks/useAuth', () => {
+  return jest.fn(() => {
+    return {
+      user: {
+        id: "0",
+        email: "admin@test.com",
+        firstName: "admin",
+        lastName: "test",
+        position: "Managerial Manager",
+        createdDate: Date(),
+        isManager: true
+      },
+      login: () => undefined,
+      logout: () => undefined
+    }
   });
-
-  afterEach(()=>{
-    ReactDOM.unmountComponentAtNode(container);
-  });
+})
   
+describe('Home Page', () => {
   test("Check for welcome home", ()=>{
-    const link = container.querySelectorAll('h1');
-    expect(link).toHaveLength(1);
-    document.body.removeChild(container);
-    container.remove();
+    const container = render(<Home />);
+    const header = container.getByRole('heading');
+    expect(header.innerHTML).toEqual("Welcome home!");
   });
 
   test('Checks it has a paragraph and breaks between statements', () =>{
-    const paragraph = container.querySelectorAll('p');
-    expect(paragraph).toHaveLength(1); //only one paragraph element
-    const breaks = container.querySelectorAll('br');
-    expect(breaks).toHaveLength(5); //this says that there should be 5 breaks
+    const { getByTestId } = render(<Home />);
+    const paragraph = getByTestId('paragraph');
+    expect(paragraph.getElementsByTagName('br')).toHaveLength(5);
   });
 });
 

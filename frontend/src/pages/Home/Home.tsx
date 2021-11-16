@@ -2,18 +2,18 @@ import { Typography } from '@mui/material'
 import useAuth from '../../hooks/useAuth';
 
 export default function Home() {
-  const auth = useAuth();
+  const { user } = useAuth();
 
   return (
     <>
       <Typography variant='h1'>Welcome home!</Typography>
-      <Typography>
+      <Typography data-testid='paragraph'>
         Data of logged in user: <br/>
-        Email: {auth.user?.email} <br/>
-        First name: {auth.user?.firstName} <br/>
-        Last name: {auth.user?.lastName} <br/>
-        Position: {auth.user?.position} <br/>
-        Is manager: {String(auth.user?.isManager)}
+        Email: {user?.email} <br/>
+        First name: {user?.firstName} <br/>
+        Last name: {user?.lastName} <br/>
+        Position: {user?.position} <br/>
+        Is manager: {String(user?.isManager)}
       </Typography>
     </>
   )
