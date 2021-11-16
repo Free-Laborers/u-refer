@@ -1,5 +1,5 @@
 import { Box } from '@mui/system'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
 // import Navbar from './components/Navbar'
 import { JobFeedFilterContextProvider } from './contexts/JobFeedFilterContext'
 import Home from './pages/Home'
@@ -25,9 +25,6 @@ const App = () => {
                 <PrivateRoute component={JobFeed} exact path='/jobs' />
                 <PrivateRoute component={Listing} exact path='/jobs/create' />
                 <PrivateRoute component={Profile} exact path='/profile' />
-                <Route>
-                  <Redirect to={localStorage.getItem('authorization') ? '/jobs' : '/login'} />
-                </Route>
               </AuthProvider>
             </Switch>
           </Box>
