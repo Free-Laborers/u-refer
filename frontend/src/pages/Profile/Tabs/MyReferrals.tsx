@@ -1,7 +1,13 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+import useAxios from 'axios-hooks';
+//@ts-ignore
+import { Referral } from "../../../../../backend/node_modules/prisma/prisma-client";
+import { Typography } from '@material-ui/core';
 
-
+interface ReferralResponseType{
+  data: Referral[];
+}
 export default function MyReferrals(props){
     const [userData, setUserData] = useState({
         email: "",
@@ -9,6 +15,13 @@ export default function MyReferrals(props){
         lastName: "",
         position: "",
         isManager: "",
+      });
+
+      const [{ data }] = useAxios<ReferralResponseType>({
+        url: "/referral/user",
+        headers: {
+          Authorization: localStorage.getItem("authorization"),
+        },
       });
     
       useEffect(() => {
@@ -34,6 +47,10 @@ export default function MyReferrals(props){
         getData();
       }, []);
     return(
-        <>This is where {userData.firstName} {userData.lastName} referrals will go</>
+        <>
+        <Typography>This is where {userData.firstName} {userData.lastName}'s referrals will go</Typography>
+        <Typography>{JSON.stringify(data)}</Typography>
+
+        </>
     )
 }

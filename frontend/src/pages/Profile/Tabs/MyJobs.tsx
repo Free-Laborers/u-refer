@@ -53,7 +53,6 @@ export default function MyJobs(props) {
       <Typography>This is where {userData.firstName} {userData.lastName}'s jobs will go</Typography>
       <Typography>{userData.id}</Typography>
       <Typography>{JSON.stringify(data)}</Typography>
-      <DataTable/>
     </>
   );
 }
