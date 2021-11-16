@@ -73,7 +73,7 @@ const Login = (props) => {
     }
 
     login(loginData)
-      .then((_) => history.push('/jobs'))
+      .then((_) => history.push("/jobs"))
       .catch((err) => setErrMessage(err.message));
   };
 
