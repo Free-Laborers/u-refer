@@ -4,12 +4,14 @@ import axios from "axios";
 import { JobPost } from "../../../../../backend/node_modules/prisma/prisma-client";
 import useAxios from "axios-hooks";
 import { Typography } from "@mui/material";
-import DataTable from "../components/DataTable"
+import TableView from "../components/TableView"
 
 interface JobFeedResponseType {
   data: JobPost[];
 }
+
 export default function MyJobs(props) {
+  const [selectedJob, setselectedJob] = useState<any>(null);
   const [userData, setUserData] = useState({
     id: "",
     email: "",
@@ -53,7 +55,6 @@ export default function MyJobs(props) {
       <Typography>This is where {userData.firstName} {userData.lastName}'s jobs will go</Typography>
       <Typography>{userData.id}</Typography>
       <Typography>{JSON.stringify(data)}</Typography>
-      <DataTable/>
     </>
   );
 }
