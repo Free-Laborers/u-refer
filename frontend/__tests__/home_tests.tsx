@@ -23,15 +23,18 @@ jest.mock('../src/hooks/useAuth', () => {
 
     
 describe('Home Page', () => {
-    test("Check for welcome home", ()=>{
-        const container = render(<Home />);
+    let container;
+    beforeAll(() => {
+        container = render(<Home />)
+    })
+
+    test("Check for welcome home", () => {
         const header = container.getByRole('heading');
         expect(header.innerHTML).toEqual("Welcome home!");
     });
 
-    test('Checks it has a paragraph and breaks between statements', () =>{
-        const { getByTestId } = render(<Home />);
-        const paragraph = getByTestId('paragraph');
+    test('Checks it has a paragraph and breaks between statements', () => {
+        const paragraph = container.getByTestId('paragraph');
         expect(paragraph.getElementsByTagName('br')).toHaveLength(5);
     });
 });
