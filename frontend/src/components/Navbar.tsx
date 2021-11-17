@@ -1,13 +1,7 @@
-import { useState } from "react";
-import { AccountCircle } from "@mui/icons-material";
 import {
   AppBar,
   Toolbar,
-  IconButton,
   Box,
-  Menu,
-  MenuItem,
-  Divider,
 } from "@mui/material";
 import Link, { LinkProps } from "@mui/material/Link";
 import Logo from "./Logo";
@@ -28,32 +22,14 @@ const TextLink = (props: LinkProps) => {
 export default function Navbar() {
   const history = useHistory();
   const { logout } = useAuth();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+
   const handleLogout = () => {
     logout();
-    handleMenuClose();
     history.push("/login");
   };
   const handleProfile = () => {
-    handleMenuClose();
     history.push("/profile");
   };
-
-  const renderMenu = (
-    <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleMenuClose}>
-      <MenuItem onClick={handleProfile}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My Jobs</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My Referrals</MenuItem>
-      <Divider />
-      <MenuItem onClick={handleLogout}>Log Out</MenuItem>
-    </Menu>
-  );
 
   return (
     <AppBar sx={{ zIndex: theme => theme.zIndex.drawer + 1 }} position='fixed'>
@@ -63,17 +39,9 @@ export default function Navbar() {
         <Box style={{ flex: 1 }}>
           <TextLink href='/jobs'>Browse Jobs</TextLink>
           <TextLink href="/">Home</TextLink>
+          <TextLink onClick={handleProfile}>Profile</TextLink>
+          <TextLink style={{ float: "right" }} onClick={handleLogout}>Logout</TextLink>
         </Box>
-        <IconButton
-          style={{ float: "right" }}
-          size="large"
-          edge="end"
-          onClick={handleProfileMenuOpen}
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        {renderMenu}
       </Toolbar>
     </AppBar>
   );
