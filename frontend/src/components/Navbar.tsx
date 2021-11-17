@@ -1,8 +1,4 @@
-import {
-  AppBar,
-  Toolbar,
-  Box,
-} from "@mui/material";
+import { AppBar, Toolbar, Box } from "@mui/material";
 import Link, { LinkProps } from "@mui/material/Link";
 import Logo from "./Logo";
 import useAuth from "../hooks/useAuth";
@@ -32,15 +28,18 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar sx={{ zIndex: theme => theme.zIndex.drawer + 1 }} position='fixed'>
+    <AppBar
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      position="fixed"
+    >
       <Toolbar>
         <Logo color="white" style={{ marginRight: "100px" }} />
         {/* Main Links */}
         <Box style={{ flex: 1 }}>
-          <TextLink href='/jobs'>Browse Jobs</TextLink>
+          <TextLink href="/jobs">Browse Jobs</TextLink>
           <TextLink href="/">Home</TextLink>
           <TextLink onClick={handleProfile}>Profile</TextLink>
-          <TextLink style={{ float: "right" }} onClick={handleLogout}>Logout</TextLink>
+          <TextLink onClick={handleLogout}>Logout</TextLink>
         </Box>
       </Toolbar>
     </AppBar>
