@@ -1,4 +1,5 @@
-import { AppBar, Toolbar, Box, Button, Grid } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { AppBar, Toolbar, IconButton, Box, Tooltip } from "@mui/material";
 import Link, { LinkProps } from "@mui/material/Link";
 import Logo from "./Logo";
 import useAuth from "../hooks/useAuth";
@@ -8,7 +9,7 @@ const TextLink = (props: LinkProps) => {
   return (
     <Link
       {...props}
-      style={{ margin: "16px" }}
+      style={{ margin: "20px" }}
       underline="none"
       color="inherit"
     />
@@ -18,12 +19,10 @@ const TextLink = (props: LinkProps) => {
 export default function Navbar() {
   const history = useHistory();
   const { logout } = useAuth();
-
   const handleLogout = () => {
     logout();
     history.push("/login");
   };
-
   return (
     <AppBar
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -32,20 +31,22 @@ export default function Navbar() {
       <Toolbar>
         <Logo color="white" style={{ marginRight: "100px" }} />
         {/* Main Links */}
-        <Grid>
+        <Box style={{ flex: 1 }}>
           <TextLink href="/jobs">Browse Jobs</TextLink>
           <TextLink href="/">Home</TextLink>
           <TextLink href="/profile">Profile</TextLink>
-          <Button
-            style={{
-              float: "right",
-            }}
+        </Box>
+        <Tooltip title="Log Out">
+          <IconButton
+            style={{ float: "right" }}
+            size="large"
+            edge="end"
             onClick={handleLogout}
             color="inherit"
           >
-            Logout
-          </Button>
-        </Grid>
+            <LogoutIcon />
+          </IconButton>
+        </Tooltip>
       </Toolbar>
     </AppBar>
   );
