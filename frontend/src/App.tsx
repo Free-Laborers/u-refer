@@ -14,9 +14,9 @@ import NoMatch from './pages/NoMatch'
 
 const App = () => {
   return (
-    <AuthProvider>
-      <JobFeedFilterContextProvider>
-        <Router>
+    <JobFeedFilterContextProvider>
+      <Router>
+        <AuthProvider>
           <Box sx={{ marginTop: '64px' }}>
             <Switch>
                 <RestrictedRoute component={Login} exact path='/login' />
@@ -28,9 +28,9 @@ const App = () => {
                 <Route component={NoMatch} /> {/* No match => page not found */}
             </Switch>
           </Box>
-        </Router>
-      </JobFeedFilterContextProvider>
-    </AuthProvider>
+        </AuthProvider>
+      </Router>
+    </JobFeedFilterContextProvider>
   )
 }
 
