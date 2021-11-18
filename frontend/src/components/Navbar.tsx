@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Box } from "@mui/material";
+import { AppBar, Toolbar, Box, Button, Grid } from "@mui/material";
 import Link, { LinkProps } from "@mui/material/Link";
 import Logo from "./Logo";
 import useAuth from "../hooks/useAuth";
@@ -9,7 +9,7 @@ const TextLink = (props: LinkProps) => {
     <Link
       {...props}
       style={{ margin: "16px" }}
-      underline="hover"
+      underline="none"
       color="inherit"
     />
   );
@@ -23,9 +23,6 @@ export default function Navbar() {
     logout();
     history.push("/login");
   };
-  const handleProfile = () => {
-    history.push("/profile");
-  };
 
   return (
     <AppBar
@@ -35,12 +32,23 @@ export default function Navbar() {
       <Toolbar>
         <Logo color="white" style={{ marginRight: "100px" }} />
         {/* Main Links */}
-        <Box style={{ flex: 1 }}>
+        <Grid>
           <TextLink href="/jobs">Browse Jobs</TextLink>
           <TextLink href="/">Home</TextLink>
-          <TextLink onClick={handleProfile}>Profile</TextLink>
-          <TextLink onClick={handleLogout}>Logout</TextLink>
-        </Box>
+          <TextLink href="/profile">Profile</TextLink>
+          <Grid item>
+            <Button
+              style={{
+                backgroundColor: "#12824C",
+                color: "#FFFFFF",
+                alignContent: "flex-end",
+              }}
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          </Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   );
