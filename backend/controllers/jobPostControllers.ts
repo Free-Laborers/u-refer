@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from "@prisma/client";
+import { equal } from "assert";
 import * as _ from "lodash";
 
 export interface JobListingFilterType {
@@ -114,6 +115,22 @@ export const getJobPostings = async (
   const numResults = await prisma.jobPost.count({ where: whereClause });
 
   return { numResults, data };
+};
+
+export const getJobPostingsWithManagerId = (managerId: string) => {
+  return prisma.jobPost.findMany({
+    where: {
+      hiringManagerId: managerId,
+    },
+  });
+};
+
+export const getOneJobPostWithId = (id: string) => {
+  return prisma.jobPost.findUnique({
+    where: {
+      id,
+    },
+  });
 };
 
 export const createOneJobPost = (dataClause: Prisma.JobPostCreateInput) => {

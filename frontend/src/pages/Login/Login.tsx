@@ -72,7 +72,7 @@ const Login = () => {
     }
 
     login(loginData)
-      .then((_) => history.push("/"))
+      .then((_) => history.push("/jobs"))
       .catch((err) => setErrMessage(err.message));
   };
 
@@ -132,17 +132,6 @@ const Login = () => {
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
-            </Button>
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={() => {
-                localStorage.setItem("authorization", "");
-                alert("successfully logged out!");
-              }}
-            >
-              Sign Out
             </Button>
             <Grid container>
               <Grid item xs>
