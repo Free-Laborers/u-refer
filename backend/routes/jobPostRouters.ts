@@ -34,17 +34,19 @@ jobPostRouter.get(
 );
 
 jobPostRouter.get(
-  "/manager",
+  "/manager/:managerId",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const managerId = req.query.managerId ? (req.query.managerId as string) : "";
-      const jobs = await jobPostController.getJobPostingsWithManagerId( managerId );
-      res.status(200).json({jobs});
+      const managerId = req.params.managerId;
+      const jobs = await jobPostController.getJobPostingsWithManagerId(
+        managerId
+      );
+      res.status(200).json(jobs);
     } catch (e: any) {
       next(new Error(e));
     }
   }
-); 
+);
 
 //=============middleware for post request
 const checkUserIsManager = (
