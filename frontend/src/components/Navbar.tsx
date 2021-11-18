@@ -36,18 +36,15 @@ export default function Navbar() {
           <TextLink href="/jobs">Browse Jobs</TextLink>
           <TextLink href="/">Home</TextLink>
           <TextLink href="/profile">Profile</TextLink>
-          <Grid item>
-            <Button
-              style={{
-                backgroundColor: "#12824C",
-                color: "#FFFFFF",
-                alignContent: "flex-end",
-              }}
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
-          </Grid>
+          <Button
+            style={{
+              float: "right",
+            }}
+            onClick={handleLogout}
+            color="inherit"
+          >
+            Logout
+          </Button>
         </Grid>
       </Toolbar>
     </AppBar>
