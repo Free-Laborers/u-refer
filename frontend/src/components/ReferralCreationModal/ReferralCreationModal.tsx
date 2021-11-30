@@ -4,6 +4,7 @@ import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel,
 import { JobPost } from '../../../../backend/node_modules/@prisma/client'
 import ResumePage from './pages/ResumePage'
 import ReviewPage from './pages/ReviewPage'
+import axios from 'axios'
 
 interface ReferralCreationModalProps {
   jobPost: JobPost,
@@ -30,6 +31,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   const [phone, setPhone] = useState<string>('')
   const [recommendation, setRecommendation] = useState<string>('')
   const [resumeFilePath, setresumeFilePath] = useState<string>('')
+  const [employeeId, setEmployeeId] = useState<string>('')
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
@@ -53,9 +55,30 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
     setActiveStep(activeStep + 1)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // TODO: Send post request to backend
-    closeModal()
+    axios({
+      method: 'post',
+      url: '/referral',
+      headers: {
+        'Authorization': localStorage.getItem('authorization')
+      },
+      data: {
+        resumeFileName: resumeFilePath,
+        employeeId,
+        jobPostId: jobPost?.id,
+        description: recommendation,
+        // pronoun
+        email,
+        phone,
+        firstName,
+        lastName,
+      }
+    }).then(res => {
+      closeModal()
+    }).catch(e => {
+      // TODO
+    })
   }
 
 

@@ -183,7 +183,6 @@ referralRouter.post(
 
     req.body["employeeId"] = (req.user as Employee).id;
     // req.body["employeeId"] = "ccbca212-18a7-439a-a27b-d69beb2ee7a0";
-
     try {
       const newReferral = getNewReferralData(req.body);
       const newReferralId = (await createOneReferral(newReferral)).id;
