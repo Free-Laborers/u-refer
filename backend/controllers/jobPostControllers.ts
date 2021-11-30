@@ -9,6 +9,7 @@ export interface JobListingFilterType {
   minExperience: number | null;
   maxExperience: number | null;
   searchString?: string | null;
+  hiringManagerId?: string | null;
 }
 
 const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
