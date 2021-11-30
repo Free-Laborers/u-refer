@@ -40,7 +40,7 @@ jobPostRouter.get(
       if (!req.user) {
         throw new StatusCodedError("not logged in", 401);
       }
-      const jobs = await jobPostController.getJobPostingsByManagerId(
+      const jobs = await jobPostController.getJobPostingsWithManagerId(
         req.user.id
       );
       res.status(200).json({ jobs });
@@ -48,7 +48,7 @@ jobPostRouter.get(
       next(new Error(e));
     }
   }
-); 
+);
 
 //=============middleware for post request
 const checkUserIsManager = (
