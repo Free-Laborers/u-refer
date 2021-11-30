@@ -4,7 +4,6 @@ import axios from "axios";
 import { JobPost } from "../../../../../backend/node_modules/prisma/prisma-client";
 import useAxios from "axios-hooks";
 import { Typography } from "@mui/material";
-import DataTable from "../components/DataTable"
 
 interface JobFeedResponseType {
   data: JobPost[];
@@ -50,7 +49,9 @@ export default function MyJobs(props) {
   }, []);
   return (
     <>
-      <Typography>This is where {userData.firstName} {userData.lastName}'s jobs will go</Typography>
+      <Typography>
+        This is where {userData.firstName} {userData.lastName}'s jobs will go
+      </Typography>
       <Typography>{userData.id}</Typography>
       <Typography>{JSON.stringify(data)}</Typography>
     </>
