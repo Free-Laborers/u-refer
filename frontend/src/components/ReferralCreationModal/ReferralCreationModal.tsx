@@ -1,5 +1,5 @@
 import { ReactElement, useState } from 'react'
-import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel, Box } from '@mui/material'
+import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel, Box, Divider } from '@mui/material'
 // @ts-ignore
 import { JobPost } from '../../../../backend/node_modules/@prisma/client'
 import ResumePage from './pages/ResumePage'
@@ -22,6 +22,7 @@ const style = {
 export default function ReferralCreationModal(props: ReferralCreationModalProps & Omit<ModalProps, 'children'>) {
   const { jobPost, closeModal, ...modalProps } = props
   const [ activeStep, setActiveStep ] = useState(0)
+  const reason = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
@@ -32,7 +33,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
     // TODO
     ['Documents', <ResumePage/>],
     // TODO
-    ['Review', <ReviewPage/>],
+    ['Review', <ReviewPage firstName='John' lastName='Doe' email='asdf@asdf.com' phone='123-456-7890' reason={reason} resume={true}/>],
   ]
 
   const handleBack = () => {
@@ -54,8 +55,9 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   return (
     <Modal onClose={closeModal} {...modalProps}>
       <Paper sx={style}>
-        <Typography variant='h5'>Referral for {jobPost?.title}</Typography>
-        <Box sx={{ height: '500px' }}>
+        <Typography gutterBottom variant='h5'>Referral for {jobPost?.title}</Typography>
+        <Divider/>
+        <Box overflow='scroll' my={2} sx={{ height: '500px' }}>
           {steps[activeStep][1]}
         </Box>
         <Stepper activeStep={activeStep}>
