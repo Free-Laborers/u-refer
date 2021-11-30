@@ -33,7 +33,6 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   });
   const [ description, setDescription ] = useState("")
   const [resume, setResume] = useState<any>()
-  const reason = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
@@ -44,7 +43,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
     // TODO
     ['Documents', <ResumePage resume = {resume} setResume = {setResume}/>],
     // TODO
-    ['Review', <ReviewPage firstName='John' lastName='Doe' email='asdf@asdf.com' phone='123-456-7890' reason={reason} resume={true}/>],
+    ['Review', <ReviewPage firstName={employee?.name.split(' ')[0]} lastName={employee?.name.split(' ')[1]} email={employee?.email} phone={employee?.phone} recommendation={description} resumeFilePath={resume}/>],
   ]
 
   const handleBack = () => {
