@@ -28,7 +28,7 @@ referralRouter.get(
       const referrals = await referralControllers.getReferralsFromEmployeeId(
         req.user.id
       );
-      res.status(200).json({ referrals });
+      res.status(200).json(referrals);
     } catch (e: any) {
       next(new Error(e));
     }
@@ -57,11 +57,7 @@ const checkIfQueryHasValidJobId = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!req.query.jobId) {
-    next(new StatusCodedError("bad request: no jobId in query", 400));
-  } else if (
-    !(await jobPostControllers.getOneJobPostWithId(req.query.jobId as string))
-  ) {
+  if (!(await jobPostControllers.getOneJobPostWithId(req.params.jobPostId))) {
     next(
       new StatusCodedError("bad request: no such jobFeed with input jobId", 400)
     );
@@ -75,7 +71,7 @@ const checkOneJobPostIsCreatedByUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const jobPostId = req.query.jobId as string; //checkIfQueryHasValidJobId checks that it does exist.
+  const jobPostId = req.params.jobPostId; //checkIfQueryHasValidJobId checks that it does exist.
   const jobPostCreatorId = (
     (await jobPostControllers.getOneJobPostWithId(jobPostId)) as JobPost
   ).hiringManagerId; //checkIfQueryHasValidJobId checks that the jobPostId is the valid one.
@@ -93,15 +89,15 @@ const middlewaresForReferralJobPost = [
 ];
 
 referralRouter.get(
-  "/jobPost",
+  "/jobPost/:jobPostId",
   middlewaresForReferralJobPost,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const jobId = req.query.jobId as string;
+      const jobId = req.params.jobPostId;
       const referrals = await referralControllers.getReferralsFromJobPostId(
         jobId
       );
-      res.status(200).json({ referrals });
+      res.status(200).json(referrals);
     } catch (e: any) {
       next(new Error(e));
     }
