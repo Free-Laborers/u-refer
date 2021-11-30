@@ -3,6 +3,8 @@ import Tab from "@mui/material/Tab";
 import { Tabs } from "@mui/material";
 import axios from "axios";
 import MyReferrals from "./Tabs/MyReferrals";
+import MyJobs from "./Tabs/MyJobs";
+import { Box } from "@mui/system";
 //https://stackoverflow.com/questions/66012476/how-to-show-hide-mui-tabs-based-on-a-condition-and-maintain-the-right-tab-index
 
 const Profile = () => {
@@ -44,16 +46,17 @@ const Profile = () => {
   const isAManager = userData.isManager;
   return (
     <>
-      <Tabs value={value} onChange={handleTab}>
-        <Tab label="My Referrals" value={0} />
-        {isAManager && <Tab label="My Positions" value={1} />}
-      </Tabs>
+      <Box display="flex" alignItems="center" justifyContent="center">
+        <Tabs value={value} onChange={handleTab}>
+          <Tab label="My Referrals" value={0} />
+          {isAManager && <Tab label="My Positions" value={1} />}
+        </Tabs>
+      </Box>
       <TabPanel value={value} index={0}>
         <MyReferrals userData />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        This is where {userData.firstName} {userData.lastName} positions will
-        show
+        <MyJobs userData />
       </TabPanel>
     </>
   );
