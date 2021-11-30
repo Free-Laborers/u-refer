@@ -77,7 +77,7 @@ export default function JobFeed() {
       setSelectedJob(data?.data[0])
       setPage(0)
     }
-  }, [data])
+  }, [data, selectedJob])
 
   return (
     // 64px offset is to account for the navbar
