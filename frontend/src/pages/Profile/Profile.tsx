@@ -1,17 +1,23 @@
 import {useEffect, useState} from 'react';
 import Tab from '@mui/material/Tab'
-import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Tabs} from '@mui/material'
+import {Box, FormControl, InputLabel, MenuItem, Pagination, Select, SelectChangeEvent, Tabs} from '@mui/material'
 import axios from 'axios';
 import MyReferrals from './Tabs/MyReferrals';
 import React from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ReferralPreviewCard from './components/ReferralPreviewCard';
+import ReferralCard from './components/ReferralCard';
 //https://stackoverflow.com/questions/66012476/how-to-show-hide-mui-tabs-based-on-a-condition-and-maintain-the-right-tab-index
+// @ts-ignore
+import { Referral } from "../../../../../backend/node_modules/prisma/prisma-client";
+import useAxios from 'axios-hooks';
 
+interface ProfileResponseType {
+  data: Referral[];
+  numResults: number;
+}
 
-const theme = createTheme();
-
-const Profile = () => {
-
+export default function Profile() {
+  
   const [userData, setUserData] = useState({
     email: "",
     firstName: "",
@@ -19,6 +25,21 @@ const Profile = () => {
     position: "",
     isManager: "",
   });
+  const PAGE_SIZE = 10;
+  const [selectedReferral, setselectedReferral] = useState<any>(null);  
+  const [page, setPage] = useState(0);
+  const [{ data }] = useAxios<ProfileResponseType>({
+    url: "/profile",
+    headers: {
+      Authorization: localStorage.getItem("authorization"),
+    },
+    params: {
+      page,
+    },
+  });
+
+  const numResults = data?.numResults || 0;
+  const numPages = Math.ceil(numResults / PAGE_SIZE);
 
   useEffect(() => {
     async function getData() {
@@ -74,30 +95,50 @@ const Profile = () => {
     }
     const isAManager = userData.isManager;
     return (
-        <Box height={"calc(100vh - 64px)"} >
-          <Box
-            m={2}
-            display="grid"
-            height="100%"
-            gridTemplateRows="auto 1fr auto"
-            gridTemplateColumns="1fr 1fr"
-            gridTemplateAreas={`"referList     referCard"
-                                "pagination   .       "`}                  
-            columnGap={2}
-          >
-          <Box sx={{ gridArea: "referList" }} overflow="auto">
-          <Tabs value={value} onChange={handleTab} centered>
+      <Box height={"calc(100vh - 112px)"}>
+        <Box
+          m={2}
+          display="grid"
+          height="100%"
+          gridTemplateRows="auto 1fr auto"
+          gridTemplateColumns="1fr 1fr"
+          gridTemplateAreas={`"sort          ."
+                              "referList     referCard"`}                  
+          columnGap={2}
+        >
+          <Box sx={{ gridArea: "sort" }} my={1}>
+            {renderMenu}
+            <Tabs value={value} onChange={handleTab} centered>
             <Tab label="My Referrals" value={0} color='red' />
-            { isAManager && <Tab label="My Positions" value={1} />}
-          </Tabs>
-          {renderMenu}
-           <TabPanel value={value} index={0}><MyReferrals userData/></TabPanel>
-           <TabPanel value={value} index={1}>This is where {userData.firstName} {userData.lastName} positions will show</TabPanel>
+              { isAManager && <Tab label="My Positions" value={1} />}
+            </Tabs>
+            <TabPanel value={value} index={0}><MyReferrals userData/></TabPanel>
+            <TabPanel value={value} index={1}>This is where {userData.firstName} {userData.lastName} positions will show</TabPanel>
+          </Box>
+          <Box sx={{ gridArea: "referList" }} overflow="auto">
+            {/* {data?.data?.map((referral) => (
+              <ReferralPreviewCard onClick={() => setselectedReferral(referral)} referral={referral} />
+            ))} */}
+            <ReferralPreviewCard/>
           </Box>
           <Box sx={{ gridArea: "referCard" }} overflow="auto">
-          </Box>
+            {/* I think we can replace lines 127-138 with line 126 for the backend */}
+            <ReferralCard referral={selectedReferral}/>
+            {/* <ReferralCard referral={{
+              id: '',
+              employeeId: '',
+              candidateId: '',
+              jobPostId: '',
+              description: 'They are a great fit, super cool person ッ',
+              resumeFilePath: null,
+              createdDate: new Date(),
+              contactedDate: null,
+              finishedDate: null,
+              status: 'SUBMITTED'
+            }}/> */}
           </Box>
         </Box>
+      </Box>
     )
 }
 
@@ -113,5 +154,3 @@ function TabPanel(props){
         </div>
     )
 }
-
-export default Profile
