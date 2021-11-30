@@ -25,6 +25,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   const [ activeStep, setActiveStep ] = useState(0)
 
   // Data needed from the user
+  /* eslint-disable */
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
@@ -32,6 +33,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   const [recommendation, setRecommendation] = useState<string>('')
   const [resumeFilePath, setresumeFilePath] = useState<string>('')
   const [employeeId, setEmployeeId] = useState<string>('')
+  /* eslint-enable */
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
