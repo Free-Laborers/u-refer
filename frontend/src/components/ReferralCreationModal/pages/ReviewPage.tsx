@@ -1,5 +1,4 @@
 import { Typography, Box } from '@mui/material'
-import { typography } from '@mui/system'
 import React from 'react'
 
 
