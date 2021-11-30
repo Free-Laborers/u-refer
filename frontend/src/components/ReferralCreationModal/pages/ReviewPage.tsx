@@ -23,12 +23,12 @@ interface ReviewPageProps {
   lastName: string
   email: string
   phone: string
-  reason: string
-  resume: boolean
+  recommendation: string
+  resumeFilePath: string
 }
 
 export default function ReviewPage(props: ReviewPageProps) {
-  const { firstName, lastName, email, phone, reason, resume } = props
+  const { firstName, lastName, email, phone, recommendation, resumeFilePath } = props
   return (
     <Box>
       <Typography gutterBottom variant='h6'>Review</Typography>
@@ -36,22 +36,22 @@ export default function ReviewPage(props: ReviewPageProps) {
         <Typography sx={{ marginTop: "8px" }}>
           Personal
         </Typography>
-        <FieldDisplay text={`First name: ${firstName}`} />
-        <FieldDisplay text={`Last name: ${lastName}`} />
-        <FieldDisplay text={`Email: ${email}`} />
-        <FieldDisplay text={`Phone: ${phone}`} />
+        <FieldDisplay text={`First name: ${firstName || 'N/A'}`} />
+        <FieldDisplay text={`Last name: ${lastName || 'N/A'}`} />
+        <FieldDisplay text={`Email: ${email || 'N/A'}`} />
+        <FieldDisplay text={`Phone: ${phone || 'N/A'}`} />
       </ReviewSection>
       <ReviewSection>
         <Typography sx={{ marginTop: "8px" }}>
           Recommendation
         </Typography>
-        <FieldDisplay text={reason} />
+        <FieldDisplay text={recommendation || 'N/A'} />
       </ReviewSection>
       <ReviewSection>
         <Typography sx={{ marginTop: "8px" }}>
           Documents
         </Typography>
-        <FieldDisplay text={resume ? 'resume.pfd' : 'N/A'} />
+        <FieldDisplay text={resumeFilePath || 'N/A'} />
       </ReviewSection>
     </Box>
   );

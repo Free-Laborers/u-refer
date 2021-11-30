@@ -22,7 +22,14 @@ const style = {
 export default function ReferralCreationModal(props: ReferralCreationModalProps & Omit<ModalProps, 'children'>) {
   const { jobPost, closeModal, ...modalProps } = props
   const [ activeStep, setActiveStep ] = useState(0)
-  const reason = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
+
+  // Data needed from the user
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [phone, setPhone] = useState<string>('')
+  const [recommendation, setRecommendation] = useState<string>('')
+  const [resumeFilePath, setresumeFilePath] = useState<string>('')
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
@@ -33,7 +40,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
     // TODO
     ['Documents', <ResumePage/>],
     // TODO
-    ['Review', <ReviewPage firstName='John' lastName='Doe' email='asdf@asdf.com' phone='123-456-7890' reason={reason} resume={true}/>],
+    ['Review', <ReviewPage firstName={firstName} lastName={lastName} email={email} phone={phone} recommendation={recommendation} resumeFilePath={resumeFilePath}/>],
   ]
 
   const handleBack = () => {
