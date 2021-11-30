@@ -6,6 +6,7 @@ import ResumePage from './pages/ResumePage'
 import ReviewPage from './pages/ReviewPage'
 import Personal from './pages/Personal'
 import DescriptionPage from './pages/DescriptionPage'
+import axios from 'axios'
 
 interface ReferralCreationModalProps {
   jobPost: JobPost,
@@ -56,9 +57,30 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
     setActiveStep(activeStep + 1)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // TODO: Send post request to backend
-    closeModal()
+    axios({
+      method: 'post',
+      url: '/referral',
+      headers: {
+        'Authorization': localStorage.getItem('authorization')
+      },
+      data: {
+        resumeFileName: resume,
+        employeeId: employee?.id,
+        jobPostId: jobPost?.id,
+        description: description,
+        // pronoun
+        email: employee?.email,
+        phone: employee?.phone,
+        firstName: employee?.name.split(' ')[0],
+        lastName: employee?.name.split(' ')[1],
+      }
+    }).then(res => {
+      closeModal()
+    }).catch(e => {
+      // TODO
+    })
   }
 
 
