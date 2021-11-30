@@ -3,7 +3,7 @@ import axios from "axios";
 import useAxios from "axios-hooks";
 //@ts-ignore
 import { Referral } from "../../../../../backend/node_modules/prisma/prisma-client";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 interface ReferralResponseType {
   data: Referral[];
