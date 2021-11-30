@@ -4,6 +4,7 @@ import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel,
 import { JobPost } from '../../../../backend/node_modules/@prisma/client'
 import ResumePage from './pages/ResumePage'
 import ReviewPage from './pages/ReviewPage'
+import DescriptionPage from './pages/DescriptionPage'
 
 interface ReferralCreationModalProps {
   jobPost: JobPost,
