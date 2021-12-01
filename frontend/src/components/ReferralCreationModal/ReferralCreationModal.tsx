@@ -34,7 +34,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
     // TODO
     ['Documents', <ResumePage/>],
     // TODO
-    ['Review', <ReviewPage/>]
+    ['Review', <ReviewPage/>],
   ]
 
   const handleBack = () => {
