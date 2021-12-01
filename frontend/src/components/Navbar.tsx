@@ -18,7 +18,7 @@ const TextLink = (props: LinkProps) => {
 
 export default function Navbar() {
   const history = useHistory();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const handleLogout = () => {
     logout();
     history.push("/login");
@@ -33,8 +33,10 @@ export default function Navbar() {
         {/* Main Links */}
         <Box style={{ flex: 1 }}>
           <TextLink href="/jobs">Browse Jobs</TextLink>
-          <TextLink href="/">Home</TextLink>
           <TextLink href="/profile">Profile</TextLink>
+          {user?.isManager ? (
+            <TextLink href="/jobPost/create">Create A Job Post</TextLink>
+          ) : null}
         </Box>
         <Tooltip title="Log Out">
           <IconButton
