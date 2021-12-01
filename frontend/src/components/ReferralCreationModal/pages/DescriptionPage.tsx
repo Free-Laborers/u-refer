@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+// import React, {useState} from 'react';
 
 
 interface DescriptionPageProps{
@@ -10,7 +10,7 @@ export default function DescriptionPage(props: DescriptionPageProps) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const description = props.description;
+        // const description = props.description;
     };
 
     return (
