@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import React, { useState } from 'react'
 import Dropzone from 'react-dropzone'
 
 interface ResumePageProps{
