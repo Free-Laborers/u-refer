@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import Tab from '@mui/material/Tab'
 import {Tabs} from '@mui/material'
 import axios from 'axios';
-
+import MyReferrals from './Tabs/MyReferrals';
 //https://stackoverflow.com/questions/66012476/how-to-show-hide-mui-tabs-based-on-a-condition-and-maintain-the-right-tab-index
 
 const Profile = () => {
@@ -50,11 +50,13 @@ const Profile = () => {
             <Tab label="My Referrals" value={0} />
             { isAManager && <Tab label="My Positions" value={1} />}
            </Tabs>
-           <TabPanel value={value} index={0}>This this where {userData.firstName} {userData.lastName} referrals will show</TabPanel>
+           <TabPanel value={value} index={0}><MyReferrals userData/></TabPanel>
            <TabPanel value={value} index={1}>This is where {userData.firstName} {userData.lastName} positions will show</TabPanel>
+          
         </>
     )
 }
+
 
 //https://www.youtube.com/watch?v=_i49HTOacvI && https://www.youtube.com/watch?v=nF9q_fRV-1A
 function TabPanel(props){
