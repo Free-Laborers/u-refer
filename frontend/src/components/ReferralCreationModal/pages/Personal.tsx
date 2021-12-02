@@ -40,7 +40,7 @@ function fullName(employee: Employee): string {
   return employee.firstName + ' ' + employee.lastName;
 }
 
-type ReferralEmployee = {
+export type ReferralEmployee = {
   id: string | null,
   name: string,
   email: string,

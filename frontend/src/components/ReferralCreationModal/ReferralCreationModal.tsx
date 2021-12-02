@@ -1,11 +1,13 @@
 import { ReactElement, useState } from 'react'
-import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel, Box } from '@mui/material'
+import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel, Box, Divider } from '@mui/material'
 // @ts-ignore
 import { JobPost } from '../../../../backend/node_modules/@prisma/client'
 import ResumePage from './pages/ResumePage'
 import ReviewPage from './pages/ReviewPage'
 import Personal from './pages/Personal'
 import DescriptionPage from './pages/DescriptionPage'
+import { ReferralEmployee } from './pages/Personal'
+import axios from 'axios'
 
 interface ReferralCreationModalProps {
   jobPost: JobPost,
@@ -22,28 +24,35 @@ const style = {
 }
 
 export default function ReferralCreationModal(props: ReferralCreationModalProps & Omit<ModalProps, 'children'>) {
-  const { jobPost, closeModal, ...modalProps } = props
-  const [ activeStep, setActiveStep ] = useState(0)
-  const [internal, setInternal] = useState<boolean>(false);
-  const [employee, setEmployee] = useState({
+
+  const initialEmployeeData: ReferralEmployee = {
     id: null as string | null,
     name: '',
     email: '',
     phone: '',
-  });
+  }
+
+  const { jobPost, closeModal, ...modalProps } = props
+  const [ activeStep, setActiveStep ] = useState(0)
+  const [internal, setInternal] = useState<boolean>(false);
+  const [employee, setEmployee] = useState<ReferralEmployee>(initialEmployeeData);
   const [ description, setDescription ] = useState("")
   const [resume, setResume] = useState<any>()
 
+  const resetForm = () => {
+    setActiveStep(0)
+    setInternal(false)
+    setEmployee(initialEmployeeData)
+    setDescription("")
+    setResume(null)
+  }
+
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
-    // TODO
     ['Personal', <Personal employee={employee} setEmployee={setEmployee} internal={internal} setInternal={setInternal} />],
-    // TODO
     ['Recommendation', <DescriptionPage description={description} setDescription={setDescription}/>],
-    // TODO
     ['Documents', <ResumePage resume = {resume} setResume = {setResume}/>],
-    // TODO
-    ['Review', <ReviewPage/>],
+    ['Review', <ReviewPage firstName={employee?.name.split(' ')[0]} lastName={employee?.name.split(' ')[1]} email={employee?.email} phone={employee?.phone} recommendation={description} resumeFilePath={resume?.name}/>],
   ]
 
   const handleBack = () => {
@@ -57,16 +66,37 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   }
 
   const handleSubmit = () => {
-    // TODO: Send post request to backend
-    closeModal()
+    axios({
+      method: 'post',
+      url: '/referral',
+      headers: {
+        'Authorization': localStorage.getItem('authorization')
+      },
+      data: {
+        resumeFileName: resume,
+        employeeId: employee?.id,
+        jobPostId: jobPost?.id,
+        description: description,
+        // pronoun
+        email: employee?.email,
+        phone: employee?.phone,
+        firstName: employee?.name.split(' ')[0],
+        lastName: employee?.name.split(' ')[1],
+      }
+    }).then(res => {
+      closeModal()
+      resetForm()
+    }).catch(e => {
+      // TODO
+    })
   }
-
 
   return (
     <Modal onClose={closeModal} {...modalProps}>
       <Paper sx={style}>
-        <Typography variant='h5'>Referral for {jobPost?.title}</Typography>
-        <Box sx={{ height: '500px' }}>
+        <Typography gutterBottom variant='h5'>Referral for {jobPost?.title}</Typography>
+        <Divider/>
+        <Box overflow='scroll' my={2} sx={{ height: '500px' }}>
           {steps[activeStep][1]}
         </Box>
         <Stepper activeStep={activeStep}>
