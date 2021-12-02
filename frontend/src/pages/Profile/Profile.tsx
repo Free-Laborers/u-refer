@@ -27,9 +27,7 @@ export default function Profile() {
   });
   // const PAGE_SIZE = 10;
   const [selectedReferral, setselectedReferral] = useState<any>(null);  
-  const [page, setPage] = useState(0);
-  // This is just to make CI happy.. remove this eventually
-  setPage(0)
+  const [page] = useState(0);
   const [{ data }] = useAxios<ProfileResponseType>({
     url: `/referral/user`,
     headers: {
