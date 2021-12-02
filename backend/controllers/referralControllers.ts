@@ -11,6 +11,18 @@ export const getReferralsFromEmployeeId = (userId: string) =>{
       employeeId:{
         equals: userId
       }
+    },
+    include:{
+      Candidate: true,
+      JobPost: {
+        include:{
+          PostToTag:{
+            include:{
+              Tag: true,
+            }
+          }
+        }
+      },
     }
   })
 };
@@ -21,6 +33,9 @@ export const getReferralsFromJobPostId = (jobId: string) =>{
       jobPostId:{
         equals: jobId
       }
+    },
+    include:{
+      Candidate: true,
     }
   })
 };

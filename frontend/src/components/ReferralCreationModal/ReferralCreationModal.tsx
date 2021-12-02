@@ -22,6 +22,7 @@ const style = {
 export default function ReferralCreationModal(props: ReferralCreationModalProps & Omit<ModalProps, 'children'>) {
   const { jobPost, closeModal, ...modalProps } = props
   const [ activeStep, setActiveStep ] = useState(0)
+  const [resume, setResume] = useState<any>()
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
@@ -30,7 +31,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
     // TODO
     ['Recommendation', <div/>],
     // TODO
-    ['Documents', <ResumePage/>],
+    ['Documents', <ResumePage resume = {resume} setResume = {setResume}/>],
     // TODO
     ['Review', <ReviewPage/>],
   ]

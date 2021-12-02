@@ -1,12 +1,13 @@
 import { Box } from '@mui/material';
-import React, { useState } from 'react'
 import Dropzone from 'react-dropzone'
 
-export default function ResumePage() {
-  const [file, setFile] = useState<any>();
-
+interface ResumePageProps{
+  setResume: (resume: any) => void
+  resume: any
+}
+export default function ResumePage(props: ResumePageProps) {
   const handleDrop = acceptedFiles =>{
-    setFile(acceptedFiles[0])
+    props.setResume(acceptedFiles[0])
   }
   return (
     <div className="App">
@@ -30,7 +31,7 @@ export default function ResumePage() {
         </Dropzone>
       </div>
       <div>
-        <strong>File: </strong> {file? file.name: ""}
+        <strong>File: </strong> {props.resume? props.resume.name: ""}
       </div>
     </div>
   );
