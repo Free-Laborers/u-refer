@@ -20,7 +20,7 @@ export default function JobFeed() {
     DEC = "dec",
   }
   const PAGE_SIZE = 10;
-  const [selectedJob, setselectedJob] = useState<any>(null);
+  const [selectedJob, setSelectedJob] = useState<any>(null);
   const {
     searchString,
     tags,
@@ -29,7 +29,7 @@ export default function JobFeed() {
     minExperience,
     maxExperience,
   } = useJobFeedFilters();
-  const [selectedSort, setselectedSort] = useState<sortStatus>(sortStatus.DEC);
+  const [selectedSort, setSelectedSort] = useState<sortStatus>(sortStatus.DEC);
   const [page, setPage] = useState(0);
   const [{ data }] = useAxios<JobFeedResponseType>({
     url: "/jobPost",
@@ -54,10 +54,10 @@ export default function JobFeed() {
   //sorts data ascending or descending by createdDate
   function handleChange() {
     if (selectedSort === sortStatus.ASC) {
-      setselectedSort(sortStatus.DEC);
+      setSelectedSort(sortStatus.DEC);
       data?.data?.sort((a, b) => a.createdDate.localeCompare(b.createdDate));
     } else {
-      setselectedSort(sortStatus.ASC);
+      setSelectedSort(sortStatus.ASC);
       data?.data?.sort((a, b) => b.createdDate.localeCompare(a.createdDate));
     }
   }
@@ -71,6 +71,13 @@ export default function JobFeed() {
   useEffect(() => {
     setPage(0);
   }, [searchString, tags, minSalary, maxSalary, minExperience, maxExperience]);
+
+  useEffect(() => {
+    if(!selectedJob && data && data?.data?.length > 0){
+      setSelectedJob(data?.data[0])
+      setPage(0)
+    }
+  }, [data, selectedJob])
 
   return (
     // 64px offset is to account for the navbar
@@ -95,7 +102,7 @@ export default function JobFeed() {
         </Box>
         <Box sx={{ gridArea: "postList" }} overflow="auto">
           {data?.data?.map((job) => (
-            <JobPreviewCard onClick={() => setselectedJob(job)} job={job} />
+            <JobPreviewCard onClick={() => setSelectedJob(job)} job={job} />
           ))}
         </Box>
         <Box sx={{ gridArea: "postCard" }}>
