@@ -74,7 +74,7 @@ export const createJobPost = async (
   const position = faker.name.jobTitle(); // Idk what we're expecting this field to be
   const description = faker.lorem.paragraphs(2);
   const minYearsExperience = faker.datatype.number(10);
-  const salary = faker.datatype.number(150000);
+  const salary = faker.datatype.number(100000);
   const openings = faker.datatype.number(3) + 1;
 
   const defaultData = {
@@ -93,9 +93,14 @@ export const createJobPost = async (
   return res;
 };
 
-export const createReferral = async (referralData: RequireFields<Referral, 'employeeId' | 'candidateId' | 'jobPostId'>) => {
-  const description = faker.lorem.paragraphs()
-  const resumeFilePath = faker.internet.url()
+export const createReferral = async (
+  referralData: RequireFields<
+    Referral,
+    "employeeId" | "candidateId" | "jobPostId"
+  >
+) => {
+  const description = faker.lorem.paragraphs();
+  const resumeFilePath = faker.internet.url();
 
   const defaultData = {
     description,
@@ -139,19 +144,24 @@ export const addTags = async (jobPost: JobPost, tags?: string[] | string) => {
       tags.map(async (t) => {
         return (
           (await prisma.tag.findUnique({ where: { name: t } })) ??
-          (await prisma.tag.create({ data: {name: t}}))
+          (await prisma.tag.create({ data: { name: t } }))
         );
       })
     );
 
     ts.map(
-      async (t) => await prisma.postToTag.create({data: { jobPostId: jobPost.id, tagId: t.id }})
+      async (t) =>
+        await prisma.postToTag.create({
+          data: { jobPostId: jobPost.id, tagId: t.id },
+        })
     );
   } else {
     // Specified tag
     const t =
       (await prisma.tag.findUnique({ where: { name: tags } })) ??
-      (await prisma.tag.create({ data: {name: tags}}))
-    await prisma.postToTag.create({data: { jobPostId: jobPost.id, tagId: t.id }})
+      (await prisma.tag.create({ data: { name: tags } }));
+    await prisma.postToTag.create({
+      data: { jobPostId: jobPost.id, tagId: t.id },
+    });
   }
 };
