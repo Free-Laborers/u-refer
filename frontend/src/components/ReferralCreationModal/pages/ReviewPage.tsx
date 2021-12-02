@@ -26,7 +26,7 @@ const DescriptionAccordion = (props: FieldDisplayProps) => {
         sx={{
           backgroundColor: "#eee",
           boxShadow: "none",
-        }}
+        }} //update pls
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
         id="panel1a-header"
