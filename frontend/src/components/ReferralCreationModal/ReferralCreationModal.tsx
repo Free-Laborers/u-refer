@@ -4,6 +4,7 @@ import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel,
 import { JobPost } from '../../../../backend/node_modules/@prisma/client'
 import ResumePage from './pages/ResumePage'
 import ReviewPage from './pages/ReviewPage'
+import Personal from './pages/Personal'
 
 interface ReferralCreationModalProps {
   jobPost: JobPost,
@@ -26,7 +27,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
     // TODO
-    ['Personal', <div/>],
+    ['Personal', <Personal />],
     // TODO
     ['Recommendation', <div/>],
     // TODO
