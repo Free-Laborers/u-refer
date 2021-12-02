@@ -4,6 +4,7 @@ import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel,
 import { JobPost } from '../../../../backend/node_modules/@prisma/client'
 import ResumePage from './pages/ResumePage'
 import ReviewPage from './pages/ReviewPage'
+import Personal from './pages/Personal'
 import DescriptionPage from './pages/DescriptionPage'
 
 interface ReferralCreationModalProps {
@@ -23,13 +24,20 @@ const style = {
 export default function ReferralCreationModal(props: ReferralCreationModalProps & Omit<ModalProps, 'children'>) {
   const { jobPost, closeModal, ...modalProps } = props
   const [ activeStep, setActiveStep ] = useState(0)
+  const [internal, setInternal] = useState<boolean>(false);
+  const [employee, setEmployee] = useState({
+    id: null as string | null,
+    name: '',
+    email: '',
+    phone: '',
+  });
   const [ description, setDescription ] = useState("")
   const [resume, setResume] = useState<any>()
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
     // TODO
-    ['Personal', <div/>],
+    ['Personal', <Personal employee={employee} setEmployee={setEmployee} internal={internal} setInternal={setInternal} />],
     // TODO
     ['Recommendation', <DescriptionPage description={description} setDescription={setDescription}/>],
     // TODO
