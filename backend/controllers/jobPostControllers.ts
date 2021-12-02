@@ -122,6 +122,13 @@ export const getJobPostingsWithManagerId = (managerId: string) => {
     where: {
       hiringManagerId: managerId,
     },
+    include:{
+      PostToTag:{
+        include:{
+          Tag: true,
+        }
+      }
+    }
   });
 };
 
