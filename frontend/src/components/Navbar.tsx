@@ -69,7 +69,7 @@ export default function Navbar() {
           <TextLink href="/jobs">Browse Jobs</TextLink>
           <TextLink href="/profile">Profile</TextLink>
           {userData.isManager ? (
-            <TextLink href="/jobPost/create">Create A Job Post</TextLink>
+            <TextLink href="/jobs/create">Create A Job Post</TextLink>
           ) : null}
         </Box>
         <Tooltip title="Log Out">
