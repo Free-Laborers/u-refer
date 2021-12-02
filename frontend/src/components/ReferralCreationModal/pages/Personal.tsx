@@ -50,7 +50,7 @@ export default function ReviewPage() {
     id: null as string | null,
     name: '',
     email: '',
-    description: '',
+    phone: '',
   });
   // For internal employees, we present an autocomplete dialog
   const autocomplete =
@@ -107,7 +107,7 @@ export default function ReviewPage() {
           id: chosen.id,
           email: chosen.email,
           name: fullName(chosen),
-          description: employee.description,
+          phone: employee.phone,
         });
       }}
       value={employee.name}
@@ -153,13 +153,10 @@ export default function ReviewPage() {
       />
       <TextField
         margin="normal"
-        required
         fullWidth
-        multiline
-        rows={10}
-        label="Why would they be a good fit?"
-        value={employee.description}
-        onChange={(event) => setEmployee({...employee, description: event.target.value})}
+        label="Candidate Phone"
+        value={employee.phone}
+        onChange={(event) => setEmployee({...employee, phone: event.target.value})}
       />
     </>
   );
