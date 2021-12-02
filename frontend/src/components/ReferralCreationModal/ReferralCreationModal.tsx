@@ -1,90 +1,115 @@
-import { ReactElement, useState } from 'react'
-import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel, Box } from '@mui/material'
+import { ReactElement, useState } from "react";
+import {
+  Button,
+  Modal,
+  ModalProps,
+  Paper,
+  Step,
+  Stepper,
+  Typography,
+  StepLabel,
+  Box,
+} from "@mui/material";
 // @ts-ignore
-import { JobPost } from '../../../../backend/node_modules/@prisma/client'
-import ResumePage from './pages/ResumePage'
-import ReviewPage from './pages/ReviewPage'
-import Personal from './pages/Personal'
+import { JobPost } from "../../../../backend/node_modules/@prisma/client";
+import ResumePage from "./pages/ResumePage";
+import ReviewPage from "./pages/ReviewPage";
+import Personal from "./pages/Personal";
+import DescriptionPage from "./pages/DescriptionPage";
 
 interface ReferralCreationModalProps {
-  jobPost: JobPost,
-  closeModal: () => void
+  jobPost: JobPost;
+  closeModal: () => void;
 }
 
 const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 600,
   p: 4,
-}
+};
 
-export default function ReferralCreationModal(props: ReferralCreationModalProps & Omit<ModalProps, 'children'>) {
-  const { jobPost, closeModal, ...modalProps } = props
-  const [ activeStep, setActiveStep ] = useState(0)
+export default function ReferralCreationModal(
+  props: ReferralCreationModalProps & Omit<ModalProps, "children">
+) {
+  const { jobPost, closeModal, ...modalProps } = props;
+  const [activeStep, setActiveStep] = useState(0);
   const [internal, setInternal] = useState<boolean>(false);
   const [employee, setEmployee] = useState({
     id: null as string | null,
-    name: '',
-    email: '',
-    phone: '',
+    name: "",
+    email: "",
+    phone: "",
   });
-  const [resume, setResume] = useState<any>()
+  const [resume, setResume] = useState<any>();
+  const [description, setDescription] = useState("");
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
     // TODO
-    ['Personal', <Personal employee={employee} setEmployee={setEmployee} internal={internal} setInternal={setInternal} />],
+    [
+      "Personal",
+      <Personal
+        employee={employee}
+        setEmployee={setEmployee}
+        internal={internal}
+        setInternal={setInternal}
+      />,
+    ],
     // TODO
-    ['Recommendation', <div/>],
+    [
+      "Recommendation",
+      <DescriptionPage
+        description={description}
+        setDescription={setDescription}
+      />,
+    ],
     // TODO
-    ['Documents', <ResumePage resume = {resume} setResume = {setResume}/>],
+    ["Documents", <ResumePage resume={resume} setResume={setResume} />],
     // TODO
-    ['Review', <ReviewPage/>],
-  ]
+    ["Review", <ReviewPage />],
+  ];
 
   const handleBack = () => {
-    if (activeStep === 0) return
-    setActiveStep(activeStep - 1)
-  }
+    if (activeStep === 0) return;
+    setActiveStep(activeStep - 1);
+  };
 
   const handleNext = () => {
-    if (activeStep === steps.length - 1) return handleSubmit()
-    setActiveStep(activeStep + 1)
-  }
+    if (activeStep === steps.length - 1) return handleSubmit();
+    setActiveStep(activeStep + 1);
+  };
 
   const handleSubmit = () => {
     // TODO: Send post request to backend
-    closeModal()
-  }
-
+    closeModal();
+  };
 
   return (
     <Modal onClose={closeModal} {...modalProps}>
       <Paper sx={style}>
-        <Typography variant='h5'>Referral for {jobPost?.title}</Typography>
-        <Box sx={{ height: '500px' }}>
-          {steps[activeStep][1]}
-        </Box>
+        <Typography variant="h5">Referral for {jobPost?.title}</Typography>
+        <Box sx={{ height: "500px" }}>{steps[activeStep][1]}</Box>
         <Stepper activeStep={activeStep}>
           {steps.map(([label, _], i) => {
             return (
               <Step key={i}>
                 <StepLabel>{label}</StepLabel>
               </Step>
-            )
+            );
           })}
         </Stepper>
-        <Box display='flex' justifyContent='space-evenly' mt={2}>
-          <Button size='small' onClick={handleBack}>
+        <Box display="flex" justifyContent="space-evenly" mt={2}>
+          <Button size="small" onClick={handleBack}>
             Back
           </Button>
-          <Button size='small' variant='contained' onClick={handleNext}>
-            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+          <Button size="small" variant="contained" onClick={handleNext}>
+            {activeStep === steps.length - 1 ? "Finish" : "Next"}
           </Button>
         </Box>
       </Paper>
     </Modal>
-  )
+  );
 }
