@@ -1,7 +1,7 @@
 import { Autocomplete, AutocompleteRenderInputParams, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import axios from 'axios';
 import _ from 'lodash';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 // TODO(luna): This could (should) be used elsewhere
 // NOTE(luna): This is what i was proposing for how to do the typing and parsing
@@ -40,18 +40,22 @@ function fullName(employee: Employee): string {
   return employee.firstName + ' ' + employee.lastName;
 }
 
-export default function ReviewPage() {
+type ReferralEmployee = {
+  id: string | null,
+  name: string,
+  email: string,
+  phone: string,
+};
+
+type Props = {
+  employee: ReferralEmployee,
+  setEmployee: React.Dispatch<React.SetStateAction<ReferralEmployee>>,
+  internal: boolean,
+  setInternal: React.Dispatch<React.SetStateAction<boolean>>,
+};
+
+export default function ReviewPage({ employee, setEmployee, internal, setInternal }: Props) {
   const [suggestions, setSuggestions] = useState<Employee[]>([]);
-  const [internal, setInternal] = useState<boolean>(false);
-  // This is the (only) state that should be lifted up somehow to the owning
-  // modal dialogue. This should probably be done by someone who ties together
-  // all four steps (or whoever does step 4)
-  const [employee, setEmployee] = useState({
-    id: null as string | null,
-    name: '',
-    email: '',
-    phone: '',
-  });
   // For internal employees, we present an autocomplete dialog
   const autocomplete =
     <Autocomplete
@@ -137,7 +141,7 @@ export default function ReviewPage() {
               }));
             }
           }}
-          value={internal}
+          checked={internal}
         />}
         label="This is an internal employee"
       />
