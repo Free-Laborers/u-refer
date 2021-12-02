@@ -45,17 +45,17 @@ export default function ReferralCreationModal(
     email: "",
     phone: "",
   });
-  const [resume, setResume] = useState<any>();
+  const [resume, setResume] = useState({
+    name: "",
+  });
   const [description, setDescription] = useState("");
 
   // Data needed from the user
   /* eslint-disable */
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [recommendation, setRecommendation] = useState<string>("");
-  const [resumeFilePath, setresumeFilePath] = useState<string>("");
   const [employeeId, setEmployeeId] = useState<string>("");
   /* eslint-enable */
 
@@ -85,12 +85,11 @@ export default function ReferralCreationModal(
     [
       "Review",
       <ReviewPage
-        firstName={firstName}
-        lastName={lastName}
-        email={email}
-        phone={phone}
-        recommendation={recommendation}
-        resumeFilePath={resumeFilePath}
+        name={employee.name}
+        email={employee.email}
+        phone={employee.phone}
+        recommendation={description}
+        resumeFilePath={resume.name}
       />,
     ],
   ];
@@ -114,15 +113,14 @@ export default function ReferralCreationModal(
         Authorization: localStorage.getItem("authorization"),
       },
       data: {
-        resumeFileName: resumeFilePath,
-        employeeId,
+        resumeFileName: resume.name,
+        employeeId: employee.id,
         jobPostId: jobPost?.id,
         description: recommendation,
         // pronoun
-        email,
-        phone,
-        firstName,
-        lastName,
+        email: employee.email,
+        phone: employee.phone,
+        name: employee.name,
       },
     })
       .then((res) => {
