@@ -46,7 +46,9 @@ export default function ReviewPage(props: ReviewPageProps) {
       </ReviewSection>
       <ReviewSection>
         <Typography sx={{ marginTop: "8px" }}>Recommendation</Typography>
-        <FieldDisplay text={recommendation || "*Required"} />
+        <FieldDisplay
+          text={recommendation.substring(0, 31) + "..." || "*Required"}
+        />
       </ReviewSection>
       <ReviewSection>
         <Typography sx={{ marginTop: "8px" }}>Documents</Typography>
