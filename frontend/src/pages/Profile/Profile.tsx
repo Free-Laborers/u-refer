@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import Tab from '@mui/material/Tab'
-import {Box, FormControl, InputLabel, MenuItem, Pagination, Select, SelectChangeEvent, Tabs} from '@mui/material'
+import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Tabs} from '@mui/material'
 import axios from 'axios';
 import MyReferrals from './Tabs/MyReferrals';
 import React from 'react';
@@ -10,7 +10,6 @@ import ReferralCard from './components/ReferralCard';
 // @ts-ignore
 import { Referral } from "../../../../../backend/node_modules/prisma/prisma-client";
 import useAxios from 'axios-hooks';
-import useAuth from '../../hooks/useAuth';
 
 interface ProfileResponseType {
   data: Referral[];
@@ -19,7 +18,6 @@ interface ProfileResponseType {
 
 export default function Profile() {
   
-  const { user } = useAuth()
   const [userData, setUserData] = useState({
     email: "",
     firstName: "",
@@ -42,7 +40,7 @@ export default function Profile() {
   console.log(`data`, data)
 
   const numResults = data?.numResults || 0;
-  const numPages = Math.ceil(numResults / PAGE_SIZE);
+  // const numPages = Math.ceil(numResults / PAGE_SIZE);
 
   
   useEffect(() => {

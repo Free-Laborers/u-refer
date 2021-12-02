@@ -1,4 +1,4 @@
-import { Box, Button, Paper, styled, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import ValueWithLabel from "../../../components/ValueWithLabel";
 // @ts-ignore
 import { Referral } from "../../../../../backend/node_modules/prisma/prisma-client";
