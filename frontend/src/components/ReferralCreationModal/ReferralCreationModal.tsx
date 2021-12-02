@@ -9,6 +9,7 @@ import {
   Typography,
   StepLabel,
   Box,
+  Divider,
 } from "@mui/material";
 // @ts-ignore
 import { JobPost } from "../../../../backend/node_modules/@prisma/client";
@@ -16,6 +17,7 @@ import ResumePage from "./pages/ResumePage";
 import ReviewPage from "./pages/ReviewPage";
 import Personal from "./pages/Personal";
 import DescriptionPage from "./pages/DescriptionPage";
+import axios from "axios";
 
 interface ReferralCreationModalProps {
   jobPost: JobPost;
@@ -46,6 +48,17 @@ export default function ReferralCreationModal(
   const [resume, setResume] = useState<any>();
   const [description, setDescription] = useState("");
 
+  // Data needed from the user
+  /* eslint-disable */
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [recommendation, setRecommendation] = useState<string>("");
+  const [resumeFilePath, setresumeFilePath] = useState<string>("");
+  const [employeeId, setEmployeeId] = useState<string>("");
+  /* eslint-enable */
+
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
     // TODO
@@ -69,7 +82,17 @@ export default function ReferralCreationModal(
     // TODO
     ["Documents", <ResumePage resume={resume} setResume={setResume} />],
     // TODO
-    ["Review", <ReviewPage />],
+    [
+      "Review",
+      <ReviewPage
+        firstName={firstName}
+        lastName={lastName}
+        email={email}
+        phone={phone}
+        recommendation={recommendation}
+        resumeFilePath={resumeFilePath}
+      />,
+    ],
   ];
 
   const handleBack = () => {
@@ -82,16 +105,44 @@ export default function ReferralCreationModal(
     setActiveStep(activeStep + 1);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // TODO: Send post request to backend
-    closeModal();
+    axios({
+      method: "post",
+      url: "/referral",
+      headers: {
+        Authorization: localStorage.getItem("authorization"),
+      },
+      data: {
+        resumeFileName: resumeFilePath,
+        employeeId,
+        jobPostId: jobPost?.id,
+        description: recommendation,
+        // pronoun
+        email,
+        phone,
+        firstName,
+        lastName,
+      },
+    })
+      .then((res) => {
+        closeModal();
+      })
+      .catch((e) => {
+        // TODO
+      });
   };
 
   return (
     <Modal onClose={closeModal} {...modalProps}>
       <Paper sx={style}>
-        <Typography variant="h5">Referral for {jobPost?.title}</Typography>
-        <Box sx={{ height: "500px" }}>{steps[activeStep][1]}</Box>
+        <Typography gutterBottom variant="h5">
+          Referral for {jobPost?.title}
+        </Typography>
+        <Divider />
+        <Box overflow="scroll" my={2} sx={{ height: "500px" }}>
+          {steps[activeStep][1]}
+        </Box>
         <Stepper activeStep={activeStep}>
           {steps.map(([label, _], i) => {
             return (
