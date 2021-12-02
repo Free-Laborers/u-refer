@@ -118,14 +118,18 @@ const checkRequiredBodyParamForReferralPost = (
   ) {
     next();
   } else {
-    try {
-      throw new StatusCodedError(
-        "required parameters to create a referral is not passed",
-        400
-      );
-    } catch (err) {
-      next(err);
-    }
+    console.log(req.body.email);
+    console.log(req.body.firstName);
+    console.log(req.body.lastName);
+
+    // try {
+    //   throw new StatusCodedError(
+    //     "required parameters to create a referral is not passed",
+    //     400
+    //   );
+    // } catch (err) {
+    //   next(err);
+    // }
   }
 };
 

@@ -28,11 +28,11 @@ interface ReviewPageProps {
   email: string;
   phone: string;
   recommendation: string;
-  resumeFilePath: string;
+  resumeFileName: string;
 }
 
 export default function ReviewPage(props: ReviewPageProps) {
-  const { name, email, phone, recommendation, resumeFilePath } = props;
+  const { name, email, phone, recommendation, resumeFileName } = props;
   return (
     <Box>
       <Typography gutterBottom variant="h6">
@@ -50,7 +50,7 @@ export default function ReviewPage(props: ReviewPageProps) {
       </ReviewSection>
       <ReviewSection>
         <Typography sx={{ marginTop: "8px" }}>Documents</Typography>
-        <FieldDisplay text={resumeFilePath || "*Required"} />
+        <FieldDisplay text={resumeFileName || "*Required"} />
       </ReviewSection>
     </Box>
   );

@@ -49,7 +49,6 @@ export default function ReferralCreationModal(
     name: "",
   });
   const [description, setDescription] = useState("");
-
   // Data needed from the user
   /* eslint-disable */
   const [name, setName] = useState<string>("");
@@ -89,7 +88,7 @@ export default function ReferralCreationModal(
         email={employee.email}
         phone={employee.phone}
         recommendation={description}
-        resumeFilePath={resume.name}
+        resumeFileName={resume.name}
       />,
     ],
   ];
@@ -116,11 +115,12 @@ export default function ReferralCreationModal(
         resumeFileName: resume.name,
         employeeId: employee.id,
         jobPostId: jobPost?.id,
-        description: recommendation,
+        description: description,
         // pronoun
         email: employee.email,
         phone: employee.phone,
-        name: employee.name,
+        firstName: employee.name.split(" ")[0],
+        lastName: employee.name.split(" ")[1],
       },
     })
       .then((res) => {
