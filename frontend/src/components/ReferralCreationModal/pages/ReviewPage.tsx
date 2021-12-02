@@ -1,5 +1,9 @@
 import { Typography, Box } from "@mui/material";
 import React from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface FieldDisplayProps {
   text: string;
@@ -11,6 +15,35 @@ const FieldDisplay = (props: FieldDisplayProps) => {
     <Typography sx={{ ml: 2 }} gutterBottom color="GrayText">
       {text}
     </Typography>
+  );
+};
+
+const DescriptionAccordion = (props: FieldDisplayProps) => {
+  const { text } = props;
+  return (
+    <Accordion>
+      <AccordionSummary
+        sx={{
+          backgroundColor: "#eee",
+          boxShadow: "none",
+        }}
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <Typography color="GrayText">
+          {text.substring(0, 31) + "..."}
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails
+        sx={{
+          backgroundColor: "#eee",
+          boxShadow: "none",
+        }}
+      >
+        <Typography color="GrayText">{text}</Typography>
+      </AccordionDetails>
+    </Accordion>
   );
 };
 
@@ -46,9 +79,10 @@ export default function ReviewPage(props: ReviewPageProps) {
       </ReviewSection>
       <ReviewSection>
         <Typography sx={{ marginTop: "8px" }}>Recommendation</Typography>
-        <FieldDisplay
+        <DescriptionAccordion text={recommendation || "*Required"} />
+        {/* <FieldDisplay
           text={recommendation.substring(0, 31) + "..." || "*Required"}
-        />
+        /> */}
       </ReviewSection>
       <ReviewSection>
         <Typography sx={{ marginTop: "8px" }}>Documents</Typography>
