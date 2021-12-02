@@ -4,6 +4,7 @@ import { Button, Modal, ModalProps, Paper, Step, Stepper, Typography, StepLabel,
 import { JobPost } from '../../../../backend/node_modules/@prisma/client'
 import ResumePage from './pages/ResumePage'
 import ReviewPage from './pages/ReviewPage'
+import DescriptionPage from './pages/DescriptionPage'
 
 interface ReferralCreationModalProps {
   jobPost: JobPost,
@@ -22,6 +23,7 @@ const style = {
 export default function ReferralCreationModal(props: ReferralCreationModalProps & Omit<ModalProps, 'children'>) {
   const { jobPost, closeModal, ...modalProps } = props
   const [ activeStep, setActiveStep ] = useState(0)
+  const [ description, setDescription ] = useState("")
   const [resume, setResume] = useState<any>()
 
   // Array of [label, component] pairs
@@ -29,7 +31,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
     // TODO
     ['Personal', <div/>],
     // TODO
-    ['Recommendation', <div/>],
+    ['Recommendation', <DescriptionPage description={description} setDescription={setDescription}/>],
     // TODO
     ['Documents', <ResumePage resume = {resume} setResume = {setResume}/>],
     // TODO
