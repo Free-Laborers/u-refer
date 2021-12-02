@@ -1,10 +1,18 @@
 // Hook (use-auth.js)
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import axios, { AxiosPromise } from 'axios'
-// @ts-ignore
-import { Employee } from '../../../backend/node_modules/prisma/prisma-client'
+import { useHistory } from 'react-router'
 
-type UserType = Omit<Employee, 'password'>
+type UserType = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  pronoun: string | null;
+  position: string;
+  createdDate: Date;
+  isManager: boolean;
+}
 
 type LoginDataType = {
   email: string,
@@ -30,6 +38,7 @@ const useAuth = () => {
 }
 
 const useProvideAuth = (): AuthContextType => {
+  const history = useHistory();
   const [user, setUser] = useState<UserType | null>(null)
   const login = (loginData: LoginDataType): AxiosPromise => {
     return axios({
@@ -60,7 +69,11 @@ const useProvideAuth = (): AuthContextType => {
     .then(res => {
       setUser(res.data.user)
     })
-  }, [])
+    .catch(err => {
+      logout();
+      history.replace('/login'); // not logged in so redirect to login.
+    })
+  }, [history])
   return {
     login,
     logout,

@@ -24,6 +24,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   const { jobPost, closeModal, ...modalProps } = props
   const [ activeStep, setActiveStep ] = useState(0)
   const [ description, setDescription ] = useState("")
+  const [resume, setResume] = useState<any>()
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
@@ -32,7 +33,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
     // TODO
     ['Recommendation', <DescriptionPage description={description} setDescription={setDescription}/>],
     // TODO
-    ['Documents', <ResumePage/>],
+    ['Documents', <ResumePage resume = {resume} setResume = {setResume}/>],
     // TODO
     ['Review', <ReviewPage/>],
   ]
