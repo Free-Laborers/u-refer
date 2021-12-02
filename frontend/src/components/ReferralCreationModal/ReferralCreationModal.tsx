@@ -37,14 +37,10 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
-    // TODO
     ['Personal', <Personal employee={employee} setEmployee={setEmployee} internal={internal} setInternal={setInternal} />],
-    // TODO
     ['Recommendation', <DescriptionPage description={description} setDescription={setDescription}/>],
-    // TODO
     ['Documents', <ResumePage resume = {resume} setResume = {setResume}/>],
-    // TODO
-    ['Review', <ReviewPage firstName={employee?.name.split(' ')[0]} lastName={employee?.name.split(' ')[1]} email={employee?.email} phone={employee?.phone} recommendation={description} resumeFilePath={resume}/>],
+    ['Review', <ReviewPage firstName={employee?.name.split(' ')[0]} lastName={employee?.name.split(' ')[1]} email={employee?.email} phone={employee?.phone} recommendation={description} resumeFilePath={resume?.name}/>],
   ]
 
   const handleBack = () => {
@@ -58,7 +54,6 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   }
 
   const handleSubmit = async () => {
-    // TODO: Send post request to backend
     axios({
       method: 'post',
       url: '/referral',
