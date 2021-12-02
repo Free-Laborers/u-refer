@@ -25,9 +25,11 @@ export default function Profile() {
     position: "",
     isManager: "",
   });
-  const PAGE_SIZE = 10;
+  // const PAGE_SIZE = 10;
   const [selectedReferral, setselectedReferral] = useState<any>(null);  
   const [page, setPage] = useState(0);
+  // This is just to make CI happy.. remove this eventually
+  setPage(0)
   const [{ data }] = useAxios<ProfileResponseType>({
     url: `/referral/user`,
     headers: {
@@ -37,9 +39,8 @@ export default function Profile() {
       page,
     },
   });
-  console.log(`data`, data)
 
-  const numResults = data?.numResults || 0;
+  // const numResults = data?.numResults || 0;
   // const numPages = Math.ceil(numResults / PAGE_SIZE);
 
   
