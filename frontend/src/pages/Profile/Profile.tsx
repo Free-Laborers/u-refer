@@ -41,6 +41,7 @@ export default function Profile() {
   const numResults = data?.numResults || 0;
   const numPages = Math.ceil(numResults / PAGE_SIZE);
 
+  
   useEffect(() => {
     async function getData() {
       const auth = localStorage.getItem('authorization');
@@ -116,10 +117,10 @@ export default function Profile() {
             <TabPanel value={value} index={1}>This is where {userData.firstName} {userData.lastName} positions will show</TabPanel>
           </Box>
           <Box sx={{ gridArea: "referList" }} overflow="auto">
-            {/* {data?.data?.map((referral) => (
+            {data?.data?.map((referral) => (
               <ReferralPreviewCard onClick={() => setselectedReferral(referral)} referral={referral} />
-            ))} */}
-            <ReferralPreviewCard/>
+            ))} 
+                     
           </Box>
           <Box sx={{ gridArea: "referCard" }} overflow="auto">
             {/* I think we can replace lines 127-138 with line 126 for the backend */}
