@@ -6,6 +6,7 @@ import ResumePage from './pages/ResumePage'
 import ReviewPage from './pages/ReviewPage'
 import Personal from './pages/Personal'
 import DescriptionPage from './pages/DescriptionPage'
+import { ReferralEmployee } from './pages/Personal'
 import axios from 'axios'
 
 interface ReferralCreationModalProps {
@@ -23,17 +24,28 @@ const style = {
 }
 
 export default function ReferralCreationModal(props: ReferralCreationModalProps & Omit<ModalProps, 'children'>) {
-  const { jobPost, closeModal, ...modalProps } = props
-  const [ activeStep, setActiveStep ] = useState(0)
-  const [internal, setInternal] = useState<boolean>(false);
-  const [employee, setEmployee] = useState({
+
+  const initialEmployeeData: ReferralEmployee = {
     id: null as string | null,
     name: '',
     email: '',
     phone: '',
-  });
+  }
+
+  const { jobPost, closeModal, ...modalProps } = props
+  const [ activeStep, setActiveStep ] = useState(0)
+  const [internal, setInternal] = useState<boolean>(false);
+  const [employee, setEmployee] = useState<ReferralEmployee>(initialEmployeeData);
   const [ description, setDescription ] = useState("")
   const [resume, setResume] = useState<any>()
+
+  const resetForm = () => {
+    setActiveStep(0)
+    setInternal(false)
+    setEmployee(initialEmployeeData)
+    setDescription("")
+    setResume(null)
+  }
 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
@@ -53,7 +65,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
     setActiveStep(activeStep + 1)
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     axios({
       method: 'post',
       url: '/referral',
@@ -73,11 +85,11 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
       }
     }).then(res => {
       closeModal()
+      resetForm()
     }).catch(e => {
       // TODO
     })
   }
-
 
   return (
     <Modal onClose={closeModal} {...modalProps}>
