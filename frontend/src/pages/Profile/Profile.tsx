@@ -10,6 +10,7 @@ import ReferralCard from './components/ReferralCard';
 // @ts-ignore
 import { Referral } from "../../../../../backend/node_modules/prisma/prisma-client";
 import useAxios from 'axios-hooks';
+import useAuth from '../../hooks/useAuth';
 
 interface ProfileResponseType {
   data: Referral[];
@@ -18,6 +19,7 @@ interface ProfileResponseType {
 
 export default function Profile() {
   
+  const { user } = useAuth()
   const [userData, setUserData] = useState({
     email: "",
     firstName: "",
@@ -29,7 +31,7 @@ export default function Profile() {
   const [selectedReferral, setselectedReferral] = useState<any>(null);  
   const [page, setPage] = useState(0);
   const [{ data }] = useAxios<ProfileResponseType>({
-    url: "/profile",
+    url: `/referral/user`,
     headers: {
       Authorization: localStorage.getItem("authorization"),
     },
@@ -37,6 +39,7 @@ export default function Profile() {
       page,
     },
   });
+  console.log(`data`, data)
 
   const numResults = data?.numResults || 0;
   const numPages = Math.ceil(numResults / PAGE_SIZE);

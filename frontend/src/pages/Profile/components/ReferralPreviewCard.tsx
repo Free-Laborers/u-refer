@@ -10,25 +10,12 @@ interface ReferralPreviewCardProps {
 
 export default function ReferralPreviewCard(props: ReferralPreviewCardProps) {
   const {referral, onClick} = props;
+  console.log(`referral`, referral)
   return(
     <Paper onClick = {onClick} sx={{ mb:2, p: 2, cursor: "pointer" }}>
       <Typography>
         {referral.id}
       </Typography>
-      <Stack direction = "row" spacing = {0.5} mb = {2}>
-        {
-          //@ts-ignore
-          referral.Referral.map(r =>(
-            <Chip
-            label = {r.Tag.name}
-            variant = "filled"
-            color = "default"
-            />
-          ))
-
-        }
-
-      </Stack>
       <ValueWithLabel
         sx ={{
           display: "-webkit-box",

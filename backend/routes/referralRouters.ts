@@ -25,9 +25,10 @@ referralRouter.get(
         throw new StatusCodedError("not logged in", 401);
       }
 
-      const referrals = await referralControllers.getReferralsFromEmployeeId(
-        req.user.id
-      );
+      const referrals = await referralControllers.getReferralsFromEmployeeId({
+        userId: req.user.id,
+        page: 0,
+      });
       res.status(200).json(referrals);
     } catch (e: any) {
       next(new Error(e));
