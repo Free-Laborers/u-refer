@@ -1,25 +1,18 @@
-import { useState } from "react";
-import { AccountCircle } from "@mui/icons-material";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Box,
-  Menu,
-  MenuItem,
-  Divider,
-} from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { AppBar, Toolbar, IconButton, Box, Tooltip } from "@mui/material";
 import Link, { LinkProps } from "@mui/material/Link";
 import Logo from "./Logo";
 import useAuth from "../hooks/useAuth";
 import { useHistory } from "react-router";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const TextLink = (props: LinkProps) => {
   return (
     <Link
       {...props}
-      style={{ margin: "16px" }}
-      underline="hover"
+      style={{ margin: "20px" }}
+      underline="none"
       color="inherit"
     />
   );
@@ -28,52 +21,68 @@ const TextLink = (props: LinkProps) => {
 export default function Navbar() {
   const history = useHistory();
   const { logout } = useAuth();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
   const handleLogout = () => {
     logout();
-    handleMenuClose();
     history.push("/login");
   };
-  const handleProfile = () => {
-    handleMenuClose();
-    history.push("/profile");
-  };
 
-  const renderMenu = (
-    <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleMenuClose}>
-      <MenuItem onClick={handleProfile}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My Jobs</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My Referrals</MenuItem>
-      <Divider />
-      <MenuItem onClick={handleLogout}>Log Out</MenuItem>
-    </Menu>
-  );
+  const [userData, setUserData] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    position: "",
+    isManager: "",
+  });
+
+  useEffect(() => {
+    async function getData() {
+      const auth = localStorage.getItem("authorization");
+
+      if (auth) {
+        try {
+          const response = await axios("/employee/profile", {
+            method: "GET",
+            headers: {
+              Authorization: localStorage.getItem("authorization"),
+            },
+          });
+          const json = await response.data;
+          return setUserData(json.user);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+
+    getData();
+  }, []);
 
   return (
-    <AppBar sx={{ zIndex: theme => theme.zIndex.drawer + 1 }} position='fixed'>
+    <AppBar
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      position="fixed"
+    >
       <Toolbar>
         <Logo color="white" style={{ marginRight: "100px" }} />
         {/* Main Links */}
         <Box style={{ flex: 1 }}>
-          <TextLink href='/jobs'>Browse Jobs</TextLink>
-          <TextLink href="/">Home</TextLink>
+          <TextLink href="/jobs">Browse Jobs</TextLink>
+          <TextLink href="/profile">Profile</TextLink>
+          {userData.isManager ? (
+            <TextLink href="/jobPost/create">Create A Job Post</TextLink>
+          ) : null}
         </Box>
-        <IconButton
-          style={{ float: "right" }}
-          size="large"
-          edge="end"
-          onClick={handleProfileMenuOpen}
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        {renderMenu}
+        <Tooltip title="Log Out">
+          <IconButton
+            style={{ float: "right" }}
+            size="large"
+            edge="end"
+            onClick={handleLogout}
+            color="inherit"
+          >
+            <LogoutIcon />
+          </IconButton>
+        </Tooltip>
       </Toolbar>
     </AppBar>
   );
