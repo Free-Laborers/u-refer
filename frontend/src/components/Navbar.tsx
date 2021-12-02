@@ -4,6 +4,8 @@ import Link, { LinkProps } from "@mui/material/Link";
 import Logo from "./Logo";
 import useAuth from "../hooks/useAuth";
 import { useHistory } from "react-router";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const TextLink = (props: LinkProps) => {
   return (
@@ -23,6 +25,38 @@ export default function Navbar() {
     logout();
     history.push("/login");
   };
+
+  const [userData, setUserData] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    position: "",
+    isManager: "",
+  });
+
+  useEffect(() => {
+    async function getData() {
+      const auth = localStorage.getItem("authorization");
+
+      if (auth) {
+        try {
+          const response = await axios("/employee/profile", {
+            method: "GET",
+            headers: {
+              Authorization: localStorage.getItem("authorization"),
+            },
+          });
+          const json = await response.data;
+          return setUserData(json.user);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+
+    getData();
+  }, []);
+
   return (
     <AppBar
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -33,8 +67,10 @@ export default function Navbar() {
         {/* Main Links */}
         <Box style={{ flex: 1 }}>
           <TextLink href="/jobs">Browse Jobs</TextLink>
-          <TextLink href="/">Home</TextLink>
           <TextLink href="/profile">Profile</TextLink>
+          {userData.isManager ? (
+            <TextLink href="/jobPost/create">Create A Job Post</TextLink>
+          ) : null}
         </Box>
         <Tooltip title="Log Out">
           <IconButton
