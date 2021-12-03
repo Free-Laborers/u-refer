@@ -27,8 +27,9 @@ referralRouter.get(
 
       const referrals = await referralControllers.getReferralsFromEmployeeId({
         userId: req.user.id,
-        page: 0,
+        page: req.query.page as any as number,
       });
+
       res.status(200).json(referrals);
     } catch (e: any) {
       next(new Error(e));

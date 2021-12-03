@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import Tab from '@mui/material/Tab'
-import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Tabs} from '@mui/material'
+import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Tabs, Pagination} from '@mui/material'
 import axios from 'axios';
 import MyReferrals from './Tabs/MyReferrals';
 import React from 'react';
@@ -25,9 +25,10 @@ export default function Profile() {
     position: "",
     isManager: "",
   });
-  // const PAGE_SIZE = 10;
+
+  
   const [selectedReferral, setselectedReferral] = useState<any>(null);  
-  const [page] = useState(0);
+  const [page, setPage] = useState(0);
   const [{ data }] = useAxios<ProfileResponseType>({
     url: `/referral/user`,
     headers: {
@@ -37,10 +38,10 @@ export default function Profile() {
       page,
     },
   });
-
-  // const numResults = data?.numResults || 0;
-  // const numPages = Math.ceil(numResults / PAGE_SIZE);
-
+  
+  const PAGE_SIZE = 10;
+  const numResults = data?.numResults || 0;
+  const numPages = Math.ceil(numResults / PAGE_SIZE);
   
   useEffect(() => {
     async function getData() {
@@ -104,7 +105,8 @@ export default function Profile() {
           gridTemplateRows="auto 1fr auto"
           gridTemplateColumns="1fr 1fr"
           gridTemplateAreas={`"sort          ."
-                              "referList     referCard"`}                  
+                              "referList     referCard"
+                              "pagination     ."`}                  
           columnGap={2}
         >
           <Box sx={{ gridArea: "sort" }} my={1}>
@@ -116,27 +118,23 @@ export default function Profile() {
             <TabPanel value={value} index={0}><MyReferrals userData/></TabPanel>
             <TabPanel value={value} index={1}>This is where {userData.firstName} {userData.lastName} positions will show</TabPanel>
           </Box>
+
           <Box sx={{ gridArea: "referList" }} overflow="auto">
             {data?.data?.map((referral) => (
               <ReferralPreviewCard onClick={() => setselectedReferral(referral)} referral={referral} />
             ))} 
-                     
           </Box>
+
           <Box sx={{ gridArea: "referCard" }} overflow="auto">
-            {/* I think we can replace lines 127-138 with line 126 for the backend */}
             <ReferralCard referral={selectedReferral}/>
-            {/* <ReferralCard referral={{
-              id: '',
-              employeeId: '',
-              candidateId: '',
-              jobPostId: '',
-              description: 'They are a great fit, super cool person ッ',
-              resumeFilePath: null,
-              createdDate: new Date(),
-              contactedDate: null,
-              finishedDate: null,
-              status: 'SUBMITTED'
-            }}/> */}
+          </Box>
+
+          <Box mx="auto" my={2} sx={{ gridArea: "pagination" }}>
+            <Pagination
+              count={Math.floor(numPages)}
+              page={page + 1}
+              onChange={(e, page) => setPage(page - 1)}
+            />
           </Box>
         </Box>
       </Box>
