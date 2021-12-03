@@ -25,9 +25,11 @@ referralRouter.get(
         throw new StatusCodedError("not logged in", 401);
       }
 
-      const referrals = await referralControllers.getReferralsFromEmployeeId(
-        req.user.id
-      );
+      const referrals = await referralControllers.getReferralsFromEmployeeId({
+        userId: req.user.id,
+        page: req.query.page as any as number,
+      });
+
       res.status(200).json(referrals);
     } catch (e: any) {
       next(new Error(e));
@@ -183,7 +185,6 @@ referralRouter.post(
 
     req.body["employeeId"] = (req.user as Employee).id;
     // req.body["employeeId"] = "ccbca212-18a7-439a-a27b-d69beb2ee7a0";
-
     try {
       const newReferral = getNewReferralData(req.body);
       const newReferralId = (await createOneReferral(newReferral)).id;

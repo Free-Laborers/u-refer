@@ -15,7 +15,7 @@ const clearAllTables = async () => {
 
 const main = async () => {
   await clearAllTables();
-  await createEmployee({ email: 'admin@test.com', isManager: true, password: 'test' })
+  const user = await createEmployee({ email: 'admin@test.com', isManager: true, password: 'test' })
   const manager = await createEmployee({ isManager: true });
   const employee = await createEmployee({ isManager: false });
   const candidate = await createCandidate();
@@ -26,14 +26,19 @@ const main = async () => {
   const jp2 = await createJobPost({ hiringManagerId: manager.id, title: "2" });
   const jp3 = await createJobPost({ hiringManagerId: manager.id, title: "3" });
   const jp4 = await createJobPost({ hiringManagerId: manager.id, title: "4" });
+
   for(let i = 0; i < 50; ++i){
     await createJobPost({hiringManagerId: manager.id})
   }
-  const referral = await createReferral({
-    employeeId: employee.id,
-    jobPostId: jobPost.id,
-    candidateId: candidate.id,
-  });
+
+  for(let i = 0; i < 30; ++i){
+    const referral = await createReferral({
+      employeeId: user.id,
+      jobPostId: jobPost.id,
+      candidateId: candidate.id,
+    });
+  }
+
   await addTags(jobPost, [
     "React",
     "Prisma",
