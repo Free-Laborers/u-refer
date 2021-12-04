@@ -15,7 +15,7 @@ const clearAllTables = async () => {
 
 const main = async () => {
   await clearAllTables();
-  await createEmployee({ email: 'admin@test.com', isManager: true, password: 'test' })
+  const user = await createEmployee({ email: 'admin@test.com', isManager: true, password: 'test' })
   const manager = await createEmployee({ isManager: true });
   const employee = await createEmployee({ isManager: false });
   const candidate = await createCandidate();
@@ -30,7 +30,7 @@ const main = async () => {
     await createJobPost({hiringManagerId: manager.id})
   }
   const referral = await createReferral({
-    employeeId: employee.id,
+    employeeId: user.id,
     jobPostId: jobPost.id,
     candidateId: candidate.id,
   });
