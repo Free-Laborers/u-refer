@@ -11,16 +11,29 @@ export default function ReferralCard(props: ReferralCardProps){
     const { referral } = props;
     const ReferralCardContent = referral ? (
     <Box height="100%" display="flex" flexDirection="column">
-        <Box flexGrow={1} >
-            <Box mb={3} display="flex">
-                <Typography flexGrow={1} variant="h6">
-                {"Job Title"}
+        <Box flexGrow={1}>
+          <Box mb={3} display="flex">
+                <Typography flexGrow={1} variant="h6">{
+                //@ts-ignore 
+                referral?.JobPost?.title}
                 </Typography>
             </Box>
-            <ValueWithLabel label="Name" value={"Fname Lname"} />
-            <ValueWithLabel label="Email" value={"email@email.com"} />
-            <ValueWithLabel label="Phone" value={"000-000-0000"} />
-            <ValueWithLabel label="Reason" value={referral?.description} />
+            <ValueWithLabel label="Name of Referred" value={
+            //@ts-ignore 
+            referral?.Candidate?.firstName + " " + referral?.Candidate?.lastName} />
+            <ValueWithLabel label="Email" value={
+            //@ts-ignore 
+            referral?.Candidate?.email} />
+            <ValueWithLabel label="Pronouns" value={
+            //@ts-ignore 
+            referral?.Candidate?.pronoun || "N/A"} />
+            <ValueWithLabel label="Phone" value={
+            //@ts-ignore 
+            referral?.Candidate?.phone || "N/A"} />
+            <ValueWithLabel label="Reason for Referral" value={
+            referral?.description} />
+            <ValueWithLabel label="Resume File Path" value={
+            referral?.resumeFilePath || "N/A"} />
         </Box>
         <Button variant="contained" color="primary" >
         Edit/Delete
@@ -35,8 +48,8 @@ export default function ReferralCard(props: ReferralCardProps){
 
     
 return (
-<Paper sx={{ p: 2, height: "100%" }}>
+    <Paper sx={{ p: 2, height: "100%" }}>
     {ReferralCardContent}
-</Paper>
+    </Paper>
 );
 }
