@@ -15,7 +15,7 @@ interface ProfileResponseType {
 }
 
 export default function Profile() {
-  
+  // eslint-disable-next-line
   const [userData, setUserData] = useState({
     email: "",
     firstName: "",
