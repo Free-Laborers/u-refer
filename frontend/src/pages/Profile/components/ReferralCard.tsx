@@ -1,5 +1,7 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { useState } from "react";
+import { Box, Button, Paper, Typography, Link } from "@mui/material";
 import ValueWithLabel from "../../../components/ValueWithLabel";
+import JobPostPreviewModal from "./JobPostPreviewModal";
 // @ts-ignore
 import { Referral } from "../../../../../backend/node_modules/prisma/prisma-client";
 
@@ -9,13 +11,14 @@ interface ReferralCardProps {
 
 export default function ReferralCard(props: ReferralCardProps){
     const { referral } = props;
+    const [jobPostPreviewModalOpen, setJobPostPreviewModalOpen] = useState(false);
     const ReferralCardContent = referral ? (
     <Box height="100%" display="flex" flexDirection="column">
         <Box flexGrow={1} >
             <Box mb={3} display="flex">
-                <Typography flexGrow={1} variant="h6">
-                {"Job Title"}
-                </Typography>
+            <Link underline="always" variant="h6" sx={{cursor: "pointer" }}
+            onClick={() => setJobPostPreviewModalOpen(true)}>
+              {"Job Title"} </Link>
             </Box>
             <ValueWithLabel label="Name" value={"Fname Lname"} />
             <ValueWithLabel label="Email" value={"email@email.com"} />
@@ -25,6 +28,12 @@ export default function ReferralCard(props: ReferralCardProps){
         <Button variant="contained" color="primary" >
         Edit/Delete
         </Button>
+        
+        <JobPostPreviewModal
+          open={jobPostPreviewModalOpen}
+          closeModal={() => setJobPostPreviewModalOpen(false)}
+          referral={referral} 
+        />
     </Box>
     ) : (
     <Typography variant="subtitle1" component="h2" align="center">
