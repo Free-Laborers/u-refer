@@ -116,16 +116,3 @@ export default function Profile() {
       </Box>
     )
 }
-
-
-//https://www.youtube.com/watch?v=_i49HTOacvI && https://www.youtube.com/watch?v=nF9q_fRV-1A
-function TabPanel(props){
-    const {children, value, index}=props;
-    return(
-        <div>
-        {
-            value===index && (<h1>{children}</h1>)
-        }
-        </div>
-    )
-}
