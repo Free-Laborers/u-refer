@@ -109,12 +109,6 @@ export default function Profile() {
         >
           <Box sx={{ gridArea: "sort" }} my={1}>
             {renderMenu}
-            <Tabs value={value} onChange={handleTab} centered>
-            <Tab label="My Referrals" value={0} color='red' />
-              { isAManager && <Tab label="My Positions" value={1} />}
-            </Tabs>
-            <TabPanel value={value} index={0}><MyReferrals userData/></TabPanel>
-            <TabPanel value={value} index={1}>This is where {userData.firstName} {userData.lastName} positions will show</TabPanel>
           </Box>
           <Box sx={{ gridArea: "referList" }} overflow="auto">
             {data?.data?.map((referral) => (
