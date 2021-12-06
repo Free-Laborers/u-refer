@@ -31,7 +31,7 @@ export default function ReferralCard(props: ReferralCardProps){
             //@ts-ignore 
             referral?.Candidate?.phone || "N/A"} />
             <ValueWithLabel label="Reason for Referral" value={
-            referral?.description + referral?.description + referral?.description} />
+            referral?.description} />
             <ValueWithLabel label="Resume File Path" value={
             referral?.resumeFilePath || "N/A"} />
         </Box>
