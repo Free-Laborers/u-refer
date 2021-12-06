@@ -1,8 +1,6 @@
 import {useEffect, useState} from 'react';
-import Tab from '@mui/material/Tab'
-import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Tabs} from '@mui/material'
+import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mui/material'
 import axios from 'axios';
-import MyReferrals from './Tabs/MyReferrals';
 import React from 'react';
 import ReferralPreviewCard from './components/ReferralPreviewCard';
 import ReferralCard from './components/ReferralCard';
@@ -17,7 +15,7 @@ interface ProfileResponseType {
 }
 
 export default function Profile() {
-  
+  // eslint-disable-next-line
   const [userData, setUserData] = useState({
     email: "",
     firstName: "",
@@ -90,11 +88,6 @@ export default function Profile() {
   );
 
 
-    const [value, setValue] = useState(-1);
-    const handleTab = (event, val) => {
-        setValue(val);
-    }
-    const isAManager = userData.isManager;
     return (
       <Box height={"calc(100vh - 112px)"}>
         <Box
@@ -109,12 +102,6 @@ export default function Profile() {
         >
           <Box sx={{ gridArea: "sort" }} my={1}>
             {renderMenu}
-            <Tabs value={value} onChange={handleTab} centered>
-            <Tab label="My Referrals" value={0} color='red' />
-              { isAManager && <Tab label="My Positions" value={1} />}
-            </Tabs>
-            <TabPanel value={value} index={0}><MyReferrals userData/></TabPanel>
-            <TabPanel value={value} index={1}>This is where {userData.firstName} {userData.lastName} positions will show</TabPanel>
           </Box>
           <Box sx={{ gridArea: "referList" }} overflow="auto">
             {data?.data?.map((referral) => (
@@ -122,36 +109,15 @@ export default function Profile() {
             ))} 
                      
           </Box>
+<<<<<<< HEAD
           <Box sx={{ gridArea: "referCard" }}>
             {/* I think we can replace lines 127-138 with line 126 for the backend */}
+=======
+          <Box sx={{ gridArea: "referCard" }} overflow="auto">
+>>>>>>> main
             <ReferralCard referral={selectedReferral}/>
-            {/* <ReferralCard referral={{
-              id: '',
-              employeeId: '',
-              candidateId: '',
-              jobPostId: '',
-              description: 'They are a great fit, super cool person ッ',
-              resumeFilePath: null,
-              createdDate: new Date(),
-              contactedDate: null,
-              finishedDate: null,
-              status: 'SUBMITTED'
-            }}/> */}
           </Box>
         </Box>
       </Box>
-    )
-}
-
-
-//https://www.youtube.com/watch?v=_i49HTOacvI && https://www.youtube.com/watch?v=nF9q_fRV-1A
-function TabPanel(props){
-    const {children, value, index}=props;
-    return(
-        <div>
-        {
-            value===index && (<h1>{children}</h1>)
-        }
-        </div>
     )
 }
