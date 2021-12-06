@@ -35,7 +35,7 @@ export default function ReferralCard(props: ReferralCardProps){
             <ValueWithLabel label="Resume File Path" value={
             referral?.resumeFilePath || "N/A"} />
         </Box>
-        <Button>
+        <Button variant="contained" color="primary">
             Edit/Delete
       </Button>
     </Box>
