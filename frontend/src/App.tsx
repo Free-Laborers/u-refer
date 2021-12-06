@@ -7,6 +7,7 @@ import JobFeed from './pages/JobFeed'
 import Login from './pages/Login'
 import Listing from './pages/JobFeedCreation'
 import Profile from './pages/Profile'
+import ApplicantTableView from './pages/ApplicantTableView'
 import { AuthProvider } from './hooks/useAuth'
 
 const App = () => {
@@ -38,6 +39,10 @@ const App = () => {
               <Route exact path='/profile'>
                 <Navbar />
                 <Profile />
+              </Route>
+              <Route exact path='/jobs/applicants'>
+                <Navbar />
+                <ApplicantTableView />
               </Route>
             </Switch>
           </Box>
