@@ -10,7 +10,7 @@ interface ReferralCardProps {
 export default function ReferralCard(props: ReferralCardProps){
     const { referral } = props;
     const ReferralCardContent = referral ? (
-    <Box height="100%" display="flex" flexDirection="column">
+    <Box height="100%" display="flex" flexDirection="column" overflow = "auto">
         <Box flexGrow={1}>
           <Box mb={3} display="flex">
                 <Typography flexGrow={1} variant="h6">{
@@ -31,7 +31,7 @@ export default function ReferralCard(props: ReferralCardProps){
             //@ts-ignore 
             referral?.Candidate?.phone || "N/A"} />
             <ValueWithLabel label="Reason for Referral" value={
-            referral?.description} />
+            referral?.description + referral?.description + referral?.description} />
             <ValueWithLabel label="Resume File Path" value={
             referral?.resumeFilePath || "N/A"} />
         </Box>
@@ -47,9 +47,9 @@ export default function ReferralCard(props: ReferralCardProps){
     );
 
     
-return (
-    <Paper sx={{ p: 2, height: "100%" }}>
-    {ReferralCardContent}
-    </Paper>
-);
+    return (
+        <Paper sx={{ p: 2, height: "100%" }}>
+            {ReferralCardContent}
+        </Paper>
+    );
 }
