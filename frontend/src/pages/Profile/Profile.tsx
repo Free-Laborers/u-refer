@@ -109,12 +109,7 @@ export default function Profile() {
             ))} 
                      
           </Box>
-<<<<<<< HEAD
           <Box sx={{ gridArea: "referCard" }}>
-            {/* I think we can replace lines 127-138 with line 126 for the backend */}
-=======
-          <Box sx={{ gridArea: "referCard" }} overflow="auto">
->>>>>>> main
             <ReferralCard referral={selectedReferral}/>
           </Box>
         </Box>
