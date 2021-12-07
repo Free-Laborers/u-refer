@@ -22,44 +22,44 @@ const style = {
 export default function JobPostViewModal(props: JobPostViewModalProps & Omit<ModalProps, 'children'>) {
   const {referral, closeModal, ...modalProps } = props
   const jobPost = referral?.JobPost;
-
+ 
   return (
     <Modal {...modalProps}>
       <Paper sx={style}>
-      <Grid container justifyContent="flex-end">
-        <CancelOutlinedIcon color='primary' onClick={closeModal}></CancelOutlinedIcon>
-      </Grid>
-      <Box mb={3} display="flex">
-          <Typography flexGrow={1} variant="h6">
-            {jobPost?.title}
-          </Typography>
-          <Typography>
-            {new Date(jobPost?.createdDate).toLocaleDateString()}
-          </Typography>
-      </Box>
-      {jobPost?.PostToTag.length!==0 && <Stack direction="row" spacing={0.5} mb = {2}>
-        {
-          // @ts-ignore
-          jobPost.PostToTag.map(ptt => (
-            <Chip
-              label = {ptt.Tag.name}
-              variant ="filled"
-              color='default' 
-            />
-          ))
-        }
-      </Stack>} 
-        <ValueWithLabel 
-        label="Description" 
-        value={jobPost?.description} />
-        <ValueWithLabel
-          label="Salary"
-          value={"$" + jobPost?.salary.toLocaleString()}
-        />
-        <ValueWithLabel
-          label="Experience"
-          value={jobPost?.minYearsExperience.toLocaleString()}
-        />
+          <Box style={{ overflowX: "hidden" }} sx={{maxHeight: '500px'}}>
+            <Grid container justifyContent="flex-end">
+              <CancelOutlinedIcon color='primary' onClick={closeModal}></CancelOutlinedIcon>
+            </Grid>
+             <Box mb={3} display="flex">
+                <Typography flexGrow={1} variant="h6">
+                  {jobPost?.title}
+                </Typography>
+                <Typography>
+                  {new Date(jobPost?.createdDate).toLocaleDateString()}
+                </Typography>
+              </Box>
+            {jobPost?.PostToTag.length!==0 && <Stack direction="row" spacing={0.5} mb = {2}>
+            {
+              // @ts-ignore
+              jobPost.PostToTag.map(ptt => (
+              <Chip
+                label = {ptt.Tag.name}
+                variant ="filled"
+                color='default' 
+              />
+              ))
+            }
+            </Stack>} 
+            <ValueWithLabel 
+              label="Description" 
+              value={jobPost?.description} />
+            <ValueWithLabel
+              label="Salary"
+              value={"$" + jobPost?.salary.toLocaleString()}/>
+            <ValueWithLabel
+              label="Experience"
+              value={jobPost?.minYearsExperience.toLocaleString()}/>
+          </Box>   
       </Paper>
     </Modal>
   )
