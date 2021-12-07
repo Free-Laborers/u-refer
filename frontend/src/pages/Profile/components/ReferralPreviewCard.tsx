@@ -12,7 +12,10 @@ export default function ReferralPreviewCard(props: ReferralPreviewCardProps) {
   const {referral, onClick} = props;
   console.log(`referral`, referral)
   return(
-    <Paper onClick = {onClick} sx={{ mb:2, p: 2, cursor: "pointer" }}>
+    <Paper onClick = {onClick} sx={{ mb:2, p: 2, cursor: "pointer", "&:hover": {
+      border: 'solid 1px black',
+      boxShadow: '5px 5px #025856'
+    } }}>
       <Typography>
         {referral.id}
       </Typography>
@@ -24,6 +27,7 @@ export default function ReferralPreviewCard(props: ReferralPreviewCardProps) {
           whiteSpace: "initial",
           WebkitBoxOrient: "vertical",
           WebkitLineClamp: 3,
+          
         }} 
         label = "Description"
         value = {referral?.description}

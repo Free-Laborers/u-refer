@@ -116,7 +116,7 @@ export default function Profile() {
             <TabPanel value={value} index={0}><MyReferrals userData/></TabPanel>
             <TabPanel value={value} index={1}>This is where {userData.firstName} {userData.lastName} positions will show</TabPanel>
           </Box>
-          <Box sx={{ gridArea: "referList" }} overflow="auto">
+          <Box sx={{ gridArea: "referList" }} >
             {data?.data?.map((referral) => (
               <ReferralPreviewCard onClick={() => setselectedReferral(referral)} referral={referral} />
             ))} 
