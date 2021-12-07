@@ -119,7 +119,6 @@ app.use("/tag", tagRouter);
 app.use("/jobPost", jobPostRouter);
 app.use("/referral", referralRouter);
 
-// ------------ error handling. It only has 500 error, but later more errors will be handled.
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
   if (err instanceof StatusCodedError) {
     res.status(err.getStatusCode()).send({ error: err.message });
