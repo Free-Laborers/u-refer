@@ -12,11 +12,16 @@ const transporter: Transporter = nodemailer.createTransport({
   },
 });
 
-export default (managerEmail: string) => {
+export default (
+  managerEmail: string,
+  postitionTitle: string,
+  firstName: string,
+  lastName: string
+) => {
   const mailOptions: SendMailOptions = {
     to: managerEmail,
-    subject: `from UKG: The subject goes here`,
-    text: "a new Referral has been created!",
+    subject: `From UKG: A New Referral Has Been Created!`,
+    text: `Position: ${postitionTitle}\nCandiate Name: ${firstName} ${lastName}`,
   };
 
   transporter.sendMail(mailOptions, function (err, info) {

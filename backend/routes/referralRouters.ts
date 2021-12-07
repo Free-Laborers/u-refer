@@ -240,7 +240,24 @@ referralRouter.post(
       } else {
         const hiringManagerEmail = hiringManager.email;
         console.log("sending email");
-        sendEmail(hiringManagerEmail);
+        const job = await jobPostControllers.getOneJobPostWithId(
+          req.body.jobPostId
+        );
+        if (!job) {
+          sendEmail(
+            hiringManagerEmail,
+            "",
+            req.body.firstName,
+            req.body.lastName
+          );
+        } else {
+          sendEmail(
+            hiringManagerEmail,
+            job.title,
+            req.body.firstName,
+            req.body.lastName
+          );
+        }
       }
     } catch (e: any) {
       if (e instanceof StatusCodedError) {
