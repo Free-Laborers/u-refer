@@ -21,7 +21,13 @@ export default (
   const mailOptions: SendMailOptions = {
     to: managerEmail,
     subject: `From UKG: A New Referral Has Been Created!`,
-    text: `Position: ${postitionTitle}\nCandiate Name: ${firstName} ${lastName}`,
+    html: `
+      <h3>Position</h3>
+      <p>${postitionTitle}</p>
+      <h3>Candiate Name</h3>
+      <p>${firstName}${" "}${lastName}</p>
+      <a href = "http://localhost:3000/profile"><h2>Click Here For More Detail</h2></a>
+    `,
   };
 
   transporter.sendMail(mailOptions, function (err, info) {
