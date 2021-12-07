@@ -20,10 +20,22 @@ export default function ReferralCard(props: ReferralCardProps){
             onClick={() => setJobPostPreviewModalOpen(true)}>
               {"Job Title"} </Link>
             </Box>
-            <ValueWithLabel label="Name" value={"Fname Lname"} />
-            <ValueWithLabel label="Email" value={"email@email.com"} />
-            <ValueWithLabel label="Phone" value={"000-000-0000"} />
-            <ValueWithLabel label="Reason" value={referral?.description} />
+            <ValueWithLabel label="Name of Referred" value={
+            //@ts-ignore 
+            referral?.Candidate?.firstName + " " + referral?.Candidate?.lastName} />
+            <ValueWithLabel label="Email" value={
+            //@ts-ignore 
+            referral?.Candidate?.email} />
+            <ValueWithLabel label="Pronouns" value={
+            //@ts-ignore 
+            referral?.Candidate?.pronoun || "N/A"} />
+            <ValueWithLabel label="Phone" value={
+            //@ts-ignore 
+            referral?.Candidate?.phone || "N/A"} />
+            <ValueWithLabel label="Reason for Referral" value={
+            referral?.description} />
+            <ValueWithLabel label="Resume File Path" value={
+            referral?.resumeFilePath || "N/A"} />
         </Box>
         <Button variant="contained" color="primary" >
         Edit/Delete
@@ -34,6 +46,9 @@ export default function ReferralCard(props: ReferralCardProps){
           closeModal={() => setJobPostPreviewModalOpen(false)}
           referral={referral} 
         />
+        <Button variant="contained" color="primary">
+            Edit/Delete
+      </Button>
     </Box>
     ) : (
     <Typography variant="subtitle1" component="h2" align="center">
@@ -43,9 +58,9 @@ export default function ReferralCard(props: ReferralCardProps){
     );
 
     
-return (
-<Paper sx={{ p: 2, height: "100%" }}>
-    {ReferralCardContent}
-</Paper>
-);
+    return (
+        <Paper sx={{ p: 2, height: "100%" }}>
+            {ReferralCardContent}
+        </Paper>
+    );
 }
