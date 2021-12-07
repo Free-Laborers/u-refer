@@ -25,7 +25,7 @@ export default function Profile() {
   });
   // const PAGE_SIZE = 10;
   const [selectedReferral, setselectedReferral] = useState<any>(null);  
-  const [page] = useState(0);
+  const [page, setPage] = useState(0);
   const [{ data }] = useAxios<ProfileResponseType>({
     url: `/referral/user`,
     headers: {
@@ -86,7 +86,12 @@ export default function Profile() {
       </FormControl>
     </Box>
   );
-
+  useEffect(() => {
+    if(!selectedReferral && data && data?.data?.length > 0){
+      setselectedReferral(data?.data[0])
+      setPage(0)
+    }
+  }, [data, selectedReferral])
 
     return (
       <Box height={"calc(100vh - 112px)"}>
