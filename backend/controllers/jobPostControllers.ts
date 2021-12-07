@@ -93,7 +93,8 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
 const prisma = new PrismaClient();
 
 export const getJobPostings = async (
-  filters: Partial<JobListingFilterType> & { page: number }
+  filters: Partial<JobListingFilterType> & { page: number },
+  orderBy: Prisma.JobPostOrderByWithRelationInput,
 ) => {
   const PAGE_SIZE = 10;
   const { page, ...whereClauseFilters } = filters;
@@ -101,6 +102,7 @@ export const getJobPostings = async (
 
   const data = await prisma.jobPost.findMany({
     where: whereClause,
+    orderBy,
     skip: page * PAGE_SIZE,
     take: PAGE_SIZE,
     include: {

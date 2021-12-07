@@ -17,7 +17,7 @@ interface JobFeedResponseType {
 export default function JobFeed() {
   enum sortStatus {
     ASC = "asc",
-    DEC = "dec",
+    DEC = "desc",
   }
   const PAGE_SIZE = 10;
   const [selectedJob, setSelectedJob] = useState<any>(null);
@@ -44,6 +44,8 @@ export default function JobFeed() {
       minExperience,
       maxExperience,
       page,
+      sortBy: 'createdDate',
+      sortDirection: selectedSort,
     },
   });
 
@@ -52,13 +54,11 @@ export default function JobFeed() {
   const drawerWidth = 270;
 
   //sorts data ascending or descending by createdDate
-  function handleChange() {
+  function reverseSort() {
     if (selectedSort === sortStatus.ASC) {
       setSelectedSort(sortStatus.DEC);
-      data?.data?.sort((a, b) => a.createdDate.localeCompare(b.createdDate));
     } else {
       setSelectedSort(sortStatus.ASC);
-      data?.data?.sort((a, b) => b.createdDate.localeCompare(a.createdDate));
     }
   }
   //returns up or down button depending on selected sort
@@ -95,7 +95,7 @@ export default function JobFeed() {
       >
         <Box sx={{ gridArea: "sort" }} my={1}>
           <Typography variant="button">{"Sort by Date: "}</Typography>
-          <IconButton onClick={() => handleChange()}>
+          <IconButton onClick={reverseSort}>
             {getIcon(selectedSort)}
           </IconButton>
           <Typography>{data?.numResults || 0} results</Typography>
