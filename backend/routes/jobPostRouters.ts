@@ -12,23 +12,67 @@ const coerceToNumberOrNull = (x: any) => {
   return isNaN(res) ? null : res;
 };
 
+type JobPostRequest = {
+  filters: {
+    searchString: string,
+    maxExperience: number | null,
+    minExperience: number | null,
+    maxSalary: number | null,
+    minSalary: number | null,
+    tags: string[],
+    page: number,
+  },
+  orderBy: Prisma.JobPostOrderByWithRelationInput,
+};
+
+function parseString(x: qs.ParsedQs['a']): string {
+  if (typeof x === 'string') {
+    return x;
+  } else {
+    throw new Error(`error parsing request: expected string, got ${x}`);
+  }
+}
+function parseStringArray(x: qs.ParsedQs['a']): string[] {
+  if (x instanceof Array) {
+    return x.map(parseString);
+  // arrays are stringified as undefined when empty in query strings
+  } else if (x === undefined) {
+    return [];
+  } else {
+    throw new Error(`error parsing request: expected array, got ${x}`);
+  }
+}
+function parseJobPostRequest(query: Request['query']): JobPostRequest {
+  const filters = {
+    searchString: parseString(query.searchString),
+    maxExperience: coerceToNumberOrNull(query.maxExperience),
+    minExperience: coerceToNumberOrNull(query.minExperience),
+    maxSalary: coerceToNumberOrNull(query.maxSalary),
+    minSalary: coerceToNumberOrNull(query.minSalary),
+    tags: parseStringArray(query.tags),
+    page: coerceToNumberOrNull(query.page) || 0,
+  };
+  let sortKey = parseString(query.sortBy);
+  if (!['createdDate'].includes(sortKey)) {
+    throw new Error(`invalid sort ${sortKey}`);
+  }
+  let orderDirection = parseString(query.sortDirection);
+  if (!['asc', 'desc'].includes(orderDirection)) {
+    throw new Error(`invalid sort direction ${orderDirection}`);
+  }
+  const orderBy = { [sortKey]: orderDirection };
+  return { filters, orderBy };
+}
+
 jobPostRouter.get(
   "/",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const filters: Partial<JobListingFilterType> & { page: number } = {
-        searchString: req.query.searchString as string,
-        maxExperience: coerceToNumberOrNull(req.query.maxExperience),
-        minExperience: coerceToNumberOrNull(req.query.minExperience),
-        maxSalary: coerceToNumberOrNull(req.query.maxSalary),
-        minSalary: coerceToNumberOrNull(req.query.minSalary),
-        tags: req.query.tags as string[],
-        page: coerceToNumberOrNull(req.query.page) || 0,
-      };
-      const jobs = await jobPostController.getJobPostings({ ...filters });
+      const { filters, orderBy } = parseJobPostRequest(req.query);
+      const jobs = await jobPostController.getJobPostings(filters, orderBy);
       res.status(200).json(jobs);
     } catch (e: any) {
-      next(new Error(e));
+      next(e);
     }
   }
 );

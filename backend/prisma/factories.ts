@@ -76,6 +76,7 @@ export const createJobPost = async (
   const minYearsExperience = faker.datatype.number(10);
   const salary = faker.datatype.number(150000);
   const openings = faker.datatype.number(3) + 1;
+  const createdDate = faker.date.recent(365 * 10);
 
   const defaultData = {
     title,
@@ -84,6 +85,7 @@ export const createJobPost = async (
     minYearsExperience,
     salary,
     openings,
+    createdDate,
   };
 
   const res = await prisma.jobPost.create({
