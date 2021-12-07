@@ -1,6 +1,6 @@
 import ValueWithLabel from "../../../components/ValueWithLabel";
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import {Grid, Chip, Modal, ModalProps, Paper, Stack, Typography, Box } from '@mui/material'
+import {Grid, Chip, Modal, ModalProps, Paper, Stack, Typography, Box, IconButton } from '@mui/material'
 
 // @ts-ignore
 import { Referral } from '../../../../backend/node_modules/@prisma/client'
@@ -24,11 +24,13 @@ export default function JobPostViewModal(props: JobPostViewModalProps & Omit<Mod
   const jobPost = referral?.JobPost;
  
   return (
-    <Modal {...modalProps}>
+    <Modal onClose={closeModal} {...modalProps}>
       <Paper sx={style}>
           <Box style={{ overflowX: "hidden" }} sx={{maxHeight: '500px'}}>
             <Grid container justifyContent="flex-end">
-              <CancelOutlinedIcon color='primary' onClick={closeModal}></CancelOutlinedIcon>
+              <IconButton onClick={closeModal}>
+                <CancelOutlinedIcon color='primary'/>
+              </IconButton>
             </Grid>
              <Box mb={3} display="flex">
                 <Typography flexGrow={1} variant="h6">
