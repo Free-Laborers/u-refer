@@ -38,16 +38,31 @@ const columns: GridColDef[] = [
     }
 ]
 
-export default function TableView(props: TableViewProps) {
-    const [ rows, setRows ] = useState<GridRow[]>([]);
+const test_ref = [{
+    id: "12",
+    createdDate: new Date(),
+    status: "OPEN",
+    firstName: "John",
+    lastName: "Doe"
+  },
+  {
+    id: "34",
+    createdDate: new Date(),
+    status: "CLOSED",
+    firstName: "Jane",
+    lastName: "Doe"
+  }]
 
+export default function TableView(props: TableViewProps) {
+    const [ rows, setRows ] = useState<GridRow[]>(test_ref);
+    /*
     useEffect(() => {
         fetch('referral/jobs/' + props.jobPostID)
             .then(data => data.json())
             .then(json => setRows(json))
     }, [props.jobPostID]);
     console.log(props.jobPostID);
-
+    */
     return (
         <div style={{ height: 400, width: '100%' }}>
             <DataGrid

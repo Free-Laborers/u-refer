@@ -1,11 +1,11 @@
 import { Paper, Typography } from "@mui/material";
-//import { JobPost } from "../../../../../backend/node_modules/prisma/prisma-client";
+//import { JobPost } from "../../../../backend/node_modules/prisma/prisma-client";
 
-/*
+
 interface PositionCardProps {
-  job: JobPost;
+  //job: JobPost;
 }
-*/
+
 
 export default function PositionCard(props) {
   const { job } = props;
@@ -18,7 +18,7 @@ export default function PositionCard(props) {
         {job?.description}
       </Typography>
       <Typography mb={2} variant="subtitle2">
-        Experience: {job?.experience} 
+        Experience: {job?.minYearsExperience} 
         {"\n"}
         Salary: {job?.salary}
       </Typography>
