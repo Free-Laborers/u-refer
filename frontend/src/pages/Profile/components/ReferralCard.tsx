@@ -16,9 +16,10 @@ export default function ReferralCard(props: ReferralCardProps){
     <Box height="100%" display="flex" flexDirection="column">
         <Box flexGrow={1} >
             <Box mb={3} display="flex">
-            <Link underline="always" variant="h6" sx={{cursor: "pointer" }}
+            <Link underline="always" variant="h6" flexGrow={1} sx={{cursor: "pointer" }}
             onClick={() => setJobPostPreviewModalOpen(true)}>
-              {"Job Title"} </Link>
+              {//@ts-ignore
+              referral?.JobPost?.title} </Link>
             </Box>
             <ValueWithLabel label="Name of Referred" value={
             //@ts-ignore 
@@ -37,9 +38,6 @@ export default function ReferralCard(props: ReferralCardProps){
             <ValueWithLabel label="Resume File Path" value={
             referral?.resumeFilePath || "N/A"} />
         </Box>
-        <Button variant="contained" color="primary" >
-        Edit/Delete
-        </Button>
         
         <JobPostPreviewModal
           open={jobPostPreviewModalOpen}
