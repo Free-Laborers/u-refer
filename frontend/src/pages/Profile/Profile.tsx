@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
-import Tab from '@mui/material/Tab'
-import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Tabs, Pagination} from '@mui/material'
+import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Pagination} from '@mui/material'
 import axios from 'axios';
 import React from 'react';
 import ReferralPreviewCard from './components/ReferralPreviewCard';
@@ -117,7 +116,7 @@ export default function Profile() {
           </Box>
           <Box mx="auto" my={2} sx={{ gridArea: "pagination" }}>
             <Pagination
-              count={Math.floor(numPages)}
+              count={numPages}
               page={page + 1}
               onChange={(e, page) => setPage(page - 1)}
             />

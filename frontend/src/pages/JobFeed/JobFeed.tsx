@@ -110,7 +110,7 @@ export default function JobFeed() {
         </Box>
         <Box mx="auto" my={2} sx={{ gridArea: "pagination" }}>
           <Pagination
-            count={Math.floor(numPages)}
+            count={numPages}
             page={page + 1}
             onChange={(e, page) => setPage(page - 1)}
           />
