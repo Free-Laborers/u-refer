@@ -96,7 +96,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
       <Paper sx={style}>
         <Typography gutterBottom variant='h5'>Referral for {jobPost?.title}</Typography>
         <Divider/>
-        <Box overflow='scroll' my={2} sx={{ height: '500px' }}>
+        <Box overflow='scroll' my={2} sx={{ height: '400px' }}>
           {steps[activeStep][1]}
         </Box>
         <Stepper activeStep={activeStep}>
