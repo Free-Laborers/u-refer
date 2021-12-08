@@ -5,11 +5,15 @@ import {
   deleteOneCandidate,
   findOneCandidateWithEmail,
 } from "../controllers/candidateControllers";
-import { getOneEmployeeWithEmail } from "../controllers/employeeControllers";
+import {
+  getOneEmployeeWithId as getOneEmployeeWithId,
+  getOneEmployeeWithEmail,
+} from "../controllers/employeeControllers";
 import { createOneReferral } from "../controllers/referralControllers";
 import * as referralControllers from "../controllers/referralControllers";
 import * as jobPostControllers from "../controllers/jobPostControllers";
 import { StatusCodedError } from "../error/statusCodedError";
+import sendEmail from "../email/emailSender";
 const referralRouter = express.Router();
 
 referralRouter.get(
@@ -173,6 +177,24 @@ referralRouter.post(
   checkRequiredBodyParamForReferralPost,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const jobPost = await jobPostControllers.getOneJobPostWithId(
+        req.body.jobPostId as string
+      );
+
+      if (!jobPost) {
+        throw new StatusCodedError("bad request: no such jobPost", 400);
+      } else {
+        req.body["hiringMangerId"] = jobPost.hiringManagerId;
+      }
+    } catch (e: any) {
+      if (e instanceof StatusCodedError) {
+        next(e);
+      } else {
+        next(new Error(e));
+      }
+    }
+
+    try {
       let candidate = await findOneCandidateWithEmail(req.body.email);
       if (!candidate) {
         const newCandidate = await getNewCandidateData(req.body);
@@ -180,7 +202,12 @@ referralRouter.post(
       }
       req.body["candidateId"] = candidate.id;
     } catch (e: any) {
-      next(new Error(e));
+      next(
+        new StatusCodedError(
+          "Server Error: candidate info is not saved / loaded",
+          500
+        )
+      );
     }
 
     req.body["employeeId"] = (req.user as Employee).id;
@@ -193,7 +220,52 @@ referralRouter.post(
       });
     } catch (e: any) {
       await deleteOneCandidate(req.body.candidateId);
-      next(new Error(e));
+      next(
+        new StatusCodedError(
+          "Server error: Referral is not saved. Candidate change will be reverted",
+          500
+        )
+      );
+    }
+
+    try {
+      const hiringManager = await getOneEmployeeWithId(
+        req.body.hiringMangerId as string
+      );
+
+      if (!hiringManager) {
+        throw new StatusCodedError(
+          "Warning: could not find hiring manager data from employee table. Email Notification will not be sent",
+          500
+        );
+      } else {
+        const hiringManagerEmail = hiringManager.email;
+        console.log("sending email");
+        const job = await jobPostControllers.getOneJobPostWithId(
+          req.body.jobPostId
+        );
+        if (!job) {
+          sendEmail(
+            hiringManagerEmail,
+            "",
+            req.body.firstName,
+            req.body.lastName
+          );
+        } else {
+          sendEmail(
+            hiringManagerEmail,
+            job.title,
+            req.body.firstName,
+            req.body.lastName
+          );
+        }
+      }
+    } catch (e: any) {
+      if (e instanceof StatusCodedError) {
+        next(e);
+      } else {
+        next(new Error(e));
+      }
     }
   }
 );

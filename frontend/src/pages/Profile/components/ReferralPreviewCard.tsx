@@ -13,9 +13,16 @@ export default function ReferralPreviewCard(props: ReferralPreviewCardProps) {
   console.log(`referral`, referral)
   return(
     <Paper onClick = {onClick} sx={{ mb:2, p: 2, cursor: "pointer" }}>
-      <Typography>
-        {referral.id}
+      <Typography flexGrow={1} variant="h6" lineHeight={2.5}>{
+      //@ts-ignore 
+      referral?.JobPost?.title}
       </Typography>
+      <ValueWithLabel label="Name of Referred" value={
+      //@ts-ignore 
+      referral?.Candidate?.firstName + " " + referral?.Candidate?.lastName} />
+      <ValueWithLabel label="Email" value={
+      //@ts-ignore 
+      referral?.Candidate?.email} />
       <ValueWithLabel
         sx ={{
           display: "-webkit-box",
@@ -25,7 +32,7 @@ export default function ReferralPreviewCard(props: ReferralPreviewCardProps) {
           WebkitBoxOrient: "vertical",
           WebkitLineClamp: 3,
         }} 
-        label = "Description"
+        label = "Reason for referral"
         value = {referral?.description}
       />
     </Paper>
