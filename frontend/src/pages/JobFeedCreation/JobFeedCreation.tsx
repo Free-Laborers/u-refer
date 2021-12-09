@@ -12,17 +12,34 @@ import { Autocomplete, AutocompleteRenderInputParams, Chip, Grid } from '@mui/ma
 import { Redirect } from 'react-router-dom';
 
 import useAuth from "../../hooks/useAuth"
+import useAxios from 'axios-hooks';
+
+// @ts-ignore
+import { Tag } from "../../../../../backend/node_modules/prisma/prisma-client";
 
 //axios has some weird type error stuff, so I used require here. Someone please figure it out later. 
 const axios = require("axios");
 const theme = createTheme();
 //I do not have an clear idea about where the frontend will store the list of Tags
 //todo: store the list of tags somewhere and use it for this component.
-const tags: string[] = [
-    "React", 
-    "Prisma",
-];
+
+//const tags: string[] = [   "React"];
+
 const JobFeedCreation = () => {
+
+    interface TagResponseType {
+        tags: Tag[];
+      }
+    
+    const [{ data }] = useAxios<TagResponseType>({
+        url: "/tag/",
+        headers: {
+          Authorization: localStorage.getItem("authorization"),
+        },
+      });
+      
+    const tags = (data?.tags) ? (data?.tags).map(x => x.name) : [];
+
     const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
     const [selectedTagsSet, setSelectedTagsSet]  = React.useState<Set<string>>(new Set());
     const [redirectToJobFeed, setRedirectToJobFeed] = React.useState<Boolean>(false)
@@ -122,7 +139,6 @@ const JobFeedCreation = () => {
                             id="position"
                             label="Job Position"
                             name="position"
-                            autoFocus
                         /><TextField
                             margin="normal"
                             required
@@ -132,7 +148,6 @@ const JobFeedCreation = () => {
                             id="description"
                             label="Job Description"
                             name="description"
-                            autoFocus
                         />
                         <Grid container direction = {"row"} spacing = {3}>
                             <Grid item>
@@ -147,7 +162,6 @@ const JobFeedCreation = () => {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    autoFocus
                                 />
                             </Grid>
                             <Grid item>
@@ -182,7 +196,6 @@ const JobFeedCreation = () => {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    autoFocus
                                 />
                             </Grid>
                         </Grid>

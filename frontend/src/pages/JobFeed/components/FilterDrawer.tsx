@@ -1,4 +1,4 @@
-import { Drawer, TextField, Typography, Box } from '@mui/material'
+import { Drawer, TextField, Typography, Box, InputAdornment } from '@mui/material'
 import useJobFeedFilters from '../../../contexts/JobFeedFilterContext'
 import ExperienceSlider from './ExperienceSlider'
 import SalarySlider from './SalarySlider'
@@ -81,6 +81,9 @@ export default function FilterDrawer(props: FilterDrawerProps) {
         size='small'
         label='Minimum Salary'
         value={minSalary}
+        InputProps={{
+          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        }}
         onChange={e => setMinSalary((isNaN(parseInt(e.target.value))) ? 0 : parseInt(e.target.value))}
         />
       </Box>
@@ -91,6 +94,9 @@ export default function FilterDrawer(props: FilterDrawerProps) {
         size='small'
         label='Maximum Salary'
         value={maxSalary}
+        InputProps={{
+          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        }}
         onChange={e => setMaxSalary((isNaN(parseInt(e.target.value))) ? 0 : parseInt(e.target.value))}
       />
       </Box>
@@ -106,7 +112,10 @@ export default function FilterDrawer(props: FilterDrawerProps) {
         fullWidth
         size='small'
         label='Minimum Experience'
-        value={minExperience}
+        value={minExperience} 
+        InputProps={{
+          endAdornment: <InputAdornment position="end">yrs</InputAdornment>,
+        }}
         onChange={e => setMinExperience((isNaN(parseInt(e.target.value))) ? 0 : parseInt(e.target.value))}
         />
       </Box>
@@ -116,7 +125,10 @@ export default function FilterDrawer(props: FilterDrawerProps) {
         fullWidth
         size='small'
         label='Maximum Experience'
-        value={maxExperience}
+        value={maxExperience} 
+        InputProps={{
+          endAdornment: <InputAdornment position="end">yrs</InputAdornment>,
+        }}
         onChange={e => setMaxExperience((isNaN(parseInt(e.target.value))) ? 0 : parseInt(e.target.value))}
         />
       </Box>

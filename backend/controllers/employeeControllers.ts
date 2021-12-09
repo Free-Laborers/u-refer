@@ -25,6 +25,15 @@ export const getOneEmployeeWithEmail = (email: string) => {
   });
 };
 
+export const getOneEmployeeWithId = (id: string) => {
+  // for the parameters that is not undefined, to sth.
+  return prisma.employee.findUnique({
+    where: {
+      id,
+    },
+  });
+};
+
 export const getEmployeesWithNameTextSearch = (nameInput: string) => {
   return prisma.employee.findMany({
     where: {

@@ -1,7 +1,7 @@
 // Copied from
 // https://github.com/mui-org/material-ui/blob/next/docs/src/pages/getting-started/templates/sign-in/SignIn.tsx
 
-import * as React from "react";
+import { FormEvent } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -48,14 +48,15 @@ function validateEmail(email: any) {
   return re.test(String(email).toLowerCase());
 }
 
-const Login = () => {
+const Login = (props) => {
   const [errMessage, setErrMessage] = useState<string>("");
-  const history = useHistory();
 
   const { login } = useAuth();
+  const history = useHistory();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
     if (!(data.get("email") && data.get("password"))) {
       return setErrMessage("Please fill out the email and password fields");
@@ -72,7 +73,7 @@ const Login = () => {
     }
 
     login(loginData)
-      .then((_) => history.push("/"))
+      .then((_) => history.push("/jobs"))
       .catch((err) => setErrMessage(err.message));
   };
 
@@ -132,17 +133,6 @@ const Login = () => {
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
-            </Button>
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={() => {
-                localStorage.setItem("authorization", "");
-                alert("successfully logged out!");
-              }}
-            >
-              Sign Out
             </Button>
             <Grid container>
               <Grid item xs>

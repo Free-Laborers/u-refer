@@ -9,13 +9,14 @@ datasource db {
 }
 
 enum Referral_Status {
-  OPEN
-  CONTACTED
-  REJECTED
-  HIRED
-  DELETED
+  SUBMITTED // the referee info has been submitted, but not reviewed by managers yet
+  REVIEWED  // the referee info has been reviewed, and the managers are deciding if they want to contact to the candidate or not
+  CONTACTED // the referee has been contacted, but has not been rejected or hired yet
+  REJECTED  // the referee has been rejected after being reviewed or contacted
+  HIRED     // the referee has been hired, after being reviewed and contacted
+  WITHDRAWN // the referee has been withdrawn by the referrer while it was SUBMITTED
+  IGNORED   // the referee has been ignored without any review with any hiring managers (due to job close for example)
 }
-
 model Employee {
   id          String     @id @default(uuid())
   email       String     @unique
@@ -49,7 +50,7 @@ model JobPost {
   minYearsExperience Int
   salary             Int
   openings           Int         @default(1)
-  createdDate        DateTime    @default(now()) @db.Timestamp
+  createdDate        DateTime    @default(now()) //@db.Timestamp
   deletedDate        DateTime?
   Employee           Employee    @relation(fields: [hiringManagerId], references: [id])
   hiringManagerId    String
@@ -70,8 +71,12 @@ model Referral {
   createdDate    DateTime        @default(now())
   contactedDate  DateTime?
   finishedDate   DateTime?
+<<<<<<< HEAD
   status         Referral_Status @default(OPEN)
   deletedDate    DateTime?
+=======
+  status         Referral_Status @default(SUBMITTED)
+>>>>>>> main
 }
 
 model PostToTag {
