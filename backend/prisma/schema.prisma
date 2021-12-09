@@ -71,12 +71,7 @@ model Referral {
   createdDate    DateTime        @default(now())
   contactedDate  DateTime?
   finishedDate   DateTime?
-<<<<<<< HEAD
-  status         Referral_Status @default(OPEN)
-  deletedDate    DateTime?
-=======
   status         Referral_Status @default(SUBMITTED)
->>>>>>> main
 }
 
 model PostToTag {
