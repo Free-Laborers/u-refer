@@ -8,6 +8,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import useJobFeedFilters from "../../../contexts/JobFeedFilterContext";
+import useAuth from "../../../hooks/useAuth";
 import ExperienceSlider from "./ExperienceSlider";
 import SalarySlider from "./SalarySlider";
 import TagSelect from "./TagSelect";
@@ -17,6 +18,8 @@ interface FilterDrawerProps {
 }
 
 export default function FilterDrawer(props: FilterDrawerProps) {
+  const { user } = useAuth();
+
   const width = props?.width || 270;
 
   const {
@@ -167,10 +170,10 @@ export default function FilterDrawer(props: FilterDrawerProps) {
         />
       </Box>
       <Box>
-        <FormControlLabel
+        {user?.isManager && <FormControlLabel
           control={<Switch value={myJobs} onChange={handleSwitch} />}
           label="My Job Postings"
-        />
+        />}
       </Box>
     </Drawer>
   );
