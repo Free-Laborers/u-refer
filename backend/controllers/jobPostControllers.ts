@@ -1,7 +1,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { equal } from "assert";
 import * as _ from "lodash";
-
+import useAuth from "../../frontend/src/hooks/useAuth";
 export interface JobListingFilterType {
   tags: string[] | null;
   minSalary: number | null;
@@ -9,9 +9,12 @@ export interface JobListingFilterType {
   minExperience: number | null;
   maxExperience: number | null;
   searchString?: string | null;
+  myJobs?: boolean | null;
 }
 
 const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
+  const { user } = useAuth();
+  console.log({ user });
   const {
     tags,
     minSalary,
@@ -19,6 +22,7 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
     minExperience,
     maxExperience,
     searchString,
+    myJobs,
   } = args;
 
   let whereClause: Prisma.JobPostWhereInput = {};
@@ -26,6 +30,12 @@ const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
   if (searchString) {
     whereClause.title = {
       contains: searchString,
+    };
+  }
+
+  if (myJobs) {
+    whereClause.hiringManagerId = {
+      contains: user.id,
     };
   }
 
@@ -94,7 +104,7 @@ const prisma = new PrismaClient();
 
 export const getJobPostings = async (
   filters: Partial<JobListingFilterType> & { page: number },
-  orderBy: Prisma.JobPostOrderByWithRelationInput,
+  orderBy: Prisma.JobPostOrderByWithRelationInput
 ) => {
   const PAGE_SIZE = 10;
   const { page, ...whereClauseFilters } = filters;
@@ -124,13 +134,13 @@ export const getJobPostingsWithManagerId = (managerId: string) => {
     where: {
       hiringManagerId: managerId,
     },
-    include:{
-      PostToTag:{
-        include:{
+    include: {
+      PostToTag: {
+        include: {
           Tag: true,
-        }
-      }
-    }
+        },
+      },
+    },
   });
 };
 

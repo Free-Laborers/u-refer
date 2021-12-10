@@ -14,50 +14,53 @@ const coerceToNumberOrNull = (x: any) => {
 
 type JobPostRequest = {
   filters: {
-    searchString: string,
-    maxExperience: number | null,
-    minExperience: number | null,
-    maxSalary: number | null,
-    minSalary: number | null,
-    tags: string[],
-    page: number,
-  },
-  orderBy: Prisma.JobPostOrderByWithRelationInput,
+    searchString: string;
+    maxExperience: number | null;
+    minExperience: number | null;
+    maxSalary: number | null;
+    minSalary: number | null;
+    tags: string[];
+    page: number;
+    myJobs: boolean | null;
+  };
+  orderBy: Prisma.JobPostOrderByWithRelationInput;
 };
 
-function parseString(x: qs.ParsedQs['a']): string {
-  if (typeof x === 'string') {
+function parseString(x: qs.ParsedQs["a"]): string {
+  if (typeof x === "string") {
     return x;
   } else {
     throw new Error(`error parsing request: expected string, got ${x}`);
   }
 }
-function parseStringArray(x: qs.ParsedQs['a']): string[] {
+
+function parseStringArray(x: qs.ParsedQs["a"]): string[] {
   if (x instanceof Array) {
     return x.map(parseString);
-  // arrays are stringified as undefined when empty in query strings
+    // arrays are stringified as undefined when empty in query strings
   } else if (x === undefined) {
     return [];
   } else {
     throw new Error(`error parsing request: expected array, got ${x}`);
   }
 }
-function parseJobPostRequest(query: Request['query']): JobPostRequest {
+function parseJobPostRequest(query: Request["query"]): JobPostRequest {
   const filters = {
     searchString: parseString(query.searchString),
     maxExperience: coerceToNumberOrNull(query.maxExperience),
     minExperience: coerceToNumberOrNull(query.minExperience),
     maxSalary: coerceToNumberOrNull(query.maxSalary),
     minSalary: coerceToNumberOrNull(query.minSalary),
+    myJobs: !!query.myJobs,
     tags: parseStringArray(query.tags),
     page: coerceToNumberOrNull(query.page) || 0,
   };
   let sortKey = parseString(query.sortBy);
-  if (!['createdDate'].includes(sortKey)) {
+  if (!["createdDate"].includes(sortKey)) {
     throw new Error(`invalid sort ${sortKey}`);
   }
   let orderDirection = parseString(query.sortDirection);
-  if (!['asc', 'desc'].includes(orderDirection)) {
+  if (!["asc", "desc"].includes(orderDirection)) {
     throw new Error(`invalid sort direction ${orderDirection}`);
   }
   const orderBy = { [sortKey]: orderDirection };
