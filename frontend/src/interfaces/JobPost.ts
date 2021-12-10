@@ -10,5 +10,13 @@ export default interface JobPost {
     createdDate: string;
     deletedDate: string | null;
     hiringManagerId: string;
-    PostToTag: string[];
+    PostToTag: {
+        Tag: {
+            id: string,
+            name: string,
+        },
+        id: string,
+        jobPostId: string,
+        tagId: string,
+    }[];
 }
