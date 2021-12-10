@@ -169,7 +169,7 @@ export default function FilterDrawer(props: FilterDrawerProps) {
       <Box>
         <FormControlLabel
           control={<Switch value={myJobs} onChange={handleSwitch} />}
-          label="My Jobs"
+          label="My Job Postings"
         />
       </Box>
     </Drawer>
