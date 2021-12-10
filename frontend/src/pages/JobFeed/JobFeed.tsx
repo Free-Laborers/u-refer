@@ -6,8 +6,7 @@ import FilterDrawer from "./components/FilterDrawer";
 import JobCard from "./components/JobCard";
 import JobPreviewCard from "./components/JobPreviewCard";
 import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
-// @ts-ignore
-import { JobPost } from "../../../../../backend/node_modules/prisma/prisma-client";
+import JobPost from "../../interfaces/JobPost"
 
 interface JobFeedResponseType {
   data: JobPost[];
@@ -110,7 +109,7 @@ export default function JobFeed() {
         </Box>
         <Box sx={{ gridArea: "postList" }} overflow="auto">
           {data?.data?.map((job) => (
-            <JobPreviewCard onClick={() => setSelectedJob(job)} job={job} />
+            <JobPreviewCard onClick={() => setSelectedJob(job)} job={job} key={job.id} />
           ))}
         </Box>
         <Box sx={{ gridArea: "postCard" }}>

@@ -11,8 +11,7 @@ import {
   Box,
   Divider,
 } from "@mui/material";
-// @ts-ignore
-import { JobPost } from "../../../../backend/node_modules/@prisma/client";
+import JobPost from "../../interfaces/JobPost";
 import ResumePage from "./pages/ResumePage";
 import ReviewPage from "./pages/ReviewPage";
 import Personal from "./pages/Personal";
