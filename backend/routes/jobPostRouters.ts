@@ -21,7 +21,7 @@ type JobPostRequest = {
     minSalary: number | null;
     tags: string[];
     page: number;
-    myJobs: boolean | null;
+    myJobsId: string | undefined;
   };
   orderBy: Prisma.JobPostOrderByWithRelationInput;
 };
@@ -44,16 +44,30 @@ function parseStringArray(x: qs.ParsedQs["a"]): string[] {
     throw new Error(`error parsing request: expected array, got ${x}`);
   }
 }
-function parseJobPostRequest(query: Request["query"]): JobPostRequest {
+function parseBoolean(x: qs.ParsedQs['a']): boolean {
+  if (typeof x === 'string') {
+    if (x === 'true') {
+      return true;
+    } else if (x === 'false') {
+      return false;
+    }
+  }
+  throw new Error(`error parsing request: expected 'true' or 'false', got ${x}`);
+}
+
+function parseJobPostRequest(
+  query: Request["query"],
+  userId: string | undefined
+): JobPostRequest {
   const filters = {
     searchString: parseString(query.searchString),
     maxExperience: coerceToNumberOrNull(query.maxExperience),
     minExperience: coerceToNumberOrNull(query.minExperience),
     maxSalary: coerceToNumberOrNull(query.maxSalary),
     minSalary: coerceToNumberOrNull(query.minSalary),
-    myJobs: !!query.myJobs,
     tags: parseStringArray(query.tags),
     page: coerceToNumberOrNull(query.page) || 0,
+    myJobsId: (query.myJobsId == true) ?
   };
   let sortKey = parseString(query.sortBy);
   if (!["createdDate"].includes(sortKey)) {
