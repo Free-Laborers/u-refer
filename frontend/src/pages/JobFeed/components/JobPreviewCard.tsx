@@ -22,6 +22,7 @@ export default function JobPreviewCard(props: JobPreviewCardProps) {
               label={ptt.Tag.name}
               variant="filled"
               color='default'
+              key={ptt.id}
             />
           ))
         }
