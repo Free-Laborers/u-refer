@@ -1,7 +1,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { equal } from "assert";
 import * as _ from "lodash";
-import useAuth from "../../frontend/src/hooks/useAuth";
+
 export interface JobListingFilterType {
   searchString: string;
   maxExperience: number | null;
@@ -14,8 +14,6 @@ export interface JobListingFilterType {
 }
 
 const whereClauseBuilder = (args: Partial<JobListingFilterType>) => {
-  const { user } = useAuth();
-  console.log({ user });
   const {
     tags,
     minSalary,

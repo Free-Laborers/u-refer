@@ -13,17 +13,8 @@ const coerceToNumberOrNull = (x: any) => {
 };
 
 type JobPostRequest = {
-  filters: {
-    searchString: string;
-    maxExperience: number | null;
-    minExperience: number | null;
-    maxSalary: number | null;
-    minSalary: number | null;
-    tags: string[];
-    page: number;
-    myJobsId: string | undefined;
-  };
-  orderBy: Prisma.JobPostOrderByWithRelationInput;
+  filters: JobListingFilterType,
+  orderBy: Prisma.JobPostOrderByWithRelationInput,
 };
 
 function parseString(x: qs.ParsedQs["a"]): string {
@@ -52,13 +43,10 @@ function parseBoolean(x: qs.ParsedQs['a']): boolean {
       return false;
     }
   }
+
   throw new Error(`error parsing request: expected 'true' or 'false', got ${x}`);
 }
-
-function parseJobPostRequest(
-  query: Request["query"],
-  userId: string | undefined
-): JobPostRequest {
+function parseJobPostRequest(query: Request['query'], userId: string | undefined): JobPostRequest {
   const filters = {
     searchString: parseString(query.searchString),
     maxExperience: coerceToNumberOrNull(query.maxExperience),
@@ -67,7 +55,7 @@ function parseJobPostRequest(
     minSalary: coerceToNumberOrNull(query.minSalary),
     tags: parseStringArray(query.tags),
     page: coerceToNumberOrNull(query.page) || 0,
-    myJobsId: (query.myJobsId == true) ?
+    myJobsId: parseBoolean(query.myJobsId) ? userId : undefined
   };
   let sortKey = parseString(query.sortBy);
   if (!["createdDate"].includes(sortKey)) {
@@ -85,7 +73,7 @@ jobPostRouter.get(
   "/",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { filters, orderBy } = parseJobPostRequest(req.query);
+      const { filters, orderBy } = parseJobPostRequest(req.query, req.user?.id);
       const jobs = await jobPostController.getJobPostings(filters, orderBy);
       res.status(200).json(jobs);
     } catch (e: any) {
