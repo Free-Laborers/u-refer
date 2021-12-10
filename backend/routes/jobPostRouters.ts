@@ -37,14 +37,10 @@ function parseStringArray(x: qs.ParsedQs["a"]): string[] {
 }
 function parseBoolean(x: qs.ParsedQs["a"]): boolean {
   if (typeof x === "string") {
-    if (x === "true") {
-      return true;
-    } else if (x === "false") {
-      return false;
-    }
+    return x === "true";
   }
 
-  throw new Error(`error parsing request: expected 'true' or 'false', got ${x}`);
+  throw new Error(`error parsing request: expected boolean string ('true' or 'false'), got ${x}`);
 }
 function parseJobPostRequest(query: Request['query'], userId: string | undefined): JobPostRequest {
   const filters = {
