@@ -51,7 +51,7 @@ function parseJobPostRequest(query: Request['query'], userId: string | undefined
     minSalary: coerceToNumberOrNull(query.minSalary),
     tags: parseStringArray(query.tags),
     page: coerceToNumberOrNull(query.page) || 0,
-    myJobsId: parseBoolean(query.myJobsId) ? userId : undefined,
+    myJobsId: parseBoolean(query.myJobs) ? userId : undefined,
   };
   let sortKey = parseString(query.sortBy);
   if (!["createdDate"].includes(sortKey)) {
