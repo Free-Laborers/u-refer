@@ -35,11 +35,11 @@ function parseStringArray(x: qs.ParsedQs["a"]): string[] {
     throw new Error(`error parsing request: expected array, got ${x}`);
   }
 }
-function parseBoolean(x: qs.ParsedQs['a']): boolean {
-  if (typeof x === 'string') {
-    if (x === 'true') {
+function parseBoolean(x: qs.ParsedQs["a"]): boolean {
+  if (typeof x === "string") {
+    if (x === "true") {
       return true;
-    } else if (x === 'false') {
+    } else if (x === "false") {
       return false;
     }
   }
@@ -55,7 +55,7 @@ function parseJobPostRequest(query: Request['query'], userId: string | undefined
     minSalary: coerceToNumberOrNull(query.minSalary),
     tags: parseStringArray(query.tags),
     page: coerceToNumberOrNull(query.page) || 0,
-    myJobsId: parseBoolean(query.myJobsId) ? userId : undefined
+    myJobsId: parseBoolean(query.myJobsId) ? userId : undefined,
   };
   let sortKey = parseString(query.sortBy);
   if (!["createdDate"].includes(sortKey)) {
