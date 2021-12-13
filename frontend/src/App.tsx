@@ -26,7 +26,7 @@ const App = () => {
                 <PrivateRoute component={JobFeed} exact path='/jobs' />
                 <PrivateRoute component={Listing} exact path='/jobs/create' />
                 <PrivateRoute component={Profile} exact path='/profile' />
-                <PrivateRoute component={ApplicantTableView} exact path='/jobs/applicants' />
+                <PrivateRoute component={ApplicantTableView} exact path='/jobs/:id' />
                 <Route component={NoMatch} /> {/* No match => page not found */}
             </Switch>
           </Box>

@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import axios from "axios";
 import TableView from "./TableView";
 import PositionCard from "./PositionCard";
 import {Link} from "react-router-dom";
-//import { JobPost } from "../../../../backend/node_modules/prisma/prisma-client";
-import { NorthWestTwoTone } from "@mui/icons-material";
+import { JobPost } from "../../interfaces/JobPost"
+import { Referral } from "../../interfaces/Referral"
 
-/*
+
 interface ApplicantTableViewProps {
-  job: JobPost;
+  jobPost: JobPost;
 }
-*/
-const ApplicantTableView = () => {
-  //const { job } = props;
+
+const ApplicantTableView = (props: ApplicantTableViewProps) => {
+  const { jobPost } = props;
 
 
   const test_job = {
@@ -44,7 +42,7 @@ const ApplicantTableView = () => {
             <PositionCard job={test_job} />
         </Box>
         <Box>
-          <TableView jobPostID={""} referrals={[]}></TableView>
+          <TableView jobPostID={test_job.id} referrals={[]}></TableView>
         </Box>
       </Box>
     </>
