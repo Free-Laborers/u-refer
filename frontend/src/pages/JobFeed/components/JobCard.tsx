@@ -39,7 +39,7 @@ export default function JobCard(props: JobCardProps) {
           {
             // @ts-ignore
             job.PostToTag.map((ptt) => (
-              <Chip label={ptt.Tag.name} variant="filled" color="default" />
+              <Chip label={ptt.Tag.name} key={ptt.id} variant="filled" color="default" />
             ))
           }
         </Stack>
