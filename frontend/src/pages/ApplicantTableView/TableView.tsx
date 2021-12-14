@@ -1,20 +1,20 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
-import { Referral } from "../../interfaces/Referral";
-import { Modal, Box } from '@mui/material';
+import { Modal, Box, Typography } from '@mui/material';
 import ValueWithLabel from "../../components/ValueWithLabel";
+import Referral from "../../interfaces/Referral";
+import useAxios from "axios-hooks";
+import { Redirect } from "react-router";
 
-
-interface GridRow {
-    status: string,
-    firstName: string,
-    lastName: string,
-    createdDate: Date
-}
+// interface GridRow {
+//     status: string,
+//     firstName: string,
+//     lastName: string,
+//     createdDate: string
+// }
 
 interface TableViewProps {
     jobPostID: string
-    referrals: Referral[]
 }
 
 const columns: GridColDef[] = [
@@ -37,68 +37,51 @@ const columns: GridColDef[] = [
         field: 'createdDate',
         headerName: "Date Created",
         type: 'dateTime',
-        width: 250
+        width: 225
     }
 ]
 
-//test data - delete later
-const test_rows = [{
-    id: "12",
-    createdDate: new Date(),
-    status: "OPEN",
-    firstName: "John",
-    lastName: "Doe"
-}]
-const test_refs = [{
-    id: "JohnDoe",
-    employeeId: "1234",
-    candidateId: "12",
-    jobPostId: "test",
-    description: "John would be a great fit for this role",
-    resumeFilePath: null,
-    createdDate: new Date(),
-    contactedDate: null,
-    finishedDate: null,
-    status: "OPEN",
-    deletedDate: null,
-    Candidate: {
-        firstName: "John",
-        lastName: "Doe",
-        email: "johndoe@mail.com",
-        phone: "1234567890",
-        pronoun: "he/him"
-    }
-}]
-
 export default function TableView(props: TableViewProps) {
-    const [rows, setRows] = useState<GridRow[]>(test_rows);
-    const [open, setOpen] = useState(false);
+    const [{ data, error }] = useAxios<Referral[]>({
+        url: "/referral/jobPost/" + props.jobPostID,
+        headers: {
+            Authorization: localStorage.getItem('authorization')
+        }
+    });
     const [referral, setReferral] = useState<Referral>();
-    function handleOpen(ref) {
-        setReferral(ref)
-        setOpen(true)
+    const handleClose = () => setReferral(undefined);
+
+    if (error) {
+        return <Redirect to='/jobs' />;
     }
-    const handleClose = () => setOpen(false);
-    /*
-    useEffect(() => {
-        fetch('referral/jobs/' + props.jobPostID)
-            .then(data => data.json())
-            .then(json => setRows(json))
-    }, [props.jobPostID]);
-    console.log(props.jobPostID);
-    */
+
     return (
-        <div style={{ height: 400, width: '100%' }}>
+        <Box sx={{ mt: 2, height: '100%' }}>
+            <Typography variant="h3">
+                Referalls:
+            </Typography>
             <DataGrid
                 columns={columns}
-                rows={rows}
+                rows={data ? data.map(ref => {
+                    return {
+                        id: ref.id,
+                        referral: ref,
+                        status: ref.status,
+                        firstName: ref.Candidate.firstName,
+                        lastName: ref.Candidate.lastName,
+                        createdDate: new Date(ref.createdDate)
+                    }
+                }) : []}
                 //change handleOpen() parameter to selected referral
-                onRowClick={(rowData) => handleOpen(test_refs[0])}
+                onRowClick={(row) => {
+                    setReferral(row.row.referral)
+                }}
                 pageSize={5}
+                rowsPerPageOptions={[5]}
             />
 
             <Modal
-                open={open}
+                open={referral !== undefined}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
@@ -132,6 +115,6 @@ export default function TableView(props: TableViewProps) {
                         referral?.resumeFilePath || "N/A"} />
                 </Box>
             </Modal>
-        </div>
+        </Box>
     );
 }

@@ -6,10 +6,10 @@ import FilterDrawer from "./components/FilterDrawer";
 import JobCard from "./components/JobCard";
 import JobPreviewCard from "./components/JobPreviewCard";
 import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
-import JobPost from "../../interfaces/JobPost"
+import { JobPostAndTags } from "../../interfaces/JobPost"
 
 interface JobFeedResponseType {
-  data: JobPost[];
+  data: JobPostAndTags[];
   numResults: number;
 }
 

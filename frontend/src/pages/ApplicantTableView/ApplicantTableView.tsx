@@ -1,15 +1,14 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import TableView from "./TableView";
 import PositionCard from "./PositionCard";
-import { Link } from "react-router-dom";
-import JobPost from "../../interfaces/JobPost"
-import { Referral } from "../../interfaces/Referral"
+import { useHistory } from "react-router-dom";
 
-const ApplicantTableView = ({ jobPost }: { jobPost: JobPost }) => {
+const ApplicantTableView = (props) => {
+  const history = useHistory();
+  const { id } = props.match.params;
 
   return (
     <>
-      <Link to="/jobs"> Back </Link>
       <Box
         m={2}
         display="grid"
@@ -19,10 +18,11 @@ const ApplicantTableView = ({ jobPost }: { jobPost: JobPost }) => {
         columnGap={2}
       >
         <Box>
-          <PositionCard job={jobPost} />
+          <PositionCard jobPostID={id} />
+          <Button onClick={history.goBack}>Go back</Button>
         </Box>
         <Box>
-          <TableView jobPostID={jobPost.id} referrals={[]}></TableView>
+          <TableView jobPostID={id}></TableView>
         </Box>
       </Box>
     </>

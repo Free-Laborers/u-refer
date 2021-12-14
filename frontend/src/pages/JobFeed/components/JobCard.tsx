@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Button, Chip, Paper, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import JobPost from "../../../interfaces/JobPost"
+import { JobPostAndTags } from "../../../interfaces/JobPost"
 import ValueWithLabel from "../../../components/ValueWithLabel";
 import ReferralCreationModal from "../../../components/ReferralCreationModal";
 import useAuth from "../../../hooks/useAuth";
 import { useHistory } from "react-router";
 
 interface JobCardProps {
-  job: JobPost;
+  job: JobPostAndTags;
 }
 
 export default function JobCard(props: JobCardProps) {
@@ -18,7 +18,7 @@ export default function JobCard(props: JobCardProps) {
   function handleButtonPressed() {
     if (job.hiringManagerId === user?.id)
       //*****Change this to whatever Stu/Ric/Jake are making******
-      history.push("/profile");
+      history.push("/jobs/" + job.id);
     //*****Change this to whatever Stu/Ric/Jake are making******
     else setReferralCreationModalOpen(true);
   }
