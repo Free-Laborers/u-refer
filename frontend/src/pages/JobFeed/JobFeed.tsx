@@ -6,8 +6,7 @@ import FilterDrawer from "./components/FilterDrawer";
 import JobCard from "./components/JobCard";
 import JobPreviewCard from "./components/JobPreviewCard";
 import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
-// @ts-ignore
-import { JobPost } from "../../../../../backend/node_modules/prisma/prisma-client";
+import JobPost from "../../interfaces/JobPost"
 
 interface JobFeedResponseType {
   data: JobPost[];
@@ -28,6 +27,7 @@ export default function JobFeed() {
     maxSalary,
     minExperience,
     maxExperience,
+    myJobs,
   } = useJobFeedFilters();
   const [selectedSort, setSelectedSort] = useState<sortStatus>(sortStatus.DEC);
   const [page, setPage] = useState(0);
@@ -44,7 +44,8 @@ export default function JobFeed() {
       minExperience,
       maxExperience,
       page,
-      sortBy: 'createdDate',
+      myJobs,
+      sortBy: "createdDate",
       sortDirection: selectedSort,
     },
   });
@@ -70,14 +71,22 @@ export default function JobFeed() {
   // Go to first page each time filters are changed. This prevents the user from remaining on a page where entries no longer exist
   useEffect(() => {
     setPage(0);
-  }, [searchString, tags, minSalary, maxSalary, minExperience, maxExperience]);
+  }, [
+    searchString,
+    tags,
+    minSalary,
+    maxSalary,
+    minExperience,
+    maxExperience,
+    myJobs,
+  ]);
 
   useEffect(() => {
-    if(!selectedJob && data && data?.data?.length > 0){
-      setSelectedJob(data?.data[0])
-      setPage(0)
+    if (!selectedJob && data && data?.data?.length > 0) {
+      setSelectedJob(data?.data[0]);
+      setPage(0);
     }
-  }, [data, selectedJob])
+  }, [data, selectedJob]);
 
   return (
     // 64px offset is to account for the navbar
@@ -95,14 +104,12 @@ export default function JobFeed() {
       >
         <Box sx={{ gridArea: "sort" }} my={1}>
           <Typography variant="button">{"Sort by Date: "}</Typography>
-          <IconButton onClick={reverseSort}>
-            {getIcon(selectedSort)}
-          </IconButton>
+          <IconButton onClick={reverseSort}>{getIcon(selectedSort)}</IconButton>
           <Typography>{data?.numResults || 0} results</Typography>
         </Box>
         <Box sx={{ gridArea: "postList" }} overflow="auto">
           {data?.data?.map((job) => (
-            <JobPreviewCard onClick={() => setSelectedJob(job)} job={job} />
+            <JobPreviewCard onClick={() => setSelectedJob(job)} job={job} key={job.id} />
           ))}
         </Box>
         <Box sx={{ gridArea: "postCard" }}>

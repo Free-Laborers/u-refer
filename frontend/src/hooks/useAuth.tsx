@@ -1,7 +1,7 @@
 // Hook (use-auth.js)
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import axios, { AxiosPromise } from 'axios'
-import { useHistory } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 
 type UserType = {
   id: string;
@@ -39,12 +39,13 @@ const useAuth = () => {
 
 const useProvideAuth = (): AuthContextType => {
   const history = useHistory();
+  const location = useLocation();
   const [user, setUser] = useState<UserType | null>(null)
   const login = (loginData: LoginDataType): AxiosPromise => {
     return axios({
       url: '/login',
       method: 'POST',
-      data: {...loginData},
+      data: { ...loginData },
     }).then(res => {
       localStorage.setItem('authorization', res.data.token)
       setUser(res.data.user)
@@ -58,7 +59,7 @@ const useProvideAuth = (): AuthContextType => {
   }
   useEffect(() => {
     const token = localStorage.getItem('authorization')
-    if(!token) return
+    if (!token) return
     axios({
       url: '/employee/profile',
       method: 'GET',
@@ -66,14 +67,14 @@ const useProvideAuth = (): AuthContextType => {
         Authorization: token,
       }
     })
-    .then(res => {
-      setUser(res.data.user)
-    })
-    .catch(err => {
-      logout();
-      history.replace('/login'); // not logged in so redirect to login.
-    })
-  }, [history])
+      .then(res => {
+        setUser(res.data.user)
+      })
+      .catch(err => {
+        logout();
+        history.replace('/login'); // not logged in so redirect to login.
+      })
+  }, [history, location])
   return {
     login,
     logout,

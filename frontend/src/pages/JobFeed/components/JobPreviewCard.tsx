@@ -1,7 +1,8 @@
-import { Chip, Paper, Stack, Typography } from "@mui/material";
-// @ts-ignore
-import { JobPost } from "../../../../../backend/node_modules/prisma/prisma-client";
+import { Chip, Paper, Stack, Typography, Grid, Tooltip } from "@mui/material";
+import JobPost from "../../../interfaces/JobPost"
 import ValueWithLabel from "../../../components/ValueWithLabel";
+import useAuth from "../../../hooks/useAuth";
+import StarsIcon from '@mui/icons-material/Stars';
 
 interface JobPreviewCardProps {
   job: JobPost;
@@ -9,23 +10,36 @@ interface JobPreviewCardProps {
 }
 
 export default function JobPreviewCard(props: JobPreviewCardProps) {
+  const { user } = useAuth();
+
   const { job, onClick } = props;
   return (
     <Paper onClick={onClick} sx={{ mb: 2, p: 2, cursor: "pointer" }}>
-      <Typography mb={2} variant="h6">
-        {job.title}
-      </Typography>
-      <Stack direction="row" spacing={0.5} mb = {2}>
-          {
-            // @ts-ignore
-            job.PostToTag.map(ptt => (
-              <Chip
-              label = {ptt.Tag.name}
-              variant ="filled"
-              color='default' 
-              />
-            ))
+      <Grid container>
+        <Grid item xs={6}>
+          <Typography mb={2} variant="h6">
+            {job.title}
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          {job.hiringManagerId === user?.id &&
+            <Tooltip title="My Job Posting" style={{ float: "right" }}>
+              <StarsIcon color="primary" />
+            </Tooltip>
           }
+        </Grid>
+      </Grid>
+      <Stack direction="row" spacing={0.5} mb={2}>
+        {
+          job.PostToTag.map(ptt => (
+            <Chip
+              label={ptt.Tag.name}
+              variant="filled"
+              color='default'
+              key={ptt.id}
+            />
+          ))
+        }
       </Stack>
       <ValueWithLabel
         sx={{
@@ -39,6 +53,6 @@ export default function JobPreviewCard(props: JobPreviewCardProps) {
         label="Description"
         value={job?.description}
       />
-    </Paper>
+    </Paper >
   );
 }
