@@ -81,8 +81,10 @@ jobPostRouter.get(
 jobPostRouter.get(
   "/:id",
   async (req: Request, res: Response, next: NextFunction) => {
+    console.log("getting job referrals from job with id " + req.params.id);
     jobPostController.getOneJobPostWithId(req.params.id)
       .then(data => data ? res.json(data) : res.status(400))
+      .catch(e => next(e))
   }
 );
 

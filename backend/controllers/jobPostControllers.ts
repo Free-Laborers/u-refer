@@ -148,6 +148,13 @@ export const getOneJobPostWithId = (id: string) => {
     where: {
       id,
     },
+    include: {
+      PostToTag: {
+        include: {
+          Tag: true,
+        },
+      },
+    },
   });
 };
 

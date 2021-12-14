@@ -1,4 +1,4 @@
-import { Employee, JobPost, Prisma } from "@prisma/client";
+import { Employee, JobPost, Prisma, Referral_Status } from "@prisma/client";
 import express, { NextFunction, Request, response, Response } from "express";
 import {
   createOneCandidate,
@@ -18,7 +18,7 @@ const referralRouter = express.Router();
 
 referralRouter.get(
   "/",
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: Request, res: Response, next: NextFunction) => { }
 );
 
 referralRouter.get(
@@ -99,6 +99,7 @@ referralRouter.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const jobId = req.params.jobPostId;
+      console.log("getting job referrals from job with id " + jobId);
       const referrals = await referralControllers.getReferralsFromJobPostId(
         jobId
       );
