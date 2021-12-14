@@ -94,10 +94,10 @@ export default function ReferralCreationModal(
   const handleBack = () => {
     if (activeStep === 0) {
       closeModal();
-      return;
+    } else {
+      setActiveStep(activeStep - 1)
     }
-    setActiveStep(activeStep - 1);
-  };
+  }
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) return handleSubmit();
@@ -160,6 +160,6 @@ export default function ReferralCreationModal(
           </Button>
         </Box>
       </Paper>
-    </Modal>
+    </Modal >
   );
 }
