@@ -19,7 +19,7 @@ const ApplicantTableView = (props) => {
       >
         <Box>
           <PositionCard jobPostID={id} />
-          <Button onClick={history.goBack}>Go back</Button>
+          <Button onClick={history.goBack} variant="contained" color="primary">Go back</Button>
         </Box>
         <Box>
           <TableView jobPostID={id}></TableView>
