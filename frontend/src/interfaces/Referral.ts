@@ -24,12 +24,12 @@ export default interface Referral {
     };
 }
 
-export const Referall_status = {
-    SUBMITTED: "SUBMITTED", // the referee info has been submitted, but not reviewed by managers yet
-    REVIEWED: "REVIEWED",  // the referee info has been reviewed, and the managers are deciding if they want to contact to the candidate or not
-    CONTACTED: "CONTACTED", // the referee has been contacted, but has not been rejected or hired yet
-    REJECTED: "REJECTED",  // the referee has been rejected after being reviewed or contacted
-    HIRED: "HIRED",     // the referee has been hired, after being reviewed and contacted
-    WITHDRAWN: "WITHDRAWN", // the referee has been withdrawn by the referrer while it was SUBMITTED
-    IGNORED: "IGNORED",   // the referee has been ignored without any review with any hiring managers (due to job close for example)
-}
+export const Referral_status = [
+    "SUBMITTED", // the referee info has been submitted, but not reviewed by managers yet
+    "REVIEWED",  // the referee info has been reviewed, and the managers are deciding if they want to contact to the candidate or not
+    "CONTACTED", // the referee has been contacted, but has not been rejected or hired yet
+    "REJECTED",  // the referee has been rejected after being reviewed or contacted
+    "HIRED",     // the referee has been hired, after being reviewed and contacted
+    "WITHDRAWN", // the referee has been withdrawn by the referrer while it was SUBMITTED
+    "IGNORED",   // the referee has been ignored without any review with any hiring managers (due to job close for example)
+]

@@ -1,10 +1,15 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+// import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
-import { Modal, Box, Typography } from '@mui/material';
+import { Modal, Box, Typography, Button } from '@mui/material';
 import ValueWithLabel from "../../components/ValueWithLabel";
-import Referral from "../../interfaces/Referral";
+import Referral, { Referral_status } from "../../interfaces/Referral";
 import useAxios from "axios-hooks";
 import { Redirect } from "react-router";
+import {
+    Table, TableHead, TableBody, TableCell,
+    TableContainer, TableRow, Paper, Select,
+    MenuItem, InputLabel, FormControl
+} from "@mui/material"
 
 // interface GridRow {
 //     status: string,
@@ -17,29 +22,29 @@ interface TableViewProps {
     jobPostID: string
 }
 
-const columns: GridColDef[] = [
-    {
-        field: 'status',
-        headerName: "Status",
-        width: 150
-    },
-    {
-        field: 'firstName',
-        headerName: "First Name",
-        width: 250
-    },
-    {
-        field: 'lastName',
-        headerName: "Last Name",
-        width: 250
-    },
-    {
-        field: 'createdDate',
-        headerName: "Date Created",
-        type: 'dateTime',
-        width: 225
-    }
-]
+// const columns: GridColDef[] = [
+//     {
+//         field: 'status',
+//         headerName: "Status",
+//         width: 150
+//     },
+//     {
+//         field: 'firstName',
+//         headerName: "First Name",
+//         width: 250
+//     },
+//     {
+//         field: 'lastName',
+//         headerName: "Last Name",
+//         width: 250
+//     },
+//     {
+//         field: 'createdDate',
+//         headerName: "Date Created",
+//         type: 'dateTime',
+//         width: 225
+//     }
+// ]
 
 export default function TableView(props: TableViewProps) {
     const [{ data, error }] = useAxios<Referral[]>({
@@ -58,9 +63,9 @@ export default function TableView(props: TableViewProps) {
     return (
         <Box sx={{ mt: 2, height: '100%' }}>
             <Typography variant="h3">
-                Referalls:
+                Referrals:
             </Typography>
-            <DataGrid
+            {/*<DataGrid
                 columns={columns}
                 rows={data ? data.map(ref => {
                     return {
@@ -78,7 +83,29 @@ export default function TableView(props: TableViewProps) {
                 }}
                 pageSize={5}
                 rowsPerPageOptions={[5]}
-            />
+            />*/}
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="referrals">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell align="right" >Status</TableCell>
+                            <TableCell align="right">Date created</TableCell>
+                            <TableCell align="right">View</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {data && data.map(ref => <TableRow key={ref.id}>
+                            <TableCell>{ref.Candidate.firstName} {ref.Candidate.lastName}</TableCell>
+                            <TableCell align="right">{ref.status}</TableCell>
+                            <TableCell align="right">{(new Date(ref.createdDate)).toLocaleDateString()}</TableCell>
+                            <TableCell align="right">
+                                <Button color="primary" variant="contained" onClick={() => setReferral(ref)}>View</Button>
+                            </TableCell>
+                        </TableRow>)}
+                    </TableBody>
+                </Table>
+            </TableContainer>
 
             <Modal
                 open={referral !== undefined}
@@ -113,6 +140,21 @@ export default function TableView(props: TableViewProps) {
                         referral?.description} />
                     <ValueWithLabel label="Resume File Path" value={
                         referral?.resumeFilePath || "N/A"} />
+                    <FormControl fullWidth>
+                        <InputLabel id="status-select-label">Status</InputLabel>
+                        <Select
+                            labelId="status-select-label"
+                            id="status-select"
+                            value={referral?.status}
+                            label="Status"
+                            onChange={undefined /* TODO */}
+                        >
+                            {Referral_status.map(s => <MenuItem
+                                key={s}
+                                value={s}
+                            >{s}</MenuItem>)}
+                        </Select>
+                    </FormControl>
                 </Box>
             </Modal>
         </Box>
