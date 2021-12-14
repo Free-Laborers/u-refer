@@ -33,10 +33,10 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   }
 
   const { jobPost, closeModal, ...modalProps } = props
-  const [ activeStep, setActiveStep ] = useState(0)
+  const [activeStep, setActiveStep] = useState(0)
   const [internal, setInternal] = useState<boolean>(false);
   const [employee, setEmployee] = useState<ReferralEmployee>(initialEmployeeData);
-  const [ description, setDescription ] = useState("")
+  const [description, setDescription] = useState("")
   const [resume, setResume] = useState<any>()
 
   const resetForm = () => {
@@ -50,14 +50,17 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
   // Array of [label, component] pairs
   const steps: [string, ReactElement][] = [
     ['Personal', <Personal employee={employee} setEmployee={setEmployee} internal={internal} setInternal={setInternal} />],
-    ['Recommendation', <DescriptionPage description={description} setDescription={setDescription}/>],
-    ['Documents', <ResumePage resume = {resume} setResume = {setResume}/>],
-    ['Review', <ReviewPage firstName={employee?.name.split(' ')[0]} lastName={employee?.name.split(' ')[1]} email={employee?.email} phone={employee?.phone} recommendation={description} resumeFilePath={resume?.name}/>],
+    ['Recommendation', <DescriptionPage description={description} setDescription={setDescription} />],
+    ['Documents', <ResumePage resume={resume} setResume={setResume} />],
+    ['Review', <ReviewPage firstName={employee?.name.split(' ')[0]} lastName={employee?.name.split(' ')[1]} email={employee?.email} phone={employee?.phone} recommendation={description} resumeFilePath={resume?.name} />],
   ]
 
   const handleBack = () => {
-    if (activeStep === 0) return
-    setActiveStep(activeStep - 1)
+    if (activeStep === 0) {
+      closeModal();
+    } else {
+      setActiveStep(activeStep - 1)
+    }
   }
 
   const handleNext = () => {
@@ -95,7 +98,7 @@ export default function ReferralCreationModal(props: ReferralCreationModalProps 
     <Modal onClose={closeModal} {...modalProps}>
       <Paper sx={style}>
         <Typography gutterBottom variant='h5'>Referral for {jobPost?.title}</Typography>
-        <Divider/>
+        <Divider />
         <Box overflow='scroll' my={2} sx={{ height: '400px' }}>
           {steps[activeStep][1]}
         </Box>
