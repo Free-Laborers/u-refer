@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
-import {Referral} from "../../interfaces/Referral";
+import { useState } from "react";
+import { Referral } from "../../interfaces/Referral";
 import { Modal, Box } from '@mui/material';
 import ValueWithLabel from "../../components/ValueWithLabel";
 
@@ -48,8 +48,8 @@ const test_rows = [{
     status: "OPEN",
     firstName: "John",
     lastName: "Doe"
-  }]
-  const test_refs = [{
+}]
+const test_refs = [{
     id: "JohnDoe",
     employeeId: "1234",
     candidateId: "12",
@@ -62,22 +62,22 @@ const test_rows = [{
     status: "OPEN",
     deletedDate: null,
     Candidate: {
-        firstName: "John", 
-        lastName:"Doe",
+        firstName: "John",
+        lastName: "Doe",
         email: "johndoe@mail.com",
         phone: "1234567890",
         pronoun: "he/him"
     }
-  }]
+}]
 
 export default function TableView(props: TableViewProps) {
-    const [ rows, setRows ] = useState<GridRow[]>(test_rows);
+    const [rows, setRows] = useState<GridRow[]>(test_rows);
     const [open, setOpen] = useState(false);
     const [referral, setReferral] = useState<Referral>();
-    function handleOpen(ref){
+    function handleOpen(ref) {
         setReferral(ref)
         setOpen(true)
-    } 
+    }
     const handleClose = () => setOpen(false);
     /*
     useEffect(() => {
@@ -96,7 +96,7 @@ export default function TableView(props: TableViewProps) {
                 onRowClick={(rowData) => handleOpen(test_refs[0])}
                 pageSize={5}
             />
-            
+
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -115,21 +115,21 @@ export default function TableView(props: TableViewProps) {
                     p: 4,
                 }}>
                     <ValueWithLabel label="Name of Referred" value={
-                    //@ts-ignore 
-                    referral?.Candidate?.firstName + " " + referral?.Candidate?.lastName} />
+                        //@ts-ignore 
+                        referral?.Candidate?.firstName + " " + referral?.Candidate?.lastName} />
                     <ValueWithLabel label="Email" value={
-                    //@ts-ignore 
-                    referral?.Candidate?.email} />
+                        //@ts-ignore 
+                        referral?.Candidate?.email} />
                     <ValueWithLabel label="Pronouns" value={
-                    //@ts-ignore 
-                    referral?.Candidate?.pronoun || "N/A"} />
+                        //@ts-ignore 
+                        referral?.Candidate?.pronoun || "N/A"} />
                     <ValueWithLabel label="Phone" value={
-                    //@ts-ignore 
-                    referral?.Candidate?.phone || "N/A"} />
+                        //@ts-ignore 
+                        referral?.Candidate?.phone || "N/A"} />
                     <ValueWithLabel label="Reason for Referral" value={
-                    referral?.description} />
+                        referral?.description} />
                     <ValueWithLabel label="Resume File Path" value={
-                    referral?.resumeFilePath || "N/A"} />
+                        referral?.resumeFilePath || "N/A"} />
                 </Box>
             </Modal>
         </div>

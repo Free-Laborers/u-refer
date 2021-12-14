@@ -35,7 +35,7 @@ function parseString(x: qs.ParsedQs['a']): string {
 function parseStringArray(x: qs.ParsedQs['a']): string[] {
   if (x instanceof Array) {
     return x.map(parseString);
-  // arrays are stringified as undefined when empty in query strings
+    // arrays are stringified as undefined when empty in query strings
   } else if (x === undefined) {
     return [];
   } else {
@@ -74,6 +74,14 @@ jobPostRouter.get(
     } catch (e: any) {
       next(e);
     }
+  }
+);
+
+jobPostRouter.get(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    jobPostController.getOneJobPostWithId(req.params.id)
+      .then(data => data ? res.json(data) : res.status(400))
   }
 );
 

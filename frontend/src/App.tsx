@@ -7,11 +7,12 @@ import JobFeed from './pages/JobFeed'
 import Login from './pages/Login'
 import Listing from './pages/JobFeedCreation'
 import Profile from './pages/Profile'
-import ApplicantTableView from './pages/ApplicantTableView'
+import ApplicantTableView from './pages/JobPostPage'
 import { AuthProvider } from './hooks/useAuth'
 import PrivateRoute from './components/Routes/PrivateRoute'
 import RestrictedRoute from './components/Routes/RestrictedRoute'
 import NoMatch from './pages/NoMatch'
+import JobPostPage from './pages/JobPostPage'
 
 const App = () => {
   return (
@@ -20,14 +21,14 @@ const App = () => {
         <AuthProvider>
           <Box sx={{ marginTop: '64px' }}>
             <Switch>
-                <RestrictedRoute component={Login} exact path='/login' />
-                <PrivateRoute component={Home} exact path='/' />
-                {/* <PrivateRoute component={Home} exact path='/refer' /> */}
-                <PrivateRoute component={JobFeed} exact path='/jobs' />
-                <PrivateRoute component={Listing} exact path='/jobs/create' />
-                <PrivateRoute component={Profile} exact path='/profile' />
-                <PrivateRoute component={ApplicantTableView} exact path='/jobs/:id' />
-                <Route component={NoMatch} /> {/* No match => page not found */}
+              <RestrictedRoute component={Login} exact path='/login' />
+              <PrivateRoute component={Home} exact path='/' />
+              {/* <PrivateRoute component={Home} exact path='/refer' /> */}
+              <PrivateRoute component={JobFeed} exact path='/jobs' />
+              <PrivateRoute component={Listing} exact path='/jobs/create' />
+              <PrivateRoute component={Profile} exact path='/profile' />
+              <PrivateRoute component={JobPostPage} exact path='/jobs/:id' />
+              <Route component={NoMatch} /> {/* No match => page not found */}
             </Switch>
           </Box>
         </AuthProvider>

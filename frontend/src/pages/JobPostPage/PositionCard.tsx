@@ -1,5 +1,5 @@
 import { Paper, Typography } from "@mui/material";
-import { JobPost } from "../../interfaces/JobPost"
+import JobPost from "../../interfaces/JobPost"
 
 
 interface PositionCardProps {
@@ -17,7 +17,7 @@ export default function PositionCard(props: PositionCardProps) {
         {job?.description}
       </Typography>
       <Typography mb={2} variant="subtitle2">
-        Experience: {job?.minYearsExperience} 
+        Experience: {job?.minYearsExperience}
       </Typography>
       <Typography mb={2} variant="subtitle2">
         Salary: {job?.salary}
