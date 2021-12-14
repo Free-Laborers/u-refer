@@ -99,7 +99,6 @@ referralRouter.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const jobId = req.params.jobPostId;
-      console.log("getting job referrals from job with id " + jobId);
       const referrals = await referralControllers.getReferralsFromJobPostId(
         jobId
       );
