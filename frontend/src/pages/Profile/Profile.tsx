@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mui/material'
+import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Pagination} from '@mui/material'
 import axios from 'axios';
 import React from 'react';
 import ReferralPreviewCard from './components/ReferralPreviewCard';
@@ -23,9 +23,10 @@ export default function Profile() {
     position: "",
     isManager: "",
   });
-  // const PAGE_SIZE = 10;
+
+  
   const [selectedReferral, setselectedReferral] = useState<any>(null);  
-  const [page] = useState(0);
+  const [page, setPage] = useState(0);
   const [{ data }] = useAxios<ProfileResponseType>({
     url: `/referral/user`,
     headers: {
@@ -35,10 +36,10 @@ export default function Profile() {
       page,
     },
   });
-
-  // const numResults = data?.numResults || 0;
-  // const numPages = Math.ceil(numResults / PAGE_SIZE);
-
+  
+  const PAGE_SIZE = 10;
+  const numResults = data?.numResults || 0;
+  const numPages = Math.ceil(numResults / PAGE_SIZE);
   
   useEffect(() => {
     async function getData() {
@@ -97,20 +98,28 @@ export default function Profile() {
           gridTemplateRows="auto 1fr auto"
           gridTemplateColumns="1fr 1fr"
           gridTemplateAreas={`"sort          ."
-                              "referList     referCard"`}                  
+                              "referList     referCard"
+                              "pagination     ."`}                  
           columnGap={2}
         >
           <Box sx={{ gridArea: "sort" }} my={1}>
             {renderMenu}
           </Box>
+
           <Box sx={{ gridArea: "referList" }} overflow="auto">
             {data?.data?.map((referral) => (
               <ReferralPreviewCard onClick={() => setselectedReferral(referral)} referral={referral} />
             ))} 
-                     
           </Box>
-          <Box sx={{ gridArea: "referCard" }}>
+          <Box sx={{ gridArea: "referCard" }} overflow="auto">
             <ReferralCard referral={selectedReferral}/>
+          </Box>
+          <Box mx="auto" my={2} sx={{ gridArea: "pagination" }}>
+            <Pagination
+              count={numPages}
+              page={page + 1}
+              onChange={(e, page) => setPage(page - 1)}
+            />
           </Box>
         </Box>
       </Box>
