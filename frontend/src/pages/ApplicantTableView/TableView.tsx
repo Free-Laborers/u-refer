@@ -8,8 +8,10 @@ import { Redirect } from "react-router";
 import {
     Table, TableHead, TableBody, TableCell,
     TableContainer, TableRow, Paper, Select,
-    MenuItem, InputLabel, FormControl
-} from "@mui/material"
+    MenuItem, InputLabel, FormControl, /*Tooltip,*/
+    IconButton
+} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 
 // interface GridRow {
 //     status: string,
@@ -127,6 +129,17 @@ export default function TableView(props: TableViewProps) {
                     boxShadow: 24,
                     p: 4,
                 }}>
+
+                    <IconButton
+                        style={{ float: "right" }}
+                        onClick={handleClose}
+                        color="inherit"
+                        edge="end"
+                    >
+                        <CloseIcon />
+                    </IconButton>
+
+
                     <ValueWithLabel label="Name of Referred" value={
                         //@ts-ignore 
                         referral?.Candidate?.firstName + " " + referral?.Candidate?.lastName} />
