@@ -47,14 +47,17 @@ interface TableViewProps {
 // ]
 
 export default function TableView(props: TableViewProps) {
-    const [{ data, error }] = useAxios<Referral[]>({
+    const [{ data, error }, refetch] = useAxios<Referral[]>({
         url: "/referral/jobPost/" + props.jobPostID,
         headers: {
             Authorization: localStorage.getItem('authorization')
         }
     });
     const [referral, setReferral] = useState<Referral>();
-    const handleClose = () => setReferral(undefined);
+    const handleClose = () => {
+        setReferral(undefined);
+        refetch();
+    }
 
     if (error) {
         return <Redirect to='/jobs' />;
@@ -147,7 +150,22 @@ export default function TableView(props: TableViewProps) {
                             id="status-select"
                             value={referral?.status}
                             label="Status"
-                            onChange={undefined /* TODO */}
+                            onChange={event => {
+                                if (referral) {
+                                    // const oldValue = referral.status;
+                                    const cp = { ...referral };
+                                    cp.status = event.target.value;
+                                    fetch(`/referral/${referral.id}`, {
+                                        method: 'PATCH',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': localStorage.getItem('authorization') || ""
+                                        },
+                                        body: JSON.stringify({ status: cp.status })
+                                    }) // idk what to do here
+                                    setReferral(cp);
+                                }
+                            }}
                         >
                             {Referral_status.map(s => <MenuItem
                                 key={s}
