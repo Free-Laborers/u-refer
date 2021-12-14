@@ -115,9 +115,6 @@ referralRouter.patch(
   async (req: Request, res: Response, next: NextFunction) => {
     // check that the user created the job
     const ref = await referralControllers.getReferralAndJobPostById(req.params.referralId);
-    console.log('hiring manager id: ' + ref?.JobPost.hiringManagerId);
-    console.log('user:');
-    console.log(req.user);
     if (!req.user || ref?.JobPost.hiringManagerId !== req.user?.id) {
       next(new StatusCodedError("forbidden, not the jobpost creater", 403));
     } else {
