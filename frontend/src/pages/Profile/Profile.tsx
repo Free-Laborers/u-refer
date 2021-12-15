@@ -14,26 +14,66 @@ interface ProfileResponseType {
   numResults: number;
 }
 
+enum sortStatus {
+  ASC = "asc",
+  DEC = "desc",
+}
+
 export default function Profile() {
   // eslint-disable-next-line
   const [userData, setUserData] = useState({
+    id: "",
     email: "",
     firstName: "",
     lastName: "",
     position: "",
     isManager: "",
   });
-
   
-  const [selectedReferral, setselectedReferral] = useState<any>(null);  
+  const [selectedReferral, setSelectedReferral] = useState<any>(null);  
+  const sortBy = "createdDate";
+  const [val, setValue] = React.useState('');
+  const [selectedSort, setSelectedSort] = useState<sortStatus>(sortStatus.DEC);
+  const sortDirection = selectedSort;
   const [page, setPage] = useState(0);
+  const [status, setStatus] = useState<any>('');
+  const handleChange = (event: SelectChangeEvent) => {
+    setValue(event.target.value as string);
+    //filterBy(event.target.value as string);
+    handleValue(Number(event.target.value));
+  };
+  const handleValue = (value: number) => {
+    console.log(value);
+    if(value===1){
+      console.log('hey');
+      setSelectedSort(sortStatus.DEC);
+    }
+    if(value===2){
+      console.log('hi');
+      setSelectedSort(sortStatus.ASC);
+    }
+    if(value===3){
+      console.log('howdy');
+      setStatus("OPEN");
+    }
+    if(value===4){
+      console.log('hello');
+      setStatus("CLOSED");
+    }
+  }
+  console.log(status);
+  console.log(sortDirection);
   const [{ data }] = useAxios<ProfileResponseType>({
     url: `/referral/user`,
     headers: {
       Authorization: localStorage.getItem("authorization"),
     },
     params: {
+      status,
+      userId: userData.id,
       page,
+      sortBy,
+      sortDirection,
     },
   });
   
@@ -64,16 +104,12 @@ export default function Profile() {
     getData();
   }, []);
 
-  const [sort, sortBy] = React.useState('');
-  const handleChange = (event: SelectChangeEvent) => {
-    sortBy(event.target.value as string);
-  };
   const renderMenu = (
     <Box mb={4} sx={{ minWidth: 120 , m: 2}}>
       <FormControl fullWidth>
         <InputLabel>Sort By:</InputLabel>
         <Select
-          value={sort}
+          value={val}
           label="Sort By:"
           onChange={handleChange}
         >
@@ -87,6 +123,22 @@ export default function Profile() {
       </FormControl>
     </Box>
   );
+
+  // Go to first page each time filters are changed. This prevents the user from remaining on a page where entries no longer exist
+  useEffect(() => {
+  }, [
+    status,
+    sortBy,
+    sortDirection,
+  ]);
+
+  
+  useEffect(() => {
+    if (!selectedReferral && data && data?.data?.length > 0) {
+      setSelectedReferral(data?.data[0]);
+      setPage(0);
+    }
+  }, [data, selectedReferral]);
 
 
     return (
@@ -106,9 +158,9 @@ export default function Profile() {
             {renderMenu}
           </Box>
 
-          <Box sx={{ gridArea: "referList" }} overflow="auto">
+          <Box sx={{ gridArea: "referList" }}>
             {data?.data?.map((referral) => (
-              <ReferralPreviewCard onClick={() => setselectedReferral(referral)} referral={referral} />
+              <ReferralPreviewCard onClick={() => setSelectedReferral(referral)} referral={referral} />
             ))} 
           </Box>
           <Box sx={{ gridArea: "referCard" }} overflow="auto">

@@ -5,16 +5,46 @@ export const createOneReferral = (dataClause: Prisma.ReferralCreateInput) => {
   return prisma.referral.create({ data: dataClause });
 };
 
+export interface ReferralFilterType {
+  status: string;
+  page: number;
+  userId: string;
+}
 
-export const getReferralsFromEmployeeId = async ({userId, page}: {userId: string, page: number}) =>{
-  const PAGE_SIZE = 10
-  const whereClause = {
-    employeeId: {
-      equals: userId
+const whereClauseBuilder = (args: Partial<ReferralFilterType>) => {
+  const {
+    status,
+    userId
+  } = args;
+
+  let whereClause: Prisma.ReferralWhereInput = {};
+
+  if (status) {
+    if(status==="OPEN"){
+      whereClause.status = {
+        in: ['SUBMITTED', 'REVIEWED', 'CONTACTED'] 
+
+      }
+    }if(status==="CLOSED"){
+      whereClause.status = {
+        in: ['REJECTED', 'HIRED', 'IGNORED', 'WITHDRAWN']
+      }
     }
   }
+  if(userId){
+    whereClause.employeeId = {equals: userId};
+  }
+  return whereClause;
+}
+
+export const getReferralsFromEmployeeId = async ( filters: Partial<ReferralFilterType> & { page: number },
+  orderBy: Prisma.ReferralOrderByWithRelationInput) =>{
+  const PAGE_SIZE = 10;
+  const { page, ...whereClauseFilters } = filters;
+  const whereClause = whereClauseBuilder(whereClauseFilters);
   const data = await prisma.referral.findMany({
-    where: whereClause, 
+    where: whereClause,
+    orderBy, 
     include:{
       Candidate: true,
       JobPost: {
