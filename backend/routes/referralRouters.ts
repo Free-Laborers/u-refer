@@ -223,6 +223,7 @@ referralRouter.post(
         candidate = await createOneCandidate(newCandidate);
       }
       req.body["candidateId"] = candidate.id;
+      req.body["candidateEmail"] = candidate.email;
     } catch (e: any) {
       next(
         new StatusCodedError(
@@ -271,14 +272,18 @@ referralRouter.post(
             hiringManagerEmail,
             "",
             req.body.firstName,
-            req.body.lastName
+            req.body.lastName,
+            req.body.candidateEmail,
+            req.body.jobPostId
           );
         } else {
           sendEmail(
             hiringManagerEmail,
             job.title,
             req.body.firstName,
-            req.body.lastName
+            req.body.lastName,
+            req.body.candidateEmail,
+            req.body.jobPostId
           );
         }
       }

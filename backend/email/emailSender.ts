@@ -16,7 +16,9 @@ export default (
   managerEmail: string,
   postitionTitle: string,
   firstName: string,
-  lastName: string
+  lastName: string,
+  candidateEmail: string,
+  jobId: string
 ) => {
   const mailOptions: SendMailOptions = {
     to: managerEmail,
@@ -24,9 +26,11 @@ export default (
     html: `
       <h3>Position</h3>
       <p>${postitionTitle}</p>
-      <h3>Candiate Name</h3>
+      <h3>Candidate Name</h3>
       <p>${firstName}${" "}${lastName}</p>
-      <a href = "http://localhost:3000/profile"><h2>Click Here For More Detail</h2></a>
+      <h3>Candidate Email</h3>
+      <p>${candidateEmail}</p>
+      <a href = "http://localhost:3000/jobs/${jobId}"><h2>Click Here For More Detail</h2></a>
     `,
   };
 
