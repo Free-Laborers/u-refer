@@ -43,21 +43,16 @@ export default function Profile() {
     handleValue(Number(event.target.value));
   };
   const handleValue = (value: number) => {
-    console.log(value);
     if(value===1){
-      console.log('hey');
       setSelectedSort(sortStatus.DEC);
     }
     if(value===2){
-      console.log('hi');
       setSelectedSort(sortStatus.ASC);
     }
     if(value===3){
-      console.log('howdy');
       setStatus("OPEN");
     }
     if(value===4){
-      console.log('hello');
       setStatus("CLOSED");
     }
   }
