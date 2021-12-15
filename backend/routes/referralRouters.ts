@@ -9,12 +9,50 @@ import {
   getOneEmployeeWithId as getOneEmployeeWithId,
   getOneEmployeeWithEmail,
 } from "../controllers/employeeControllers";
-import { createOneReferral } from "../controllers/referralControllers";
+import { createOneReferral, ReferralFilterType } from "../controllers/referralControllers";
 import * as referralControllers from "../controllers/referralControllers";
 import * as jobPostControllers from "../controllers/jobPostControllers";
 import { StatusCodedError } from "../error/statusCodedError";
 import sendEmail from "../email/emailSender";
 const referralRouter = express.Router();
+
+type ReferralRequest = {
+  filters: ReferralFilterType,
+  orderBy: Prisma.ReferralOrderByWithRelationInput,
+}
+
+function parseString(x: qs.ParsedQs["a"]): string {
+  if (typeof x === "string") {
+    return x;
+  } else {
+    throw new Error(`error parsing request: expected string, got ${x}`);
+  }
+};
+
+const coerceToNumberOrNull = (x: any) => {
+  const res = parseInt(x);
+  return isNaN(res) ? null : res;
+};
+
+
+function parseReferralRequest(query: Request['query'], userId: string ): ReferralRequest {
+  const filters = {
+    status: parseString(query.status),
+    page: coerceToNumberOrNull(query.page) || 0,
+    userId:  userId,
+  };
+ 
+  let sortKey = parseString(query.sortBy);
+  if (!["createdDate"].includes(sortKey)) {
+    throw new Error(`invalid sort ${sortKey}`);
+  }
+  let orderDirection = parseString(query.sortDirection);
+  if (!["asc", "desc"].includes(orderDirection)) {
+    throw new Error(`invalid sort direction ${orderDirection}`);
+  }
+  const orderBy = { [sortKey]: orderDirection };
+  return { filters, orderBy };
+}
 
 referralRouter.get(
   "/",
@@ -28,12 +66,8 @@ referralRouter.get(
       if (!req.user) {
         throw new StatusCodedError("not logged in", 401);
       }
-
-      const referrals = await referralControllers.getReferralsFromEmployeeId({
-        userId: req.user.id,
-        page: req.query.page as any as number,
-      });
-
+      const { filters, orderBy } = parseReferralRequest(req.query, req.user.id);
+      const referrals = await referralControllers.getReferralsFromEmployeeId(filters, orderBy);
       res.status(200).json(referrals);
     } catch (e: any) {
       next(new Error(e));
