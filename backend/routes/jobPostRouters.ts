@@ -79,6 +79,15 @@ jobPostRouter.get(
 );
 
 jobPostRouter.get(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    jobPostController.getOneJobPostWithId(req.params.id)
+      .then(data => data ? res.json(data) : res.status(400))
+      .catch(e => next(e))
+  }
+);
+
+jobPostRouter.get(
   "/manager/:managerId",
   async (req: Request, res: Response, next: NextFunction) => {
     try {

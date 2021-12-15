@@ -43,20 +43,20 @@ export default function Profile() {
   
   useEffect(() => {
     async function getData() {
-      const auth = localStorage.getItem('authorization');
+      const auth = localStorage.getItem("authorization");
 
       if (auth) {
         try {
           const response = await axios("/employee/profile", {
-            method: 'GET',
-            headers: { 
-              'Authorization': localStorage.getItem('authorization')
+            method: "GET",
+            headers: {
+              Authorization: localStorage.getItem("authorization"),
             },
-          })
+          });
           const json = await response.data;
           return setUserData(json.user);
-        } catch(err){
-          console.error(err)
+        } catch (err) {
+          console.error(err);
         }
       }
     }

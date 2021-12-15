@@ -1,5 +1,5 @@
 import { Employee, JobPost, Prisma } from "@prisma/client";
-import express, { NextFunction, Request, response, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import {
   createOneCandidate,
   deleteOneCandidate,
@@ -18,7 +18,7 @@ const referralRouter = express.Router();
 
 referralRouter.get(
   "/",
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: Request, res: Response, next: NextFunction) => { }
 );
 
 referralRouter.get(
@@ -109,6 +109,28 @@ referralRouter.get(
     }
   }
 );
+
+referralRouter.patch(
+  "/:referralId",
+  checkUserIsManager,
+  async (req: Request, res: Response, next: NextFunction) => {
+    // check that the user created the job
+    const ref = await referralControllers.getReferralAndJobPostById(req.params.referralId);
+    if (!req.user || ref?.JobPost.hiringManagerId !== req.user?.id) {
+      next(new StatusCodedError("forbidden, not the jobpost creater", 403));
+    } else {
+      next();
+    }
+  },
+  async (req, res, next) => {
+    try {
+      const result = await referralControllers.patchReferralById(req.params.referralId, req.body);
+      res.json(result);
+    } catch (e: any) {
+      next(new Error(e));
+    }
+  }
+)
 
 const checkRequiredBodyParamForReferralPost = (
   req: Request,

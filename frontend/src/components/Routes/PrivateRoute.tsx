@@ -9,7 +9,7 @@ interface PrivateRouteProps {
 // Stuart:
 // private route will redirect to login if the user is not logged in
 // not sure how typescript works :D
-function PrivateRoute({component: Component, nonavbar, ...routeProps}: PrivateRouteProps & RouteProps) {
+function PrivateRoute({ component: Component, nonavbar, ...routeProps }: PrivateRouteProps & RouteProps) {
     return (
         <Route {...routeProps} render={props => {
             if (localStorage.getItem('authorization')) {
@@ -24,7 +24,7 @@ function PrivateRoute({component: Component, nonavbar, ...routeProps}: PrivateRo
                 // not logged in, redirect to login.
                 return <Redirect to='/login' />;
             }
-        }}/>
+        }} />
     )
 }
 

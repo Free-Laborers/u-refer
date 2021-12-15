@@ -1,12 +1,31 @@
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient, Prisma, Referral } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const createOneReferral = (dataClause: Prisma.ReferralCreateInput) => {
   return prisma.referral.create({ data: dataClause });
 };
 
+export const patchReferralById = (referralId: string, newData: Referral) => {
+  return prisma.referral.update({
+    where: {
+      id: referralId
+    },
+    data: newData
+  })
+}
 
-export const getReferralsFromEmployeeId = async ({userId, page}: {userId: string, page: number}) =>{
+export const getReferralAndJobPostById = (referralId: string) => {
+  return prisma.referral.findUnique({
+    where: {
+      id: referralId
+    },
+    include: {
+      JobPost: true
+    }
+  });
+}
+
+export const getReferralsFromEmployeeId = async ({ userId, page }: { userId: string, page: number }) => {
   const PAGE_SIZE = 10
   const whereClause = {
     employeeId: {
@@ -14,13 +33,13 @@ export const getReferralsFromEmployeeId = async ({userId, page}: {userId: string
     }
   }
   const data = await prisma.referral.findMany({
-    where: whereClause, 
-    include:{
+    where: whereClause,
+    include: {
       Candidate: true,
       JobPost: {
-        include:{
-          PostToTag:{
-            include:{
+        include: {
+          PostToTag: {
+            include: {
               Tag: true,
             }
           }
@@ -35,14 +54,14 @@ export const getReferralsFromEmployeeId = async ({userId, page}: {userId: string
   return { data, numResults }
 };
 
-export const getReferralsFromJobPostId = (jobId: string) =>{
+export const getReferralsFromJobPostId = (jobId: string) => {
   return prisma.referral.findMany({
-    where:{
-      jobPostId:{
+    where: {
+      jobPostId: {
         equals: jobId
       }
     },
-    include:{
+    include: {
       Candidate: true,
     }
   })

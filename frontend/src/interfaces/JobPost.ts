@@ -1,5 +1,5 @@
 
-export default interface JobPost {
+export interface JobPost {
     id: string;
     title: string;
     position: string;
@@ -10,6 +10,9 @@ export default interface JobPost {
     createdDate: string;
     deletedDate: string | null;
     hiringManagerId: string;
+}
+
+export type JobPostAndTags = JobPost & {
     PostToTag: {
         Tag: {
             id: string,

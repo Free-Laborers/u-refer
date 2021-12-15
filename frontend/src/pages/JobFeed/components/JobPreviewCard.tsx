@@ -1,11 +1,11 @@
 import { Chip, Paper, Stack, Typography, Grid, Tooltip } from "@mui/material";
-import JobPost from "../../../interfaces/JobPost"
+import { JobPostAndTags } from "../../../interfaces/JobPost"
 import ValueWithLabel from "../../../components/ValueWithLabel";
 import useAuth from "../../../hooks/useAuth";
 import StarsIcon from '@mui/icons-material/Stars';
 
 interface JobPreviewCardProps {
-  job: JobPost;
+  job: JobPostAndTags;
   onClick;
 }
 

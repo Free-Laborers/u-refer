@@ -11,7 +11,7 @@ import {
   Box,
   Divider,
 } from "@mui/material";
-import JobPost from "../../interfaces/JobPost";
+import { JobPost } from "../../interfaces/JobPost";
 import ResumePage from "./pages/ResumePage";
 import ReviewPage from "./pages/ReviewPage";
 import Personal from "./pages/Personal";
